@@ -10,4 +10,5 @@ public class OoadApplication {
 		SpringApplication.run(OoadApplication.class, args);
 	}
 
+
 }
