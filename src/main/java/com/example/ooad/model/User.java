@@ -2,18 +2,27 @@ package com.example.ooad.model;
 
 import jakarta.persistence.*;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "\"User\"")
 public class User {
     @Id
     private Long id;
 
     private String password;
 
-    private String full_name;
+    private String fullName;
 
     private String role;
 
-    private Integer account_id;
+    private String accountId;
+
+    protected User(String password, String fullName, String role, String accountId) {
+        this.password = password;
+        this.fullName = fullName;
+        this.role = role;
+        this.accountId = accountId;
+    }
 
     public Long getId() {
         return this.id;
@@ -32,11 +41,11 @@ public class User {
     }
 
     public String getFull_name() {
-        return this.full_name;
+        return this.fullName;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
+    public void setFull_name(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getRole() {
@@ -47,13 +56,11 @@ public class User {
         this.role = role;
     }
 
-    public Integer getAccount_id() {
-        return this.account_id;
+    public String getAccount_id() {
+        return this.accountId;
     }
 
-    public void setAccount_id(Integer account_id) {
-
-        this.account_id = account_id;
+    public void setAccount_id(String accountId) {
+        this.accountId = accountId;
     }
-
 }
