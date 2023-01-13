@@ -1,26 +1,18 @@
-package com.example.ooad.model;
+package com.example.ooad.entity;
 
 import jakarta.persistence.*;
 import java.util.*;
 
 @Entity
-public class Admin extends User {
+public class Lecturer extends User {
     @Id
     private Long id;
 
-    @OneToMany(mappedBy = "admin")
+    @OneToMany(mappedBy = "creator")
     private List<Project> projects = new ArrayList<Project>();
 
-    public Admin(String password, String fullName, String role, String accountId) {
+    public Lecturer(String password, String fullName, String role, String accountId) {
         super(password, fullName, role, accountId);
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public List<Project> getProjects() {

@@ -1,4 +1,4 @@
-package com.example.ooad.model;
+package com.example.ooad.entity;
 
 import java.sql.Date;
 

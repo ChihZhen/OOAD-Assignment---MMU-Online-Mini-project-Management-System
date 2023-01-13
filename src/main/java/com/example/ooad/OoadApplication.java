@@ -5,14 +5,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import com.example.ooad.controller.LoginController;
+import com.example.ooad.entity.User;
 
 import java.awt.*;
 
 @SpringBootApplication
 public class OoadApplication {
 
+	public static User user;
+
 	public OoadApplication(LoginController loginController) {
-		loginController.show();
+		// loginController.show();
 	}
 
 	public static void main(String[] args) {

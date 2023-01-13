@@ -3,11 +3,24 @@ package com.example.ooad.view;
 import javax.swing.*;
 import javax.swing.table.*;
 
+import org.springframework.stereotype.Component;
+
+import com.example.ooad.model.ProjectTableModel;
 import com.example.ooad.view.Component.TableButton;
+import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
 
 import java.awt.*;
+import java.awt.event.*;
 
-public class ViewProject extends JFrame {
+@Component
+public class ProjectView extends JFrame {
+    // @Autowired(required = false)
+    private DefaultTableModel projectTableModel;
+    private JTable projectTable;
+    private TableButton assignButtons = new TableButton(new Color(23, 121, 233));
+    private TableButton editButtons = new TableButton(new Color(241, 143, 5));
+    private TableButton deleteButtons = new TableButton(new Color(241, 95, 95));;
+
     public static void add(JFrame panel, JComponent comp, int x, int y, int width, int height) {
         GridBagConstraints constr = new GridBagConstraints();
         constr.gridx = x;
@@ -43,7 +56,8 @@ public class ViewProject extends JFrame {
         panel.add(comp, constr);
     }
 
-    public ViewProject() {
+    public ProjectView(ProjectTableModel projectTableModel) {
+        this.projectTableModel = projectTableModel.getTableModel();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new GridBagLayout());
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -64,58 +78,10 @@ public class ViewProject extends JFrame {
         // Column Names
         String[] header = { "Title", "Specialization", "Created By", "", "", "" };
 
-        JTable projectTable = new JTable(data, header);
+        // JTable projectTable = new JTable(data, header);
+        projectTable = new JTable(this.projectTableModel);
 
-        TableColumn assignColumn = projectTable.getColumnModel().getColumn(3);
-        TableButton assignButtons = new TableButton(new Color(23, 121, 233));
-
-        assignButtons.addHandler(new TableButton.TableButtonPressedHandler() {
-
-            @Override
-            public void onButtonPress(int row, int column) {
-                // TODO Auto-generated method stub
-                // JOptionPane.showMessageDialog(frame, row)
-                System.out.println(row);
-
-            }
-        });
-
-        assignColumn.setCellRenderer(assignButtons);
-        assignColumn.setCellEditor(assignButtons);
-
-        TableColumn editColumn = projectTable.getColumnModel().getColumn(4);
-        TableButton editButtons = new TableButton(new Color(241, 143, 5));
-
-        editButtons.addHandler(new TableButton.TableButtonPressedHandler() {
-
-            @Override
-            public void onButtonPress(int row, int column) {
-                // TODO Auto-generated method stub
-                // JOptionPane.showMessageDialog(frame, row)
-                System.out.println(row);
-
-            }
-        });
-
-        editColumn.setCellRenderer(editButtons);
-        editColumn.setCellEditor(editButtons);
-
-        TableColumn deleteColumn = projectTable.getColumnModel().getColumn(5);
-        TableButton deleteButtons = new TableButton(new Color(241, 95, 95));
-
-        deleteButtons.addHandler(new TableButton.TableButtonPressedHandler() {
-
-            @Override
-            public void onButtonPress(int row, int column) {
-                // TODO Auto-generated method stub
-                // JOptionPane.showMessageDialog(frame, row)
-                System.out.println(row);
-
-            }
-        });
-
-        deleteColumn.setCellRenderer(deleteButtons);
-        deleteColumn.setCellEditor(deleteButtons);
+        System.out.println(projectTable.getModel().getRowCount());
 
         JScrollPane tableContainer = new JScrollPane(projectTable);
         tableContainer.setPreferredSize(new Dimension(896, 432));
@@ -124,11 +90,37 @@ public class ViewProject extends JFrame {
         // tableContainer.add(projectTable);
 
         add(this, tableContainer, 0, 3, 1, 1);
-        this.setVisible(true);
+        // this.setVisible(true);
 
     }
 
-    public static void main(String[] args) {
-        new ViewProject();
+    public void addClickRowListener(MouseListener listener) {
+        projectTable.addMouseListener(listener);
     }
+
+    public void addClickTableButtonListener(TableButtonPressedHandler listener) {
+        assignButtons.addHandler(listener);
+        editButtons.addHandler(listener);
+        deleteButtons.addHandler(listener);
+    }
+
+    public void refresh() {
+        if (projectTable.getModel().getRowCount() > 0) {
+            TableColumn assignColumn = projectTable.getColumnModel().getColumn(3);
+            assignColumn.setCellRenderer(assignButtons);
+            assignColumn.setCellEditor(assignButtons);
+
+            TableColumn editColumn = projectTable.getColumnModel().getColumn(4);
+            editColumn.setCellRenderer(editButtons);
+            editColumn.setCellEditor(editButtons);
+
+            TableColumn deleteColumn = projectTable.getColumnModel().getColumn(5);
+            deleteColumn.setCellRenderer(deleteButtons);
+            deleteColumn.setCellEditor(deleteButtons);
+        }
+    }
+
+    // public static void main(String[] args) {
+    // new ProjectView();
+    // }
 }

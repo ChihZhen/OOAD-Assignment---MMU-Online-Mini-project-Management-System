@@ -1,6 +1,7 @@
-package com.example.ooad.model;
+package com.example.ooad.entity;
 
 import java.util.List;
+import java.util.*;
 
 import jakarta.persistence.*;
 
@@ -14,13 +15,17 @@ public class Project {
     private String status;
     private String specialization;
 
-    @ManyToOne
-    @JoinColumn(name = "lecturer_id")
-    private Lecturer lecturer;
+    // @ManyToOne
+    // @JoinColumn(name = "lecturer_id")
+    // private Lecturer lecturer;
+
+    // @ManyToOne
+    // @JoinColumn(name = "admin_id")
+    // private Admin admin;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
+    @JoinColumn(name = "user_id")
+    private User creator;
 
     @OneToOne
     private Student student;
@@ -28,14 +33,14 @@ public class Project {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
     private List<Comment> comments;
 
-    public Project(Long id, String title, String description, String status, String specialization,
-            List<Comment> comments) {
-        this.id = id;
+    public Project() {
+    }
+
+    public Project(String title, String description, String status, String specialization) {
         this.title = title;
         this.description = description;
         this.status = status;
         this.specialization = specialization;
-        this.comments = comments;
     }
 
     public Long getId() {
@@ -86,12 +91,22 @@ public class Project {
         this.comments = comments;
     }
 
-    public Lecturer getLecturer() {
-        return this.lecturer;
-    }
+    // public Lecturer getLecturer() {
+    // return this.lecturer;
+    // }
 
-    public void setLecturer(Lecturer lecturer) {
-        this.lecturer = lecturer;
+    // public void setLecturer(Lecturer lecturer) {
+    // this.lecturer = lecturer;
+    // }
+
+    public Vector<String> toVector() {
+        Vector<String> data = new Vector<>();
+        data.add(Long.toString(id));
+        data.add(title);
+        data.add(specialization);
+        data.add(creator.getFullName());
+
+        return data;
     }
 
 }

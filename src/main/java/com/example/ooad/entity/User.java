@@ -1,4 +1,4 @@
-package com.example.ooad.model;
+package com.example.ooad.entity;
 
 import jakarta.persistence.*;
 
@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 @Table(name = "\"User\"")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String password;
@@ -16,6 +17,9 @@ public class User {
     private String role;
 
     private String accountId;
+
+    protected User() {
+    }
 
     protected User(String password, String fullName, String role, String accountId) {
         this.password = password;
@@ -40,11 +44,11 @@ public class User {
         this.password = password;
     }
 
-    public String getFull_name() {
+    public String getFullName() {
         return this.fullName;
     }
 
-    public void setFull_name(String fullName) {
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
@@ -56,11 +60,15 @@ public class User {
         this.role = role;
     }
 
-    public String getAccount_id() {
+    public String getAccountId() {
         return this.accountId;
     }
 
-    public void setAccount_id(String accountId) {
+    public void setAccountId(String accountId) {
         this.accountId = accountId;
+    }
+
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
     }
 }
