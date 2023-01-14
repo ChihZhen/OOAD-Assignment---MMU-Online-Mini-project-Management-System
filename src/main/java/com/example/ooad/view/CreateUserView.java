@@ -4,21 +4,25 @@ import javax.swing.*;
 
 import org.springframework.stereotype.Component;
 
+import com.example.ooad.model.AdminModel;
+import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.model.StudentModel;
+import com.example.ooad.model.UserModel;
 
 import java.awt.*;
 import java.awt.event.*;
 
 @Component
-public class CreateUserView extends JDialog implements Observer {
+public class CreateUserView extends JDialog {
 
     private JTextField usernameInput;
     private JTextField idInput;
     private JComboBox<String> roleInput;
+    private JComboBox<String> specializationInput;
     private JButton submitButton;
 
-    private StudentModel studentModel;
+    // private StudentModel studentModel;
 
     public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height) {
         GridBagConstraints constr = new GridBagConstraints();
@@ -69,12 +73,11 @@ public class CreateUserView extends JDialog implements Observer {
     }
 
     // public CreateUserView(ProjectModel projectModel) {
-    public CreateUserView(StudentModel studentModel) {
+    public CreateUserView() {
 
-        this.studentModel = studentModel;
-        studentModel.registerObserver(this);
+        // this.studentModel = studentModel;
 
-        this.setModal(true);
+        // this.setModal(true);
         this.setTitle("Create User");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLayout(new GridBagLayout());
@@ -88,7 +91,7 @@ public class CreateUserView extends JDialog implements Observer {
         // });
 
         JLabel usernameLabel = new JLabel("Username");
-        add(this, usernameLabel, 0, 0, 1, 1, 0, 15, 0, 0, GridBagConstraints.BASELINE);
+        add(this, usernameLabel, 0, 0, 1, 1, 0, 0, 0, 0, GridBagConstraints.BASELINE);
 
         usernameInput = new JTextField();
         usernameInput.setPreferredSize(new Dimension(200, 22));
@@ -112,32 +115,55 @@ public class CreateUserView extends JDialog implements Observer {
         roleInput.setMinimumSize(new Dimension(200, 22));
         add(this, roleInput, 1, 2, 1, 1, 0, 0, 20, 0);
 
+        JLabel specializationTitle = new JLabel("Specialization");
+        add(this, specializationTitle, 0, 3, 1, 1, 0, 15, 20, 0);
+        specializationInput = new JComboBox<String>(
+                new String[] { "Software Engineer", "Data Science", "Game Development", "Cyber Security" });
+        specializationInput.setPreferredSize(new Dimension(200, 22));
+        specializationInput.setMinimumSize(new Dimension(200, 22));
+        add(this, specializationInput, 1, 3, 1, 1, 0, 0, 20, 0);
+
         submitButton = new JButton("Submit");
-        add(this, submitButton, 1, 3, 1, 1, 30, 0, 0, 0, GridBagConstraints.LINE_END);
+        add(this, submitButton, 1, 4, 1, 1, 30, 0, 0, 0, GridBagConstraints.LINE_END);
         this.setVisible(true);
     }
 
-    // public static void main(String[] args) {
-    // new CreateUserView();
-    // }
+    public static void main(String[] args) {
+        new CreateUserView();
+    }
 
     public void addClickSubmitListener(ActionListener Listener) {
         submitButton.addActionListener(Listener);
     }
 
-    public void setStudentModel() {
-        studentModel.setAccountId(idInput.getText());
-        studentModel.setFullName(getName());
-        studentModel.setRole(roleInput.getSelectedItem().toString());
+    public UserModel getUserModel() {
+        UserModel userModel;
+        if (roleInput.getSelectedItem().toString().equals("Lecturer")) {
+            userModel = new LecturerModel(usernameInput.getText(),
+                    roleInput.getSelectedItem().toString(),
+                    idInput.getText());
+        } else if (roleInput.getSelectedItem().toString().equals("Admin")) {
+            userModel = new AdminModel(usernameInput.getText(),
+                    roleInput.getSelectedItem().toString(),
+                    idInput.getText());
+        } else {
+            userModel = new StudentModel(usernameInput.getText(),
+                    roleInput.getSelectedItem().toString(),
+                    idInput.getText(), specializationInput.getSelectedItem().toString());
+        }
+        // userModel.setAccountId(idInput.getText());
+        // userModel.setFullName(usernameInput.getText());
+        // userModel.setRole(roleInput.getSelectedItem().toString());
         // studentModel.setStatus(statusInput.getSelectedItem().toString());
+
+        return userModel;
     }
 
-    public void update() {
-        // titleInput.setText(projectModel.getTitle());
-        // descriptionInput.setText(projectModel.getDescription());
-        // specializationInput.setSelectedIndex(0);
-        // statusInput.setSelectedIndex(0);
-    }
+    // public void update() {
+    // idInput.setText(studentModel.getAccountId());
+    // usernameInput.setText(studentModel.getFullName());
+    // roleInput.setSelectedItem(new String());
+    // }
 
     // public void setEditable(boolean editable) {
     // titleInput.setEditable(editable);

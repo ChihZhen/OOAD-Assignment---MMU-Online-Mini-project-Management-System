@@ -55,7 +55,7 @@ public class LoginController {
                     JOptionPane.showMessageDialog(jf, "Password incorrect", "Login Failed", 2, null);
                 }
             } else {
-                User user = userRepository.findByAccountId(loginModel.getId());
+                UserModel user = userRepository.findByAccountId(loginModel.getId());
                 if (user == null) {
                     JFrame jf = new JFrame();
                     JOptionPane.showMessageDialog(jf, "Account not found", "Login Failed", 2, null);
