@@ -17,18 +17,7 @@ public class ProjectModel extends Observable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String title;
-    private String description;
-    private String status;
-    private String specialization;
-
-    // @ManyToOne
-    // @JoinColumn(name = "lecturer_id")
-    // private Lecturer lecturer;
-
-    // @ManyToOne
-    // @JoinColumn(name = "admin_id")
-    // private Admin admin;
+    private String title, description, status, specialization;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -98,13 +87,21 @@ public class ProjectModel extends Observable {
         this.comments = comments;
     }
 
-    // public Lecturer getLecturer() {
-    // return this.lecturer;
-    // }
+    public User getCreator() {
+        return this.creator;
+    }
 
-    // public void setLecturer(Lecturer lecturer) {
-    // this.lecturer = lecturer;
-    // }
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public Student getStudent() {
+        return this.student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
     public Vector<String> toVector() {
         Vector<String> data = new Vector<>();
@@ -120,6 +117,34 @@ public class ProjectModel extends Observable {
         data.add("EDIT");
         data.add("DELETE");
         return data;
+    }
+
+    public boolean isValid() {
+        return !(title.isBlank() | description.isBlank());
+    }
+
+    public void set(ProjectModel project) {
+        this.id = project.getId();
+        this.title = project.getTitle();
+        this.description = project.getDescription();
+        this.status = project.getStatus();
+        this.specialization = project.getSpecialization();
+        this.student = project.getStudent();
+        this.creator = project.getCreator();
+        this.comments = project.getComments();
+        notifyObservers();
+    }
+
+    public void reset() {
+        this.id = null;
+        this.title = null;
+        this.description = null;
+        this.specialization = "Computer Science";
+        this.status = "Active";
+        this.student = null;
+        this.creator = null;
+        this.comments = new ArrayList<Comment>();
+        notifyObservers();
     }
 
 }

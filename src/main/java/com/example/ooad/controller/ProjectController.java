@@ -18,7 +18,7 @@ import java.awt.event.*;
 @Controller
 public class ProjectController {
     private ProjectView projectView;
-    private DefaultTableModel projectTableModel;
+    private ProjectTableModel projectTableModel;
     private ProjectRepository projectRepository;
     private AddProjectController addProjectController;
     // private ProjectDetailController projectDetailController;
@@ -29,7 +29,7 @@ public class ProjectController {
     public ProjectController(ProjectView projectView, ProjectTableModel projectTableModel,
             ProjectRepository projectRepository, AddProjectController addProjectController) {
         this.projectView = projectView;
-        this.projectTableModel = projectTableModel.getTableModel();
+        this.projectTableModel = projectTableModel;
         this.projectRepository = projectRepository;
         this.addProjectController = addProjectController;
         // this.projectDetailController = projectDetailController;
@@ -46,6 +46,7 @@ public class ProjectController {
 
         List<ProjectModel> projects = projectRepository.findAll();
         Vector<Vector<String>> data = new Vector<Vector<String>>();
+        projectTableModel.setProjects(projects);
         for (ProjectModel project : projects) {
             data.add(project.toVector());
         }
@@ -73,8 +74,10 @@ public class ProjectController {
 
             }
         });
-        projectTableModel.setDataVector(data,
-                header);
+        // projectTableModel.setDataVector(data,
+        // header);
+
+        projectTableModel.setData(projects);
 
         projectView.update();
         projectView.setVisible(true);
@@ -89,9 +92,9 @@ public class ProjectController {
         public void mouseClicked(MouseEvent e) {
             // TableModel tableModel = projectView.getTableModel();
             // TableModel tableModel = projectView.getTableModel();
-            System.out.println(projectTableModel.getRowCount());
+            // System.out.println(projectTableModel.getRowCount());
             System.out.println("hi table");
-            projectTableModel.setValueAt("hi", 0, 0);
+            // projectTableModel.setValueAt("hi", 0, 0);
 
             // l.setText("Mouse Clicked");
         }
@@ -119,6 +122,11 @@ public class ProjectController {
         public void onButtonPress(int row, int column) {
             // TODO Auto-generated method stub
             System.out.println(row + " " + column);
+
+            if (column == 5) {
+
+                addProjectController.showEditProject(row);
+            }
 
         }
     }

@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import org.springframework.stereotype.Component;
 
+import com.example.ooad.entity.ProjectModel;
 import com.example.ooad.model.AddProjectModel;
 
 import java.awt.*;
@@ -18,6 +19,7 @@ public class AddProjectView extends JDialog implements Observer {
     private JComboBox<String> statusInput;
     private JTextArea descriptionInput;
     private AddProjectModel addProjectModel;
+    private ProjectModel projectModel;
     // private
 
     public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height) {
@@ -68,8 +70,10 @@ public class AddProjectView extends JDialog implements Observer {
         dialog.add(comp, constr);
     }
 
-    public AddProjectView(AddProjectModel addProjectModel) {
+    public AddProjectView(AddProjectModel addProjectModel, ProjectModel projectModel) {
         this.addProjectModel = addProjectModel;
+        this.projectModel = projectModel;
+        projectModel.registerObserver(this);
         addProjectModel.registerObserver(this);
 
         this.setModal(true);
@@ -80,7 +84,8 @@ public class AddProjectView extends JDialog implements Observer {
         this.setResizable(false);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
-                update();
+                // update();
+                projectModel.reset();
             }
         });
 
@@ -139,10 +144,19 @@ public class AddProjectView extends JDialog implements Observer {
         return addProjectModel;
     }
 
+    public void setProjectModel() {
+        projectModel.setTitle(titleInput.getText());
+        projectModel.setDescription(descriptionInput.getText());
+        projectModel.setSpecialization(specializationInput.getSelectedItem().toString());
+        projectModel.setStatus(statusInput.getSelectedItem().toString());
+    }
+
     public void update() {
-        dispose();
-        titleInput.setText("");
-        descriptionInput.setText("");
+        // dispose();
+        System.out.println("project view - update");
+        System.out.println(projectModel);
+        titleInput.setText(projectModel.getTitle());
+        descriptionInput.setText(projectModel.getDescription());
         specializationInput.setSelectedIndex(0);
         statusInput.setSelectedIndex(0);
     }

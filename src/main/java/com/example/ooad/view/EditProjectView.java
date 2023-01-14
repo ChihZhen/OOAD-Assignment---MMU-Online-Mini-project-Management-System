@@ -19,7 +19,6 @@ public class EditProjectView extends JDialog implements Observer {
     private JComboBox<String> statusInput;
     private JTextArea descriptionInput;
     private ProjectModel projectModel;
-    // private
 
     public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height) {
         GridBagConstraints constr = new GridBagConstraints();

@@ -20,22 +20,27 @@ import javax.swing.table.DefaultTableModel;
 @Controller
 public class AddProjectController {
     private AddProjectView addProjectView;
-    // private AddProjectModel addProjectModel;
     private ProjectRepository projectRepository;
     private ProjectTableModel projectTableModel;
+    private ProjectModel projectModel;
 
     public void show() {
+        addProjectView.setTitle("New Project");
         addProjectView.setVisible(true);
     }
 
-    public AddProjectController(AddProjectView addProjectView,
-            ProjectRepository projectRepsitory, ProjectTableModel projectTableModel) {
+    public void showEditProject(int index) {
+        addProjectView.setTitle("Edit Project");
+        projectModel.set(projectTableModel.getProjectModel(index));
+        addProjectView.setVisible(true);
+    }
+
+    public AddProjectController(AddProjectView addProjectView, ProjectRepository projectRepsitory,
+            ProjectTableModel projectTableModel, ProjectModel projectModel) {
         this.addProjectView = addProjectView;
-
+        this.projectModel = projectModel;
         this.projectTableModel = projectTableModel;
-        // this.addProjectModel = addProjectModel;
         this.projectRepository = projectRepsitory;
-
         init();
     }
 
@@ -49,25 +54,14 @@ public class AddProjectController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
-            AddProjectModel addProjectModel = addProjectView.getAddProjectModel();
-
-            if (addProjectModel.isValid()) {
-                ProjectModel p = new ProjectModel(addProjectModel.getTitle(),
-                        addProjectModel.getDescription(),
-                        addProjectModel.getStatus(), addProjectModel.getSpecialization());
-                projectRepository.save(p);
-                List<ProjectModel> projects = projectRepository.findAll();
-                projectTableModel.setData(projects);
-                addProjectModel.reset();
-                // addProjectView.setVisible(false);
-                // addProjectView.repaint();
-                // addProjectView.revalidate();
-            } else {
-                JFrame jf = new JFrame();
-                JOptionPane.showMessageDialog(jf, "Please fill in all the field", "Invalid Field", 2, null);
-            }
+            addProjectView.setProjectModel();
+            projectRepository.save(projectModel);
+            List<ProjectModel> projects = projectRepository.findAll();
+            projectTableModel.setProjects(projects);
+            projectTableModel.setData(projects);
+            projectModel.reset();
             System.out.println("clickbuttonlistener");
+            addProjectView.dispose();
         }
     }
 }
