@@ -1,9 +1,23 @@
 package com.example.ooad.view;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class Login extends JFrame {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.example.ooad.model.LoginModel;
+
+import java.awt.*;
+import java.awt.event.*;
+
+@Component
+public class LoginView extends JFrame {
+
+    private JButton loginButton;
+    private JTextField idInput;
+    private JTextField passwordInput;
+    private LoginModel loginModel;
+
     public static void add(JPanel panel, JComponent comp, int x, int y, int width, int height) {
         GridBagConstraints constr = new GridBagConstraints();
         constr.gridx = x;
@@ -39,7 +53,9 @@ public class Login extends JFrame {
         panel.add(comp, constr);
     }
 
-    public Login() {
+    @Autowired
+    public LoginView(LoginModel loginModel) {
+        this.loginModel = loginModel;
         JLabel systemLabel1 = new JLabel("MMU Online");
         systemLabel1.setForeground(Color.white);
         systemLabel1.setFont(new Font("Source Code Pro", 1, 18));
@@ -63,14 +79,14 @@ public class Login extends JFrame {
         formTitle.setFont(new java.awt.Font("Arial", 1, 24));
 
         JLabel idLabel = new JLabel("ID");
-        JTextField idInput = new JTextField();
+        idInput = new JTextField();
         idInput.setPreferredSize(new Dimension(140, 22));
 
         JLabel passwordLabel = new JLabel("Password");
-        JTextField passwordInput = new JTextField();
+        passwordInput = new JTextField();
         passwordInput.setPreferredSize(new Dimension(140, 22));
 
-        JButton loginButton = new JButton("Login");
+        loginButton = new JButton("Login");
         loginButton.setBackground(new Color(7, 80, 164));
         loginButton.setForeground(Color.white);
 
@@ -97,11 +113,31 @@ public class Login extends JFrame {
         this.setMinimumSize(new Dimension(1440, 900));
 
         this.add(container);
-        this.setVisible(true);
-
+        // this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new Login();
+    // public static void main(String[] args) {
+    // new LoginView();
+    // }
+
+    public void addSubmitEventListener(ActionListener listener) {
+        loginButton.addActionListener(listener);
     }
+
+    public LoginModel getLoginModel() {
+        loginModel.setId(idInput.getText());
+        loginModel.setPassword(passwordInput.getText());
+        return loginModel;
+    }
+
+    // public Hashtable<String, String> getLoginForm() {
+    // Hashtable<String, String> loginForm = new Hashtable<String, String>();
+    // loginForm.put("id", idInput.getText());
+    // loginForm.put("password", passwordInput.getText());
+    // return loginForm;
+    // }
+
+    // public LoginModel getLoginModel() {
+    // return loginModel;
+    // }
 }

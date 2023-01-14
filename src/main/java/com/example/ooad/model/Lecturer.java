@@ -5,14 +5,24 @@ import java.util.*;
 
 @Entity
 public class Lecturer extends User {
-    @OneToMany(mappedBy = "lecturer")
-    private List<Project> projects = new ArrayList<Project>();
+    @Id
+    private Long id;
 
-    public List<Project> getProjects() {
+    @OneToMany(mappedBy = "creator")
+    private List<ProjectModel> projects = new ArrayList<ProjectModel>();
+
+    public Lecturer() {
+    };
+
+    public Lecturer(String password, String fullName, String role, String accountId) {
+        super(password, fullName, role, accountId);
+    }
+
+    public List<ProjectModel> getProjects() {
         return this.projects;
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(List<ProjectModel> projects) {
         this.projects = projects;
     }
 
