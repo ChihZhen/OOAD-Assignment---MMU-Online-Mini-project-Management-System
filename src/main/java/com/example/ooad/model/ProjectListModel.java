@@ -8,22 +8,29 @@ import javax.swing.table.DefaultTableModel;
 
 import org.springframework.stereotype.Component;
 
+import com.example.ooad.OoadApplication;
+
 @Component
 public class ProjectListModel extends Observable {
 
     private List<ProjectModel> projects = new ArrayList<ProjectModel>();
     private static DefaultTableModel tableModel = new DefaultTableModel();
+    private User authUser = OoadApplication.getLoginUser();
 
-    Vector<String> header = new Vector<String>() {
-        {
-            add("Id");
-            add("Title");
-            add("Specialization");
-            add("Status");
-            add("Student");
-            add("Action");
-            add("");
+    public Vector<String> getHeader() {
+        Vector<String> header = new Vector<>();
+        header.add("Id");
+        header.add("Specialization");
+        if (authUser.getRole() == "Lecturer") {
+            header.add("Status");
+            header.add("Student");
+            header.add("Action");
+            header.add("");
+            return header;
         }
+        header.add("Description");
+        header.add("");
+        return header;
     };
 
     public ProjectListModel() {
@@ -41,9 +48,9 @@ public class ProjectListModel extends Observable {
         this.projects = projects;
         Vector<Vector<String>> data = new Vector<Vector<String>>();
         for (ProjectModel project : projects) {
-            data.add(project.toVector());
+            data.add(project.getLecturerVector());
         }
-        tableModel.setDataVector(data, header);
+        tableModel.setDataVector(data, getHeader());
         notifyObservers();
     }
 
