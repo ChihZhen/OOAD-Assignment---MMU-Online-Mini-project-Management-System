@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "Student")
 @Component
-public class StudentModel extends User {
+public class StudentModel extends UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,8 +24,13 @@ public class StudentModel extends User {
         // super();
     }
 
-    public StudentModel(String password, String fullName, String role, String accountId, String specialization) {
-        super(password, fullName, role, accountId);
+    public StudentModel(String fullName, String role, String accountId, String specialization) {
+        super(fullName, role, accountId);
+        this.specialization = specialization;
+    }
+
+    public StudentModel(String fullName, String role, String accountId, String specialization, String password) {
+        super(fullName, role, accountId, password);
         this.specialization = specialization;
     }
 
@@ -51,5 +56,11 @@ public class StudentModel extends User {
         data.add(super.getAccountId());
         data.add(super.getFullName());
         return data;
+    }
+
+    public void reset() {
+        setAccountId(null);
+        setFullName(null);
+        setRole(null);
     }
 }

@@ -105,7 +105,7 @@ public class AssignStudentView extends JDialog implements Observer {
 
         selectButton = new JButton("Select");
         add(this, selectButton, 1, 2, 1, 1, 15, 0, 0, 0, GridBagConstraints.BASELINE_TRAILING);
-        this.setVisible(true);
+        // this.setVisible(true);
     }
 
     // public static void main(String[] args) {

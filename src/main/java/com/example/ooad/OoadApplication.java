@@ -3,19 +3,25 @@ package com.example.ooad;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
+import com.example.ooad.controller.CreateUserController;
 import com.example.ooad.controller.LoginController;
-import com.example.ooad.model.User;
+import com.example.ooad.model.UserModel;
 
 import java.awt.*;
 
 @SpringBootApplication
 public class OoadApplication {
 
-	private static User loginUser;
+	private static UserModel loginUser;
 
-	public OoadApplication(LoginController loginController) {
+	public OoadApplication(LoginController loginController, CreateUserController createUserController) {
 		// loginController.show();
+		// createUserController.show();
+
 	}
+	// public void show() {
+	// createUserController.show();
+	// }
 
 	public static void main(String[] args) {
 
@@ -24,6 +30,7 @@ public class OoadApplication {
 		// EventQueue.invokeLater(() -> {
 
 		// var ex = ctx.getBean(OoadApplication.class);
+		// ex.
 		// });
 		// if (!ctx.isRunning()) {
 		// ctx.;
@@ -36,11 +43,11 @@ public class OoadApplication {
 
 	}
 
-	public static User getLoginUser() {
+	public static UserModel getLoginUser() {
 		return loginUser;
 	}
 
-	public static void setLoginUser(User user) {
+	public static void setLoginUser(UserModel user) {
 		loginUser = user;
 	}
 }

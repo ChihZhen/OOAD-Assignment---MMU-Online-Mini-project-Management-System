@@ -5,7 +5,8 @@ import java.sql.Date;
 import jakarta.persistence.*;
 
 @Entity
-public class Comment {
+@Table(name = "Comment")
+public class CommentModel {
     @Id
     private Long id;
     private Date date;
@@ -14,10 +15,10 @@ public class Comment {
     @JoinColumn(name = "project_id")
     private ProjectModel project;
 
-    public Comment() {
+    public CommentModel() {
     }
 
-    public Comment(Long id, Date date, ProjectModel project) {
+    public CommentModel(Long id, Date date, ProjectModel project) {
         this.id = id;
         this.date = date;
         this.project = project;
