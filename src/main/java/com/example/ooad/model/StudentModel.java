@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Student")
-// @Component
+@Component
 public class StudentModel extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

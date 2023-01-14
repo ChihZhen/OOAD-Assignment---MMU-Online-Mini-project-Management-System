@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "\"User\"")
-public class User {
+public class User extends Observable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

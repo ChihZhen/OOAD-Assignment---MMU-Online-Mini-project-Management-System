@@ -5,6 +5,7 @@ import javax.swing.*;
 import org.springframework.stereotype.Component;
 
 import com.example.ooad.model.ProjectModel;
+import com.example.ooad.model.StudentModel;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -16,9 +17,8 @@ public class CreateUserView extends JDialog implements Observer {
     private JTextField idInput;
     private JComboBox<String> roleInput;
     private JButton submitButton;
-    // private JTextArea descriptionInput;
 
-    // private ProjectModel projectModel;
+    private StudentModel studentModel;
 
     public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height) {
         GridBagConstraints constr = new GridBagConstraints();
@@ -69,10 +69,10 @@ public class CreateUserView extends JDialog implements Observer {
     }
 
     // public CreateUserView(ProjectModel projectModel) {
-    public CreateUserView() {
+    public CreateUserView(StudentModel studentModel) {
 
-        // this.projectModel = projectModel;
-        // projectModel.registerObserver(this);
+        this.studentModel = studentModel;
+        studentModel.registerObserver(this);
 
         this.setModal(true);
         this.setTitle("Create User");
@@ -80,14 +80,13 @@ public class CreateUserView extends JDialog implements Observer {
         this.setLayout(new GridBagLayout());
         this.setSize(432, 600);
         this.setResizable(false);
-        this.addWindowListener(new WindowAdapter() {
-            public void windowClosed(WindowEvent e) {
-                // update();
-                // projectModel.reset();
-            }
-        });
+        // this.addWindowListener(new WindowAdapter() {
+        // public void windowClosed(WindowEvent e) {
+        // // update();
+        // // projectModel.reset();
+        // }
+        // });
 
-        // JLabel formTitle = new JLabel("");
         JLabel usernameLabel = new JLabel("Username");
         add(this, usernameLabel, 0, 0, 1, 1, 0, 15, 0, 0, GridBagConstraints.BASELINE);
 
@@ -118,20 +117,20 @@ public class CreateUserView extends JDialog implements Observer {
         this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new CreateUserView();
-    }
+    // public static void main(String[] args) {
+    // new CreateUserView();
+    // }
 
     public void addClickSubmitListener(ActionListener Listener) {
         submitButton.addActionListener(Listener);
     }
 
-    // public void setProjectModel() {
-    // projectModel.setTitle(titleInput.getText());
-    // projectModel.setDescription(descriptionInput.getText());
-    // projectModel.setSpecialization(specializationInput.getSelectedItem().toString());
-    // projectModel.setStatus(statusInput.getSelectedItem().toString());
-    // }
+    public void setStudentModel() {
+        studentModel.setAccountId(idInput.getText());
+        studentModel.setFullName(getName());
+        studentModel.setRole(roleInput.getSelectedItem().toString());
+        // studentModel.setStatus(statusInput.getSelectedItem().toString());
+    }
 
     public void update() {
         // titleInput.setText(projectModel.getTitle());

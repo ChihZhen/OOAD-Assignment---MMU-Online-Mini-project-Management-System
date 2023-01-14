@@ -15,7 +15,7 @@ public class OoadApplication {
 	private static User loginUser;
 
 	public OoadApplication(LoginController loginController) {
-		loginController.show();
+		// loginController.show();
 	}
 
 	public static void main(String[] args) {
