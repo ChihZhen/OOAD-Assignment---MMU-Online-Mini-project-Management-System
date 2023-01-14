@@ -54,7 +54,7 @@ public class ProjectListController {
         projectView.addClickButtonListener(new ClickAddProjectButtonListener());
 
         loadData();
-        projectView.setVisible(true);
+        // projectView.setVisible(true);
     }
 
     private class ClickRowListener implements MouseListener {

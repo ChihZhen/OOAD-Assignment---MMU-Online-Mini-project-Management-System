@@ -143,8 +143,8 @@ public class ProjectView extends JDialog implements Observer {
     public void update() {
         titleInput.setText(projectModel.getTitle());
         descriptionInput.setText(projectModel.getDescription());
-        specializationInput.setSelectedIndex(0);
-        statusInput.setSelectedIndex(0);
+        specializationInput.setSelectedItem(projectModel.getSpecialization());
+        statusInput.setSelectedItem(projectModel.getStatus());
     }
 
     public void setEditable(boolean editable) {

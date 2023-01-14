@@ -3,20 +3,28 @@ package com.example.ooad.model;
 import jakarta.persistence.*;
 import java.util.*;
 
+import org.springframework.stereotype.Component;
+
 @Entity
-public class Admin extends User {
+@Table(name = "Admin")
+@Component
+public class AdminModel extends UserModel {
     @Id
     private Long id;
 
     @OneToMany(mappedBy = "creator")
     private List<ProjectModel> projects = new ArrayList<ProjectModel>();
 
-    public Admin() {
+    public AdminModel() {
 
     }
 
-    public Admin(String password, String fullName, String role, String accountId) {
-        super(password, fullName, role, accountId);
+    public AdminModel(String fullName, String role, String accountId) {
+        super(fullName, role, accountId);
+    }
+
+    public AdminModel(String fullName, String role, String accountId, String password) {
+        super(fullName, role, accountId, password);
     }
 
     public Long getId() {

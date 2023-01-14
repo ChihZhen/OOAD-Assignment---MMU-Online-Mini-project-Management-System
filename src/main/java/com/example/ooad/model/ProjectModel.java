@@ -19,13 +19,13 @@ public class ProjectModel extends Observable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User creator;
+    private UserModel creator;
 
     @OneToOne
     private StudentModel student;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
-    private List<Comment> comments;
+    private List<CommentModel> comments;
 
     public ProjectModel() {
     }
@@ -77,19 +77,19 @@ public class ProjectModel extends Observable {
         this.specialization = specialization;
     }
 
-    public List<Comment> getComments() {
+    public List<CommentModel> getComments() {
         return this.comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<CommentModel> comments) {
         this.comments = comments;
     }
 
-    public User getCreator() {
+    public UserModel getCreator() {
         return this.creator;
     }
 
-    public void setCreator(User creator) {
+    public void setCreator(UserModel creator) {
         this.creator = creator;
     }
 
@@ -141,7 +141,7 @@ public class ProjectModel extends Observable {
         this.status = "Active";
         this.student = null;
         this.creator = null;
-        this.comments = new ArrayList<Comment>();
+        this.comments = new ArrayList<CommentModel>();
         notifyObservers();
     }
 

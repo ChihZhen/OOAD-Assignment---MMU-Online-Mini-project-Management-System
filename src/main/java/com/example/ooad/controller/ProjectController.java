@@ -12,25 +12,25 @@ import java.util.List;
 
 @Controller
 public class ProjectController {
-    private ProjectView addProjectView;
+    private ProjectView projectView;
     private ProjectRepository projectRepository;
     private ProjectListModel projectTableModel;
     private ProjectModel projectModel;
 
     public void showAddProject() {
-        addProjectView.setTitle("New Project");
-        addProjectView.setVisible(true);
+        projectView.setTitle("New Project");
+        projectView.setVisible(true);
     }
 
     public void showEditProject(int index) {
-        addProjectView.setTitle("Edit Project");
+        projectView.setTitle("Edit Project");
         projectModel.set(projectTableModel.getProject(index));
-        addProjectView.setVisible(true);
+        projectView.setVisible(true);
     }
 
     public ProjectController(ProjectView addProjectView, ProjectRepository projectRepository,
             ProjectListModel projectTableModel, ProjectModel projectModel) {
-        this.addProjectView = addProjectView;
+        this.projectView = addProjectView;
         this.projectModel = projectModel;
         this.projectTableModel = projectTableModel;
         this.projectRepository = projectRepository;
@@ -38,22 +38,22 @@ public class ProjectController {
     }
 
     private void init() {
-        addProjectView.addClickSubmitListener(new ClickSubmitButtonListener());
+        projectView.addClickSubmitListener(new ClickSubmitButtonListener());
         // show();
-        // addProjectView.setVisible(true);
+        // projectView.setVisible(true);
     }
 
     class ClickSubmitButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            addProjectView.setProjectModel();
+            projectView.setProjectModel();
             projectRepository.save(projectModel);
             List<ProjectModel> projects = projectRepository.findAll();
             projectTableModel.setProjects(projects);
             projectModel.reset();
             System.out.println("clickbuttonlistener");
-            addProjectView.dispose();
+            projectView.dispose();
         }
     }
 }

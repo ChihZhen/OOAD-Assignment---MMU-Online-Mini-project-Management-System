@@ -3,18 +3,26 @@ package com.example.ooad.model;
 import jakarta.persistence.*;
 import java.util.*;
 
+import org.springframework.stereotype.Component;
+
 @Entity
-public class Lecturer extends User {
+@Table(name = "Lecturer")
+@Component
+public class LecturerModel extends UserModel {
     @Id
     private Long id;
 
     @OneToMany(mappedBy = "creator")
     private List<ProjectModel> projects = new ArrayList<ProjectModel>();
 
-    public Lecturer() {
+    public LecturerModel() {
     };
 
-    public Lecturer(String password, String fullName, String role, String accountId) {
+    public LecturerModel(String fullName, String role, String accountId) {
+        super(fullName, role, accountId);
+    }
+
+    public LecturerModel(String fullName, String role, String accountId, String password) {
         super(password, fullName, role, accountId);
     }
 
@@ -25,5 +33,4 @@ public class Lecturer extends User {
     public void setProjects(List<ProjectModel> projects) {
         this.projects = projects;
     }
-
 }
