@@ -1,10 +1,8 @@
-package com.example.ooad.entity;
+package com.example.ooad.model;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
-
-import com.example.ooad.model.Observable;
 
 import java.util.*;
 
@@ -24,7 +22,7 @@ public class ProjectModel extends Observable {
     private User creator;
 
     @OneToOne
-    private Student student;
+    private StudentModel student;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
     private List<Comment> comments;
@@ -95,11 +93,11 @@ public class ProjectModel extends Observable {
         this.creator = creator;
     }
 
-    public Student getStudent() {
+    public StudentModel getStudent() {
         return this.student;
     }
 
-    public void setStudent(Student student) {
+    public void setStudent(StudentModel student) {
         this.student = student;
     }
 

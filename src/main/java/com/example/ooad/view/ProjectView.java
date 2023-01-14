@@ -1,28 +1,26 @@
 package com.example.ooad.view;
 
 import javax.swing.*;
-import javax.swing.table.*;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.model.ProjectTableModel;
-import com.example.ooad.view.Component.TableButton;
-import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
+import com.example.ooad.model.ProjectModel;
 
 import java.awt.*;
 import java.awt.event.*;
 
 @Component
-public class ProjectView extends JFrame implements Observer {
-    // @Autowired(required = false)
-    private ProjectTableModel projectTableModel;
-    private static JTable projectTable;
-    private JButton addProjectButton;
-    private TableButton assignButtons = new TableButton(new Color(23, 121, 233));
-    private TableButton editButtons = new TableButton(new Color(241, 143, 5));
-    private TableButton deleteButtons = new TableButton(new Color(241, 95, 95));;
+public class ProjectView extends JDialog implements Observer {
 
-    public static void add(JFrame panel, JComponent comp, int x, int y, int width, int height) {
+    private JButton submitButton;
+    private JTextField titleInput;
+    private JComboBox<String> specializationInput;
+    private JComboBox<String> statusInput;
+    private JTextArea descriptionInput;
+
+    private ProjectModel projectModel;
+
+    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height) {
         GridBagConstraints constr = new GridBagConstraints();
         constr.gridx = x;
         constr.gridy = y;
@@ -30,10 +28,11 @@ public class ProjectView extends JFrame implements Observer {
         constr.gridwidth = width;
         constr.insets = new Insets(2, 2, 2, 2);
         constr.anchor = GridBagConstraints.CENTER;
-        panel.add(comp, constr);
+        dialog.add(comp, constr);
     }
 
-    public static void add(JFrame panel, JComponent comp, int x, int y, int width, int height, int marginT, int marginR,
+    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height, int marginT,
+            int marginR,
             int marginB, int marginL) {
         GridBagConstraints constr = new GridBagConstraints();
         constr.gridx = x;
@@ -42,10 +41,11 @@ public class ProjectView extends JFrame implements Observer {
         constr.gridwidth = width;
         constr.insets = new Insets(marginT, marginL, marginB, marginR);
         constr.anchor = GridBagConstraints.CENTER;
-        panel.add(comp, constr);
+        dialog.add(comp, constr);
     }
 
-    public static void add(JFrame panel, JComponent comp, int x, int y, int width, int height, int marginT, int marginR,
+    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height, int marginT,
+            int marginR,
             int marginB, int marginL, int anchor) {
         GridBagConstraints constr = new GridBagConstraints();
         constr.gridx = x;
@@ -54,86 +54,103 @@ public class ProjectView extends JFrame implements Observer {
         constr.gridwidth = width;
         constr.insets = new Insets(marginT, marginL, marginB, marginR);
         constr.anchor = anchor;
-        panel.add(comp, constr);
+        dialog.add(comp, constr);
     }
 
-    public ProjectView(ProjectTableModel projectTableModel) {
+    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height, int anchor) {
+        GridBagConstraints constr = new GridBagConstraints();
+        constr.gridx = x;
+        constr.gridy = y;
+        constr.gridheight = height;
+        constr.gridwidth = width;
+        // constr.insets = new Insets(marginT, marginL, marginB, marginR);
+        constr.anchor = anchor;
+        dialog.add(comp, constr);
+    }
 
-        this.projectTableModel = projectTableModel;
-        this.projectTableModel.registerObserver(this);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    public ProjectView(ProjectModel projectModel) {
+
+        this.projectModel = projectModel;
+        projectModel.registerObserver(this);
+
+        this.setModal(true);
+        // this.setTitle("New Project");
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLayout(new GridBagLayout());
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setPreferredSize(new Dimension(1440, 900));
-        this.setMinimumSize(new Dimension(1440, 900));
+        this.setSize(432, 600);
+        this.setResizable(false);
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e) {
+                // update();
+                projectModel.reset();
+            }
+        });
 
-        JLabel welcomeLabel = new JLabel("Welcome Back");
-        add(this, welcomeLabel, 0, 0, 2, 1, 0, 0, 25, 0, GridBagConstraints.LINE_START);
+        // JLabel formTitle = new JLabel("");
+        JLabel titleLabel = new JLabel("Title");
+        add(this, titleLabel, 0, 0, 1, 1, GridBagConstraints.BASELINE_LEADING);
 
-        JLabel projectLabel = new JLabel("Project");
-        add(this, projectLabel, 0, 1, 2, 1, 0, 0, 25, 0);
+        titleInput = new JTextField();
+        titleInput.setPreferredSize(new Dimension(200, 22));
+        titleInput.setMinimumSize(new Dimension(200, 22));
+        add(this, titleInput, 1, 0, 1, 1);
 
-        addProjectButton = new JButton("Add Project");
-        add(this, addProjectButton, 1, 2, 1, 1, 0, 0, 25, 0, GridBagConstraints.BASELINE_TRAILING);
+        JLabel specializationTitle = new JLabel("Specialization");
+        add(this, specializationTitle, 0, 1, 1, 1, 0, 15, 0, 0);
 
-        String[][] data = {
-                { "OS", "Computer Science", "Q1", "ASSIGN", "EDIT", "DELETE" },
-                { "OOAD", "Data Science", "Q2", "ASSIGN", "EDIT", "DELETE" }
-        };
+        specializationInput = new JComboBox<String>(
+                new String[] { "Software Engineer", "Data Science", "Game Development", "Cyber Security" });
+        specializationInput.setPreferredSize(new Dimension(200, 22));
+        specializationInput.setMinimumSize(new Dimension(200, 22));
+        add(this, specializationInput, 1, 1, 1, 1, 20, 0, 20, 0);
 
-        // Column Names
-        String[] header = { "Title", "Specialization", "Created By", "", "", "" };
+        JLabel statusTitle = new JLabel("Status");
+        add(this, statusTitle, 0, 2, 1, 1, GridBagConstraints.BASELINE_LEADING);
 
-        // JTable projectTable = new JTable(data, header);
-        projectTable = new JTable(this.projectTableModel.getTableModel());
+        statusInput = new JComboBox<String>(
+                new String[] { "Active", "Inactive" });
+        statusInput.setPreferredSize(new Dimension(200, 22));
+        statusInput.setMinimumSize(new Dimension(200, 22));
+        add(this, statusInput, 1, 2, 1, 1, 0, 0, 20, 0);
 
-        System.out.println(projectTable.getModel().getRowCount());
+        JLabel descriptionTitle = new JLabel("Description");
+        add(this, descriptionTitle, 0, 3, 1, 1, GridBagConstraints.BASELINE_LEADING);
 
-        JScrollPane tableContainer = new JScrollPane(projectTable);
-        tableContainer.setPreferredSize(new Dimension(896, 432));
-        tableContainer.setMinimumSize(new Dimension(896, 432));
-        tableContainer.setMaximumSize(new Dimension(896, 432));
-        // tableContainer.add(projectTable);
+        descriptionInput = new JTextArea();
+        descriptionInput.setPreferredSize(new Dimension(200, 84));
+        descriptionInput.setMinimumSize(new Dimension(200, 84));
+        add(this, descriptionInput, 1, 3, 1, 1);
 
-        add(this, tableContainer, 0, 3, 2, 1);
-        // this.setVisible(true);
-
-    }
-
-    public void addClickRowListener(MouseListener listener) {
-        projectTable.addMouseListener(listener);
-    }
-
-    public void addClickTableButtonListener(TableButtonPressedHandler listener) {
-        assignButtons.addHandler(listener);
-        editButtons.addHandler(listener);
-        deleteButtons.addHandler(listener);
-    }
-
-    public void addClickButtonListener(ActionListener listener) {
-        addProjectButton.addActionListener(listener);
-    }
-
-    public void update() {
-        System.out.println(projectTableModel.getTableModel().getRowCount());
-        System.out.println("update");
-
-        if (projectTableModel.getTableModel().getRowCount() > 0) {
-            TableColumn assignColumn = projectTable.getColumnModel().getColumn(4);
-            assignColumn.setCellRenderer(assignButtons);
-            assignColumn.setCellEditor(assignButtons);
-
-            TableColumn editColumn = projectTable.getColumnModel().getColumn(5);
-            editColumn.setCellRenderer(editButtons);
-            editColumn.setCellEditor(editButtons);
-
-            TableColumn deleteColumn = projectTable.getColumnModel().getColumn(6);
-            deleteColumn.setCellRenderer(deleteButtons);
-            deleteColumn.setCellEditor(deleteButtons);
-        }
+        submitButton = new JButton("Submit");
+        add(this, submitButton, 1, 4, 1, 1, 30, 0, 0, 0, GridBagConstraints.LINE_END);
     }
 
     // public static void main(String[] args) {
-    // new ProjectView();
+    // new AddProjectView();
     // }
+
+    public void addClickSubmitListener(ActionListener Listener) {
+        submitButton.addActionListener(Listener);
+    }
+
+    public void setProjectModel() {
+        projectModel.setTitle(titleInput.getText());
+        projectModel.setDescription(descriptionInput.getText());
+        projectModel.setSpecialization(specializationInput.getSelectedItem().toString());
+        projectModel.setStatus(statusInput.getSelectedItem().toString());
+    }
+
+    public void update() {
+        titleInput.setText(projectModel.getTitle());
+        descriptionInput.setText(projectModel.getDescription());
+        specializationInput.setSelectedIndex(0);
+        statusInput.setSelectedIndex(0);
+    }
+
+    public void setEditable(boolean editable) {
+        titleInput.setEditable(editable);
+        descriptionInput.setEditable(editable);
+        specializationInput.setEditable(editable);
+        statusInput.setEditable(editable);
+    }
 }

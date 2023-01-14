@@ -1,9 +1,15 @@
-package com.example.ooad.entity;
+package com.example.ooad.model;
+
+import java.util.Vector;
+
+import org.springframework.stereotype.Component;
 
 import jakarta.persistence.*;
 
 @Entity
-public class Student extends User {
+@Table(name = "Student")
+// @Component
+public class StudentModel extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -14,11 +20,11 @@ public class Student extends User {
     // @JoinColumn(name = "project_id")
     private ProjectModel project;
 
-    public Student() {
+    public StudentModel() {
         // super();
     }
 
-    public Student(String password, String fullName, String role, String accountId, String specialization) {
+    public StudentModel(String password, String fullName, String role, String accountId, String specialization) {
         super(password, fullName, role, accountId);
         this.specialization = specialization;
     }
@@ -39,4 +45,11 @@ public class Student extends User {
         this.project = project;
     }
 
+    public Vector<String> toVector() {
+        Vector<String> data = new Vector<>();
+        data.add(Long.toString(id));
+        data.add(super.getAccountId());
+        data.add(super.getFullName());
+        return data;
+    }
 }

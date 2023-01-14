@@ -1,7 +1,6 @@
 package com.example.ooad.controller;
 
-import com.example.ooad.entity.*;
-import com.example.ooad.model.LoginModel;
+import com.example.ooad.model.*;
 import com.example.ooad.repository.StudentRepository;
 import com.example.ooad.repository.UserRepository;
 import com.example.ooad.view.LoginView;
