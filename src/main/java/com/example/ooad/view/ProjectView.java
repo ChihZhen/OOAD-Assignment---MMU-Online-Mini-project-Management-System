@@ -5,6 +5,7 @@ import javax.swing.*;
 import org.springframework.stereotype.Component;
 
 import com.example.ooad.model.ProjectModel;
+import com.example.ooad.utils.GridBagAdder;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -19,54 +20,6 @@ public class ProjectView extends JDialog implements Observer {
     private JTextArea descriptionInput;
 
     private ProjectModel projectModel;
-
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        constr.insets = new Insets(2, 2, 2, 2);
-        constr.anchor = GridBagConstraints.CENTER;
-        dialog.add(comp, constr);
-    }
-
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height, int marginT,
-            int marginR,
-            int marginB, int marginL) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        constr.insets = new Insets(marginT, marginL, marginB, marginR);
-        constr.anchor = GridBagConstraints.CENTER;
-        dialog.add(comp, constr);
-    }
-
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height, int marginT,
-            int marginR,
-            int marginB, int marginL, int anchor) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        constr.insets = new Insets(marginT, marginL, marginB, marginR);
-        constr.anchor = anchor;
-        dialog.add(comp, constr);
-    }
-
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height, int anchor) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        // constr.insets = new Insets(marginT, marginL, marginB, marginR);
-        constr.anchor = anchor;
-        dialog.add(comp, constr);
-    }
 
     public ProjectView(ProjectModel projectModel) {
 
@@ -86,43 +39,66 @@ public class ProjectView extends JDialog implements Observer {
             }
         });
 
-        // JLabel formTitle = new JLabel("");
+        // ===== Title Label
         JLabel titleLabel = new JLabel("Title");
-        add(this, titleLabel, 0, 0, 1, 1, GridBagConstraints.BASELINE_LEADING);
+        GridBagAdder gridCtr = new GridBagAdder.GridBagAdderBuilder().setX(0).setY(0)
+                .width(1).height(1).anchor(GridBagConstraints.BASELINE_LEADING).build();
 
+        this.add(titleLabel, gridCtr.getConstraint());
+
+        // ===== Title Input
         titleInput = new JTextField();
         titleInput.setPreferredSize(new Dimension(200, 22));
         titleInput.setMinimumSize(new Dimension(200, 22));
-        add(this, titleInput, 1, 0, 1, 1);
+        GridBagAdder gridCtr_2 = new GridBagAdder.GridBagAdderBuilder().setX(1).build();
+        this.add(titleInput, gridCtr_2.getConstraint());
 
+        // ===== Specialization Title
         JLabel specializationTitle = new JLabel("Specialization");
-        add(this, specializationTitle, 0, 1, 1, 1, 0, 15, 0, 0);
+        GridBagAdder gridCtr_3 = new GridBagAdder.GridBagAdderBuilder().setY(1)
+                .marginR(15).build();
+        this.add(specializationTitle, gridCtr_3.getConstraint());
 
+        // ===== Specialization Input
         specializationInput = new JComboBox<String>(
                 new String[] { "Software Engineer", "Data Science", "Game Development", "Cyber Security" });
         specializationInput.setPreferredSize(new Dimension(200, 22));
         specializationInput.setMinimumSize(new Dimension(200, 22));
-        add(this, specializationInput, 1, 1, 1, 1, 20, 0, 20, 0);
+        GridBagAdder gridCtr_4 = new GridBagAdder.GridBagAdderBuilder().setX(1).setY(1).marginT(20).marginB(20).build();
+        this.add(specializationInput, gridCtr_4.getConstraint());
 
+        // ===== Status Title
         JLabel statusTitle = new JLabel("Status");
-        add(this, statusTitle, 0, 2, 1, 1, GridBagConstraints.BASELINE_LEADING);
-
+        GridBagAdder gridCtr_5 = new GridBagAdder.GridBagAdderBuilder().setY(2)
+                .anchor(GridBagConstraints.BASELINE_LEADING)
+                .build();
+        this.add(statusTitle, gridCtr_5.getConstraint());
+        // ===== Status Input
         statusInput = new JComboBox<String>(
                 new String[] { "Active", "Inactive" });
         statusInput.setPreferredSize(new Dimension(200, 22));
         statusInput.setMinimumSize(new Dimension(200, 22));
-        add(this, statusInput, 1, 2, 1, 1, 0, 0, 20, 0);
+        GridBagAdder gridCtr_6 = new GridBagAdder.GridBagAdderBuilder().setX(1).setY(2).marginB(20).build();
+        this.add(statusInput, gridCtr_6.getConstraint());
 
+        // ===== Description Title
         JLabel descriptionTitle = new JLabel("Description");
-        add(this, descriptionTitle, 0, 3, 1, 1, GridBagConstraints.BASELINE_LEADING);
+        GridBagAdder gridCtr_7 = new GridBagAdder.GridBagAdderBuilder().setY(3)
+                .anchor(GridBagConstraints.BASELINE_LEADING).build();
+        this.add(descriptionTitle, gridCtr_7.getConstraint());
 
         descriptionInput = new JTextArea();
         descriptionInput.setPreferredSize(new Dimension(200, 84));
         descriptionInput.setMinimumSize(new Dimension(200, 84));
-        add(this, descriptionInput, 1, 3, 1, 1);
+        GridBagAdder gridCtr_8 = new GridBagAdder.GridBagAdderBuilder().setX(1).setY(3).build();
+        this.add(descriptionInput, gridCtr_8.getConstraint());
 
+        // ===== Submit Button
         submitButton = new JButton("Submit");
-        add(this, submitButton, 1, 4, 1, 1, 30, 0, 0, 0, GridBagConstraints.LINE_END);
+        GridBagAdder gridCtr_9 = new GridBagAdder.GridBagAdderBuilder().setX(1).setY(4).marginT(30)
+                .anchor(GridBagConstraints.LINE_END).build();
+        this.add(submitButton, gridCtr_9.getConstraint());
+
     }
 
     // public static void main(String[] args) {

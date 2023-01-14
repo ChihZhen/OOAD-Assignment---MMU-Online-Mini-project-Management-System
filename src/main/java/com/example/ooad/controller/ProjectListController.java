@@ -53,7 +53,7 @@ public class ProjectListController {
         projectView.addClickTableButtonListener(new ClickTableButtonListener());
         projectView.addClickButtonListener(new ClickAddProjectButtonListener());
 
-        loadData();
+        // loadData();
         projectView.setVisible(true);
     }
 

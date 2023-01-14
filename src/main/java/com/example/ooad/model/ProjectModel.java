@@ -101,7 +101,7 @@ public class ProjectModel extends Observable {
         this.student = student;
     }
 
-    public Vector<String> toVector() {
+    public Vector<String> getLecturerVector() {
         Vector<String> data = new Vector<>();
         data.add(Long.toString(id));
         data.add(title);
