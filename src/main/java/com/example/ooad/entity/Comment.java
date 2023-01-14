@@ -12,9 +12,12 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "project_id")
-    private Project project;
+    private ProjectModel project;
 
-    public Comment(Long id, Date date, Project project) {
+    public Comment() {
+    }
+
+    public Comment(Long id, Date date, ProjectModel project) {
         this.id = id;
         this.date = date;
         this.project = project;
@@ -36,11 +39,11 @@ public class Comment {
         this.date = date;
     }
 
-    public Project getProject() {
+    public ProjectModel getProject() {
         return this.project;
     }
 
-    public void setProject(Project project) {
+    public void setProject(ProjectModel project) {
         this.project = project;
     }
 }

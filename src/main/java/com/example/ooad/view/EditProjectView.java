@@ -4,20 +4,21 @@ import javax.swing.*;
 
 import org.springframework.stereotype.Component;
 
+import com.example.ooad.entity.ProjectModel;
 import com.example.ooad.model.AddProjectModel;
 
 import java.awt.*;
 import java.awt.event.*;
 
 @Component
-public class AddProjectView extends JDialog implements Observer {
+public class EditProjectView extends JDialog implements Observer {
 
     private JButton submitButton;
     private JTextField titleInput;
     private JComboBox<String> specializationInput;
     private JComboBox<String> statusInput;
     private JTextArea descriptionInput;
-    private AddProjectModel addProjectModel;
+    private ProjectModel projectModel;
     // private
 
     public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height) {
@@ -68,12 +69,12 @@ public class AddProjectView extends JDialog implements Observer {
         dialog.add(comp, constr);
     }
 
-    public AddProjectView(AddProjectModel addProjectModel) {
-        this.addProjectModel = addProjectModel;
-        addProjectModel.registerObserver(this);
+    public EditProjectView(ProjectModel projectModel) {
+        this.projectModel = projectModel;
+        projectModel.registerObserver(this);
 
         this.setModal(true);
-        this.setTitle("New Project");
+        this.setTitle("Edit Project");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLayout(new GridBagLayout());
         this.setSize(432, 600);
@@ -97,7 +98,8 @@ public class AddProjectView extends JDialog implements Observer {
         add(this, specializationTitle, 0, 1, 1, 1, 0, 15, 0, 0);
 
         specializationInput = new JComboBox<String>(
-                new String[] { "Software Engineer", "Data Science", "Game Development", "Cyber Security" });
+                new String[] { "Software Engineer", "Data Science", "Game Development",
+                        "Cyber Security" });
         specializationInput.setPreferredSize(new Dimension(200, 22));
         specializationInput.setMinimumSize(new Dimension(200, 22));
         add(this, specializationInput, 1, 1, 1, 1, 20, 0, 20, 0);
@@ -120,7 +122,8 @@ public class AddProjectView extends JDialog implements Observer {
         add(this, descriptionInput, 1, 3, 1, 1);
 
         submitButton = new JButton("Submit");
-        add(this, submitButton, 1, 4, 1, 1, 30, 0, 0, 0, GridBagConstraints.LINE_END);
+        add(this, submitButton, 1, 4, 1, 1, 30, 0, 0, 0,
+                GridBagConstraints.LINE_END);
     }
 
     // public static void main(String[] args) {
@@ -131,12 +134,12 @@ public class AddProjectView extends JDialog implements Observer {
         submitButton.addActionListener(Listener);
     }
 
-    public AddProjectModel getAddProjectModel() {
-        addProjectModel.setTitle(titleInput.getText());
-        addProjectModel.setDescription(descriptionInput.getText());
-        addProjectModel.setSpecialization(specializationInput.getSelectedItem().toString());
-        addProjectModel.setStatus(statusInput.getSelectedItem().toString());
-        return addProjectModel;
+    public ProjectModel getAddProjectModel() {
+        projectModel.setTitle(titleInput.getText());
+        projectModel.setDescription(descriptionInput.getText());
+        projectModel.setSpecialization(specializationInput.getSelectedItem().toString());
+        projectModel.setStatus(statusInput.getSelectedItem().toString());
+        return projectModel;
     }
 
     public void update() {

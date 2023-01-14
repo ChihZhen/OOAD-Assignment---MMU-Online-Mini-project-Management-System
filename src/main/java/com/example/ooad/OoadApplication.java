@@ -12,13 +12,14 @@ import java.awt.*;
 @SpringBootApplication
 public class OoadApplication {
 
-	public static User user;
+	private static User loginUser;
 
 	public OoadApplication(LoginController loginController) {
 		// loginController.show();
 	}
 
 	public static void main(String[] args) {
+
 		var ctx = new SpringApplicationBuilder(OoadApplication.class)
 				.headless(false).run(args);
 		// EventQueue.invokeLater(() -> {
@@ -36,4 +37,11 @@ public class OoadApplication {
 
 	}
 
+	public static User getLoginUser() {
+		return loginUser;
+	}
+
+	public static void setLoginUser(User user) {
+		loginUser = user;
+	}
 }

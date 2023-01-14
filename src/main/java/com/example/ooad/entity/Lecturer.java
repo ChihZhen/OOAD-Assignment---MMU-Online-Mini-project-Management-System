@@ -9,17 +9,19 @@ public class Lecturer extends User {
     private Long id;
 
     @OneToMany(mappedBy = "creator")
-    private List<Project> projects = new ArrayList<Project>();
+    private List<ProjectModel> projects = new ArrayList<ProjectModel>();
 
+    public Lecturer() {
+    };
     public Lecturer(String password, String fullName, String role, String accountId) {
         super(password, fullName, role, accountId);
     }
 
-    public List<Project> getProjects() {
+    public List<ProjectModel> getProjects() {
         return this.projects;
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(List<ProjectModel> projects) {
         this.projects = projects;
     }
 

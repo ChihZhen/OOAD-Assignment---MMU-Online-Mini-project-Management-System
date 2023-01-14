@@ -12,10 +12,10 @@ public class Student extends User {
 
     @OneToOne(mappedBy = "student")
     // @JoinColumn(name = "project_id")
-    private Project project;
+    private ProjectModel project;
 
     public Student() {
-        super();
+        // super();
     }
 
     public Student(String password, String fullName, String role, String accountId, String specialization) {
@@ -31,11 +31,11 @@ public class Student extends User {
         this.specialization = specialization;
     }
 
-    public Project getProject() {
+    public ProjectModel getProject() {
         return this.project;
     }
 
-    public void setProject(Project project) {
+    public void setProject(ProjectModel project) {
         this.project = project;
     }
 

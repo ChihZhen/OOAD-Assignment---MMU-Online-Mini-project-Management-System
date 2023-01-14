@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.springframework.stereotype.Controller;
 
-import com.example.ooad.entity.Project;
+import com.example.ooad.entity.ProjectModel;
 import com.example.ooad.model.ProjectTableModel;
 import com.example.ooad.repository.ProjectRepository;
 import com.example.ooad.view.ProjectView;
@@ -20,39 +20,43 @@ public class ProjectController {
     private ProjectView projectView;
     private DefaultTableModel projectTableModel;
     private ProjectRepository projectRepository;
+    private AddProjectController addProjectController;
+    // private ProjectDetailController projectDetailController;
 
-    public ProjectController() {
-    }
+    // public ProjectController() {
+    // }
 
     public ProjectController(ProjectView projectView, ProjectTableModel projectTableModel,
-            ProjectRepository projectRepository) {
+            ProjectRepository projectRepository, AddProjectController addProjectController) {
         this.projectView = projectView;
         this.projectTableModel = projectTableModel.getTableModel();
         this.projectRepository = projectRepository;
+        this.addProjectController = addProjectController;
+        // this.projectDetailController = projectDetailController;
 
         init();
+        projectView.setVisible(true);
+
     }
 
     public void init() {
         projectView.addClickRowListener(new ClickRowListener());
-
         projectView.addClickTableButtonListener(new ClickTableButtonListener());
+        projectView.addClickButtonListener(new ClickAddProjectButtonListener());
 
-        List<Project> projects = projectRepository.findAll();
+        List<ProjectModel> projects = projectRepository.findAll();
         Vector<Vector<String>> data = new Vector<Vector<String>>();
-        for (Project project : projects) {
+        for (ProjectModel project : projects) {
             data.add(project.toVector());
         }
-        // String[][] d = {
-        // projectsData
-        // }
         Vector<String> header = new Vector<String>() {
             {
-                add("id");
-                add("title");
-                add("specialization");
-                add("");
-                add("");
+                add("Id");
+                add("Title");
+                add("Specialization");
+                add("Status");
+                add("Student");
+                add("Action");
                 add("");
             }
         };
@@ -69,10 +73,11 @@ public class ProjectController {
 
             }
         });
-        projectTableModel.setDataVector(v,
+        projectTableModel.setDataVector(data,
                 header);
 
-        projectView.refresh();
+        projectView.update();
+        projectView.setVisible(true);
     }
 
     // public addButton() {
@@ -115,6 +120,15 @@ public class ProjectController {
             // TODO Auto-generated method stub
             System.out.println(row + " " + column);
 
+        }
+    }
+
+    class ClickAddProjectButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO Auto-generated method stub
+            addProjectController.show();
+            // projectView.setEnabled(false);
         }
     }
 

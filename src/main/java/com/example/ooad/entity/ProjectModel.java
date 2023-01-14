@@ -1,12 +1,19 @@
 package com.example.ooad.entity;
 
 import java.util.List;
+
+import org.springframework.stereotype.Component;
+
+import com.example.ooad.model.Observable;
+
 import java.util.*;
 
 import jakarta.persistence.*;
 
 @Entity
-public class Project {
+@Table(name = "Project")
+@Component
+public class ProjectModel extends Observable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -33,10 +40,10 @@ public class Project {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
     private List<Comment> comments;
 
-    public Project() {
+    public ProjectModel() {
     }
 
-    public Project(String title, String description, String status, String specialization) {
+    public ProjectModel(String title, String description, String status, String specialization) {
         this.title = title;
         this.description = description;
         this.status = status;
@@ -104,8 +111,14 @@ public class Project {
         data.add(Long.toString(id));
         data.add(title);
         data.add(specialization);
-        data.add(creator.getFullName());
-
+        data.add(status);
+        if (student == null) {
+            data.add("ASSIGN");
+        } else {
+            data.add(student.getFullName());
+        }
+        data.add("EDIT");
+        data.add("DELETE");
         return data;
     }
 
