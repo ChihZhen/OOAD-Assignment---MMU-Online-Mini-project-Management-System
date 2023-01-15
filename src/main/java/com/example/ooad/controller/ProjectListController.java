@@ -3,12 +3,13 @@ package com.example.ooad.controller;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
-import org.springframework.expression.spel.ast.Assign;
 import org.springframework.stereotype.Controller;
 
 import com.example.ooad.model.ProjectModel;
+import com.example.ooad.OoadApplication;
 import com.example.ooad.model.ProjectListModel;
 import com.example.ooad.repository.ProjectRepository;
 import com.example.ooad.view.ProjectListView;
@@ -18,44 +19,40 @@ import java.awt.event.*;
 
 @Controller
 public class ProjectListController {
-    private ProjectListView projectView;
+    private ProjectListView projectListView;
     private ProjectListModel projectTableModel;
     private ProjectRepository projectRepository;
     private ProjectController projectController;
     private AssignStudentController assignStudentController;
-    // private ProjectDetailController projectDetailController;
 
-    // public ProjectController() {
-    // }
-
-    public ProjectListController(ProjectListView projectView, ProjectListModel projectTableModel,
+    public ProjectListController(ProjectListView projectListView, ProjectListModel projectTableModel,
             ProjectRepository projectRepository, ProjectController projectController,
             AssignStudentController assignStudentController) {
-        this.projectView = projectView;
+        this.projectListView = projectListView;
         this.projectTableModel = projectTableModel;
         this.projectRepository = projectRepository;
         this.projectController = projectController;
         this.assignStudentController = assignStudentController;
-        // this.projectDetailController = projectDetailController;
 
         init();
-        projectView.setVisible(true);
+        projectListView.setVisible(true);
 
     }
 
     public void loadData() {
         List<ProjectModel> projects = projectRepository.findAll();
         projectTableModel.setProjects(projects);
+        // projectView.addClickButtonListener(new ClickAddProjectButtonListener());
     }
 
     public void init() {
-        projectView.addClickRowListener(new ClickRowListener());
-        projectView.addClickTableButtonListener(new ClickTableButtonListener());
-        projectView.addClickButtonListener(new ClickAddProjectButtonListener());
+        projectListView.addClickRowListener(new ClickRowListener());
+        projectListView.addClickTableButtonListener(new ClickTableButtonListener());
+        projectListView.addClickButtonListener(new ClickAddProjectButtonListener());
+        loadData();
 
         // loadData();
-        projectView.setVisible(true);
-        loadData();
+        projectListView.setVisible(true);
         // projectView.setVisible(true);
     }
 
@@ -97,13 +94,21 @@ public class ProjectListController {
             System.out.println(row + " " + column);
 
             if (column == 4) {
-                String specialization = projectTableModel.getProject(row).getSpecialization();
-                assignStudentController.show(specialization);
+                // String specialization =
+                // projectTableModel.getProject(row).getSpecialization();
+                assignStudentController.show(projectTableModel.getProject(row));
 
             } else if (column == 5) {
                 projectController.showEditProject(row);
             } else if (column == 6) {
-
+                JFrame jf = new JFrame();
+                int result = JOptionPane.showConfirmDialog(jf, "Are you want to delete proejct?", "Delete Project",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (result == JOptionPane.YES_OPTION) {
+                    projectRepository.delete(projectTableModel.getProject(row));
+                    loadData();
+                }
             }
 
         }
@@ -116,6 +121,16 @@ public class ProjectListController {
             // TODO Auto-generated method stub
             projectController.showAddProject();
             // projectView.setEnabled(false);
+        }
+    }
+
+    private class ClickLogoutButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO Auto-generated method stub
+            OoadApplication.setLoginUser(null);
+
         }
     }
 

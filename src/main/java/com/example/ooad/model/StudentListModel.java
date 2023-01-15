@@ -16,7 +16,7 @@ public class StudentListModel extends Observable {
     public StudentListModel() {
     }
 
-    public StudentModel getProjectModel(int index) {
+    public StudentModel getStudent(int index) {
         return students.get(index);
     }
 
@@ -28,9 +28,9 @@ public class StudentListModel extends Observable {
         return students;
     }
 
-    public void setStudents(List<StudentModel> Students) {
-        this.students = students;
-    }
+    // public void setStudents(List<StudentModel> Students) {
+    // this.students = students;
+    // }
 
     Vector<String> header = new Vector<String>() {
         {
@@ -46,6 +46,16 @@ public class StudentListModel extends Observable {
 
     public void setTableModel(DefaultTableModel tableModel) {
         this.tableModel = tableModel;
+    }
+
+    public void setStudents(List<StudentModel> students) {
+        this.students = students;
+        Vector<Vector<String>> data = new Vector<Vector<String>>();
+        for (StudentModel student : students) {
+            data.add(student.toVector());
+        }
+        tableModel.setDataVector(data, header);
+        notifyObservers();
     }
 
     public void setData(List<StudentModel> students) {

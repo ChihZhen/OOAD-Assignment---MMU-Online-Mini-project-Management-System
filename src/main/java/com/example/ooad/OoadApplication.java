@@ -6,7 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import com.example.ooad.controller.CreateUserController;
 import com.example.ooad.controller.LoginController;
 import com.example.ooad.model.UserModel;
-import com.example.ooad.repository.StudentRepository;
+// import com.example.ooad.repository.StudentRepository;
 
 import java.awt.*;
 

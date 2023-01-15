@@ -119,4 +119,8 @@ public class AssignStudentView extends JDialog implements Observer {
     public void addClickSelectButtonListener(ActionListener listener) {
         selectButton.addActionListener(listener);
     }
+
+    public int getSelectedRow() {
+        return studentTable.getSelectedRow();
+    }
 }

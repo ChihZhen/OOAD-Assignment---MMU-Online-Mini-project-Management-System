@@ -16,11 +16,12 @@ import java.awt.event.*;
 @Component
 public class ProjectListView extends JFrame implements Observer {
     private ProjectListModel projectListModel;
+    private JButton logoutButton;
     private JTable projectTable;
     private JButton addProjectButton;
     private TableButton assignButtons = new TableButton(new Color(23, 121, 233));
     private TableButton editButtons = new TableButton(new Color(241, 143, 5));
-    private TableButton deleteButtons = new TableButton(new Color(241, 95, 95));;
+    private TableButton deleteButtons = new TableButton(new Color(241, 95, 95));
 
     public ProjectListView(ProjectListModel projectListModel) {
         this.projectListModel = projectListModel;
@@ -38,6 +39,11 @@ public class ProjectListView extends JFrame implements Observer {
         // add(this, welcomeLabel, 0, 0, 2, 1, 0, 0, 25, 0,
         // GridBagConstraints.LINE_START);
         this.add(welcomeLabel, gridCtr.getConstraint());
+
+        logoutButton = new JButton("Logout");
+        GridBagAdder gridCtr1 = new GridBagAdder.GridBagAdderBuilder().setX(1)
+                .anchor(GridBagConstraints.BASELINE_TRAILING).build();
+        this.add(logoutButton, gridCtr1.getConstraint());
 
         JLabel projectLabel = new JLabel("Project");
         // add(this, projectLabel, 0, 1, 2, 1, 0, 0, 25, 0);
@@ -92,14 +98,20 @@ public class ProjectListView extends JFrame implements Observer {
         System.out.println("update");
 
         if (projectListModel.getTableModel().getRowCount() > 0) {
+            for (int i = 0; i < projectListModel.getTableModel().getRowCount(); i++) {
+                assignButtons.setButtonText(i, projectListModel.getTableModel().getValueAt(i,
+                        4).toString());
+            }
             TableColumn assignColumn = projectTable.getColumnModel().getColumn(4);
             assignColumn.setCellRenderer(assignButtons);
             assignColumn.setCellEditor(assignButtons);
 
+            // editButtons = new TableButton(new Color(241, 143, 5));
             TableColumn editColumn = projectTable.getColumnModel().getColumn(5);
             editColumn.setCellRenderer(editButtons);
             editColumn.setCellEditor(editButtons);
 
+            // deleteButtons = new TableButton(new Color(241, 95, 95));
             TableColumn deleteColumn = projectTable.getColumnModel().getColumn(6);
             deleteColumn.setCellRenderer(deleteButtons);
             deleteColumn.setCellEditor(deleteButtons);
