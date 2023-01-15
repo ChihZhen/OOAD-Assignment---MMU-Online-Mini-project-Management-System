@@ -117,6 +117,17 @@ public class ProjectModel extends Observable {
         return data;
     }
 
+    public Vector<String> getStudentVector() {
+        Vector<String> data = new Vector<>();
+        if (this.id == null) {
+            return data;
+        }
+        data.add(this.title);
+        data.add(this.specialization);
+        data.add(this.description);
+        return data;
+    }
+
     public boolean isValid() {
         return !(title.isBlank() | description.isBlank());
     }
@@ -130,6 +141,7 @@ public class ProjectModel extends Observable {
         this.student = project.getStudent();
         this.creator = project.getCreator();
         this.comments = project.getComments();
+        System.out.println("title-------------->" + this.title);
         notifyObservers();
     }
 
