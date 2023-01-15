@@ -75,7 +75,7 @@ public class AdminProjectListView extends JFrame implements Observer {
         GridBagAdder gridCtr_4 = new GridBagAdder.GridBagAdderBuilder().setY(3).width(2)
                 .build();
         this.add(tableContainer, gridCtr_4.getConstraint());
-        this.setVisible(true);
+        // this.setVisible(true);
 
     }
 
