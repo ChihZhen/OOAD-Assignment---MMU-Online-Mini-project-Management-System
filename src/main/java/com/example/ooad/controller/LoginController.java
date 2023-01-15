@@ -61,6 +61,7 @@ public class LoginController {
                     JOptionPane.showMessageDialog(jf, "Account not found", "Login Failed", 2, null);
                     // System.out.println("Account not found");
                 } else if (loginModel.checkPassword(user.getPassword())) {
+                    System.out.println(((StudentModel) user).getSpecialization());
                     loginView.setVisible(false);
                     if (user.getRole().equals("admin")) {
 

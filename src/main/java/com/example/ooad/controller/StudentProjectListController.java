@@ -39,10 +39,10 @@ public class StudentProjectListController {
     List<ProjectModel> projects = projectRepository.findBySpecializationAndStatus("Software Engineer",
         "Active");
 
-    ProjectModel project = projectRepository.findByStudentId(Long.valueOf(103));
-    System.out.println("Project ---------------->" + project.getTitle());
-    projectTableModel.setProjects(projects);
-    projectModel.set(project);
+    // ProjectModel project = projectRepository.findByStudentId(Long.valueOf(103));
+    // System.out.println("Project ---------------->" + project.getTitle());
+    // projectTableModel.setProjects(projects);
+    // projectModel.set(project);
   }
 
   public void init() {

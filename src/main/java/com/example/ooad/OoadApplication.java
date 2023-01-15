@@ -7,6 +7,7 @@ import com.example.ooad.controller.CreateUserController;
 import com.example.ooad.controller.LoginController;
 import com.example.ooad.model.UserModel;
 // import com.example.ooad.repository.StudentRepository;
+import com.example.ooad.repository.StudentRepository;
 
 import java.awt.*;
 
@@ -16,7 +17,7 @@ public class OoadApplication {
 	private static UserModel loginUser;
 
 	public OoadApplication(LoginController loginController, CreateUserController createUserController) {
-		// loginController.show();
+		loginController.show();
 		// createUserController.show();
 
 	}
@@ -45,10 +46,14 @@ public class OoadApplication {
 	}
 
 	public static UserModel getLoginUser() {
+		// if ( loginUser.getRole())
 		return loginUser;
 	}
 
 	public static void setLoginUser(UserModel user) {
 		loginUser = user;
+		if (loginUser.getRole().equals("Student")) {
+			// loginUser =
+		}
 	}
 }
