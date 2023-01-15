@@ -82,26 +82,33 @@ public class UserModel extends Observable {
 
     public void generateRandomPassword() {
         // return "123456";
-        String Capital_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // String Capital_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String Small_chars = "abcdefghijklmnopqrstuvwxyz";
         String numbers = "0123456789";
-        String symbols = "!@#$%^&*_=+-/.?<>)";
+        // String symbols = "!@#$%^&*_=+-/.?<>)";
 
-        String values = Capital_chars + Small_chars +
-                numbers + symbols;
+        // String values = Capital_chars + Small_chars +
+        // numbers + symbols;
+
+        String values = Small_chars + numbers;
 
         // Using random method
         Random rndm_method = new Random();
 
         char[] password = new char[6];
+        System.out.println(password.toString());
 
         for (int i = 0; i < 6; i++) {
+            System.out.println(password.toString());
+
             // Use of charAt() method : to get character value
             // Use of nextInt() as it is scanning the value as int
             password[i] = values.charAt(rndm_method.nextInt(values.length()));
 
         }
-        this.password = password.toString();
+        System.out.println(password.toString());
+
+        this.password = new String(password);
         // return password;
     }
 }

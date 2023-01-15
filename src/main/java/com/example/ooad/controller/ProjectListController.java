@@ -48,6 +48,8 @@ public class ProjectListController {
     }
 
     public void init() {
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        loadData();
         projectListView.addClickRowListener(new ClickRowListener());
         projectListView.addClickTableButtonListener(new ClickTableButtonListener());
         projectListView.addClickButtonListener(new ClickAddProjectButtonListener());

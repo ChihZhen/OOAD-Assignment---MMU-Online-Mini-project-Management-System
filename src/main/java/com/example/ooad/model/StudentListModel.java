@@ -20,7 +20,7 @@ public class StudentListModel extends Observable {
         return students.get(index);
     }
 
-    public void addProject(StudentModel studentModel) {
+    public void addStudent(StudentModel studentModel) {
         students.add(studentModel);
     }
 

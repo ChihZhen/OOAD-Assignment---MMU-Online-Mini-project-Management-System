@@ -1,7 +1,7 @@
-package com.example.ooad.controller;
+// package com.example.ooad.controller;
 
-public interface IController {
-    public void show();
+// public interface IController {
+// public void show();
 
-    public void hide();
-}
+// public void hide();
+// }
