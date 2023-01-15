@@ -117,7 +117,7 @@ public class AdminAddProjectView extends JDialog implements Observer {
         GridBagAdder gridCtr_9 = new GridBagAdder.GridBagAdderBuilder().setX(1).setY(5).marginT(30)
                 .anchor(GridBagConstraints.LINE_END).build();
         this.add(submitButton, gridCtr_9.getConstraint());
-        this.setVisible(true);
+        // this.setVisible(true);
     }
 
     // public static void main(String[] args) {

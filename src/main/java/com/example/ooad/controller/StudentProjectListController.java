@@ -59,7 +59,7 @@ public class StudentProjectListController {
   public void init() {
     studentProjectListView.addClickRowListener(new ClickRowListener());
     ;
-    // loadData();
+    // loadData();az
     // studentProjectListView.setVisible(true);
   }
 

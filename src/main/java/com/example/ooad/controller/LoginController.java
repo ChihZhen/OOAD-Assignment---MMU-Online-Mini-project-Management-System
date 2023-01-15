@@ -24,16 +24,19 @@ public class LoginController {
     private UserRepository userRepository;
     private StudentRepository studentRepository;
     private StudentProjectListController studentProjectListController;
+    private ProjectListController projectListController;
     private OoadApplication ooadApplication;
 
     @Autowired
     public LoginController(LoginView loginView, UserRepository userRepository, StudentRepository studentRepository,
-            StudentProjectListController studentProjectListController, @Lazy OoadApplication ooadApplication) {
+            StudentProjectListController studentProjectListController, @Lazy OoadApplication ooadApplication,
+            ProjectListController projectListController) {
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.loginView = loginView;
         this.studentProjectListController = studentProjectListController;
         this.ooadApplication = ooadApplication;
+        this.projectListController = projectListController;
         // this.loginModel = loginView.getLoginModel();
         init();
     }
@@ -74,7 +77,7 @@ public class LoginController {
                     if (user.getRole().equals("Admin")) {
 
                     } else if (user.getRole().equals("Lecturer")) {
-
+                        projectListController.show();
                     } else if (user.getRole().equals("Student")) {
                         studentProjectListController.show();
                     }

@@ -113,7 +113,7 @@ public class LoginView extends JFrame {
         this.setMinimumSize(new Dimension(1440, 900));
 
         this.add(container);
-        this.setVisible(true);
+        // this.setVisible(true);
     }
 
     // public static void main(String[] args) {

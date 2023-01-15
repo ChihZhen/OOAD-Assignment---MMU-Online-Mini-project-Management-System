@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import org.springframework.stereotype.Controller;
 
 import com.example.ooad.model.ProjectModel;
+import com.example.ooad.model.UserModel;
 import com.example.ooad.OoadApplication;
 import com.example.ooad.model.ProjectListModel;
 import com.example.ooad.repository.ProjectRepository;
@@ -35,7 +36,6 @@ public class ProjectListController {
         this.projectController = projectController;
         this.assignStudentController = assignStudentController;
         this.ooadApplication = ooadApplication;
-
         init();
         // projectListView.setVisible(true);
 
@@ -58,6 +58,12 @@ public class ProjectListController {
         // loadData();
         // projectListView.setVisible(true);
         // projectView.setVisible(true);
+    }
+
+    public void show() {
+        // this.lecturer = OoadApplication.getLoginUser();
+        loadData();
+        projectListView.setVisible(true);
     }
 
     private class ClickRowListener implements MouseListener {
