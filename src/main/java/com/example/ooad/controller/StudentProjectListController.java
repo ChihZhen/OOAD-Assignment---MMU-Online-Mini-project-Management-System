@@ -8,7 +8,6 @@ import com.example.ooad.view.ProjectView;
 import com.example.ooad.view.StudentProjectListView;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.model.StudentModel;
-import com.example.ooad.model.User;
 
 import java.awt.event.*;
 import java.util.List;
