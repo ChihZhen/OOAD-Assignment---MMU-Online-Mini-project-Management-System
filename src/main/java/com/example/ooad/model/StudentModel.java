@@ -34,6 +34,10 @@ public class StudentModel extends UserModel {
         this.specialization = specialization;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
     public String getSpecialization() {
         return this.specialization;
     }

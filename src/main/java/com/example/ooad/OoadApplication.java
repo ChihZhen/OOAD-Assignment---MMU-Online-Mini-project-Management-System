@@ -1,5 +1,6 @@
 package com.example.ooad;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
@@ -13,9 +14,10 @@ import java.awt.*;
 @SpringBootApplication
 public class OoadApplication {
 
+	@Autowired(required = false)
 	private static UserModel loginUser;
 
-	public OoadApplication(LoginController loginController, CreateUserController createUserController) {
+	public OoadApplication(CreateUserController createUserController) {
 		// loginController.show();
 		// createUserController.show();
 
@@ -45,10 +47,17 @@ public class OoadApplication {
 	}
 
 	public static UserModel getLoginUser() {
+		// if (this.loginUser != null) {
+		// System.out.println("login user function-------------->" +
+		// loginUser.getFullName());
+		// }
+
 		return loginUser;
 	}
 
 	public static void setLoginUser(UserModel user) {
+		System.out.println("user--------------->" + user.getFullName());
 		loginUser = user;
+		// System.out.println("login user-------------->" + this.loginUser);
 	}
 }

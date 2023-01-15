@@ -12,6 +12,7 @@ import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Vector;
 
 @Component
 public class ProjectListView extends JFrame implements Observer {
@@ -22,6 +23,19 @@ public class ProjectListView extends JFrame implements Observer {
     private TableButton assignButtons = new TableButton(new Color(23, 121, 233));
     private TableButton editButtons = new TableButton(new Color(241, 143, 5));
     private TableButton deleteButtons = new TableButton(new Color(241, 95, 95));
+
+    private Vector<String> header = new Vector<String>() {
+        {
+            add("ID");
+            add("Title");
+            add("Specialization");
+            add("Status");
+            add("Student");
+            add("");
+            add("");
+
+        }
+    };
 
     public ProjectListView(ProjectListModel projectListModel) {
         this.projectListModel = projectListModel;
@@ -55,16 +69,16 @@ public class ProjectListView extends JFrame implements Observer {
                 .anchor(GridBagConstraints.BASELINE_TRAILING).build();
         this.add(addProjectButton, gridCtr_3.getConstraint());
 
-        String[][] data = {
-                { "OS", "Computer Science", "Q1", "ASSIGN", "EDIT", "DELETE" },
-                { "OOAD", "Data Science", "Q2", "ASSIGN", "EDIT", "DELETE" }
-        };
+        // String[][] data = {
+        // { "OS", "Computer Science", "Q1", "ASSIGN", "EDIT", "DELETE" },
+        // { "OOAD", "Data Science", "Q2", "ASSIGN", "EDIT", "DELETE" }
+        // };
 
-        // Column Names
-        String[] header = { "Title", "Specialization", "Created By", "", "", "" };
+        // // Column Names
+        // String[] header = { "Title", "Specialization", "Created By", "", "", "" };
 
-        // JTable projectTable = new JTable(data, header);
-        projectTable = new JTable(this.projectListModel.getTableModel());
+        // // JTable projectTable = new JTable(data, header);
+        projectTable = new JTable();
         projectTable.setEnabled(false);
         projectTable.getTableHeader().setReorderingAllowed(false);
 
@@ -96,12 +110,13 @@ public class ProjectListView extends JFrame implements Observer {
     }
 
     public void update() {
-        System.out.println(projectListModel.getTableModel().getRowCount());
+        projectTable.setModel(new DefaultTableModel(projectListModel.getLecturerData(), header));
+        // System.out.println(projectListModel.getTableModel().getRowCount());
         System.out.println("update");
 
-        if (projectListModel.getTableModel().getRowCount() > 0) {
-            for (int i = 0; i < projectListModel.getTableModel().getRowCount(); i++) {
-                assignButtons.setButtonText(i, projectListModel.getTableModel().getValueAt(i,
+        if (projectListModel.getProjects().size() > 0) {
+            for (int i = 0; i < projectListModel.getProjects().size(); i++) {
+                assignButtons.setButtonText(i, projectTable.getModel().getValueAt(i,
                         4).toString());
             }
             TableColumn assignColumn = projectTable.getColumnModel().getColumn(4);

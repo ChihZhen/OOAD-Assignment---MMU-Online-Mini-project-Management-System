@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.example.ooad.OoadApplication;
@@ -14,30 +15,10 @@ import com.example.ooad.OoadApplication;
 public class ProjectListModel extends Observable {
 
     private List<ProjectModel> projects = new ArrayList<ProjectModel>();
-    private static DefaultTableModel tableModel = new DefaultTableModel();
-    private UserModel authUser = OoadApplication.getLoginUser();
-
-    public Vector<String> getHeader() {
-        Vector<String> header = new Vector<>();
-        header.add("Id");
-        header.add("Title");
-        header.add("Specialization");
-        // if (authUser.getRole() == "Lecturer") {
-        // header.add("Status");
-        // header.add("Student");
-        // header.add("Action");
-        // header.add("");
-        // return header;
-        // }
-        header.add("Status");
-        header.add("Student");
-        header.add("Action");
-        header.add("");
-        return header;
-    };
-
-    public ProjectListModel() {
-    }
+    private static DefaultTableModel lecturertableModel = new DefaultTableModel();
+    // private static DefaultTableModel studentTableModel = new DefaultTableModel();
+    private OoadApplication ooadApplication;
+    private UserModel authUser;
 
     public ProjectModel getProject(int index) {
         return projects.get(index);
@@ -49,15 +30,22 @@ public class ProjectListModel extends Observable {
 
     public void setProjects(List<ProjectModel> projects) {
         this.projects = projects;
+        notifyObservers();
+    }
+
+    public Vector<Vector<String>> getLecturerData() {
         Vector<Vector<String>> data = new Vector<Vector<String>>();
         for (ProjectModel project : projects) {
             data.add(project.getLecturerVector());
         }
-        tableModel.setDataVector(data, getHeader());
-        notifyObservers();
+        return data;
     }
 
-    public DefaultTableModel getTableModel() {
-        return this.tableModel;
+    public Vector<Vector<String>> getStudentData() {
+        Vector<Vector<String>> data = new Vector<Vector<String>>();
+        for (ProjectModel project : projects) {
+            data.add(project.getStudentVector());
+        }
+        return data;
     }
 }

@@ -1,10 +1,15 @@
 package com.example.ooad.view;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import org.springframework.stereotype.Component;
 
+import com.example.ooad.OoadApplication;
 import com.example.ooad.model.ProjectListModel;
 import com.example.ooad.model.ProjectModel;
+import com.example.ooad.model.StudentModel;
+import com.example.ooad.model.UserModel;
 import com.example.ooad.utils.GridBagAdder;
 
 import java.awt.*;
@@ -19,7 +24,18 @@ public class StudentProjectListView extends JFrame implements Observer {
   JPanel panel = new JPanel();
   JLabel l = new JLabel("You are not assigned with any project yet.");
 
-  public StudentProjectListView(ProjectListModel projectListModel, ProjectModel projectModel) {
+  private Vector<String> header = new Vector<String>() {
+    {
+      add("ID");
+      add("Title");
+      add("Specialization");
+      add("Assignor");
+      add("Description");
+
+    }
+  };
+
+  public StudentProjectListView(ProjectListModel projectListModel, ProjectModel projectModel, StudentModel student) {
     this.projectListModel = projectListModel;
     this.projectModel = projectModel;
     this.projectModel.registerObserver(this);
@@ -31,7 +47,7 @@ public class StudentProjectListView extends JFrame implements Observer {
     this.setPreferredSize(new Dimension(1440, 900));
     this.setMinimumSize(new Dimension(1440, 900));
 
-    JLabel welcomeLabel = new JLabel("Welcome Back Student");
+    JLabel welcomeLabel = new JLabel("Welcome Back Student ");
     GridBagAdder gridCtr = new GridBagAdder.GridBagAdderBuilder().width(2).marginB(25)
         .anchor(GridBagConstraints.LINE_START).build();
     this.add(welcomeLabel, gridCtr.getConstraint());
@@ -40,7 +56,9 @@ public class StudentProjectListView extends JFrame implements Observer {
     GridBagAdder gridCtr_2 = new GridBagAdder.GridBagAdderBuilder().setY(1).width(2).marginB(25).build();
     this.add(projectLabel, gridCtr_2.getConstraint());
 
-    projectTable = new JTable(this.projectListModel.getTableModel());
+    projectTable = new JTable();
+    projectTable.setEnabled(false);
+    projectTable.getTableHeader().setReorderingAllowed(false);
     JScrollPane tableContainer = new JScrollPane(projectTable);
     tableContainer.setPreferredSize(new Dimension(896, 432));
     tableContainer.setMinimumSize(new Dimension(896, 432));
@@ -63,7 +81,8 @@ public class StudentProjectListView extends JFrame implements Observer {
   }
 
   public void update() {
-
+    System.out.println("Project-------------->" + projectModel.getId());
+    projectTable.setModel(new DefaultTableModel(projectListModel.getStudentData(), header));
     if (projectModel.getId() == null) {
       panel.add(l);
       return;

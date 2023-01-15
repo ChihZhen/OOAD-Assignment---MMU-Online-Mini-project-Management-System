@@ -125,7 +125,7 @@ public class CreateUserView extends JDialog {
 
         submitButton = new JButton("Submit");
         add(this, submitButton, 1, 4, 1, 1, 30, 0, 0, 0, GridBagConstraints.LINE_END);
-        this.setVisible(true);
+        // this.setVisible(true);
     }
 
     public static void main(String[] args) {
