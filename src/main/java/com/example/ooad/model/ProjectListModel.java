@@ -20,8 +20,8 @@ public class ProjectListModel extends Observable {
     public Vector<String> getHeader() {
         Vector<String> header = new Vector<>();
         header.add("Id");
-        header.add("Specialization");
         header.add("Title");
+        header.add("Specialization");
         // if (authUser.getRole() == "Lecturer") {
         // header.add("Status");
         // header.add("Student");
@@ -32,7 +32,6 @@ public class ProjectListModel extends Observable {
         header.add("Status");
         header.add("Student");
         header.add("Action");
-        header.add("");
         header.add("");
         return header;
     };
