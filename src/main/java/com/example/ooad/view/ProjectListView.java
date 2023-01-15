@@ -59,6 +59,8 @@ public class ProjectListView extends JFrame implements Observer {
 
         // JTable projectTable = new JTable(data, header);
         projectTable = new JTable(this.projectListModel.getTableModel());
+        projectTable.setEnabled(false);
+        projectTable.getTableHeader().setReorderingAllowed(false);
 
         System.out.println(projectTable.getModel().getRowCount());
 

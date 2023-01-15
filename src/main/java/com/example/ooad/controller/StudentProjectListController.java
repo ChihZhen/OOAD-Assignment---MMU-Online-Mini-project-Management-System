@@ -11,18 +11,23 @@ import com.example.ooad.model.StudentModel;
 
 import java.awt.event.*;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class StudentProjectListController {
   private StudentProjectListView studentProjectListView;
   private ProjectListModel projectTableModel;
+  private ProjectModel projectModel;
   private ProjectRepository projectRepository;
 
   public StudentProjectListController(StudentProjectListView studentProjectListView, ProjectListModel projectTableModel,
+      ProjectModel projectModel,
       ProjectRepository projectRepository) {
     this.studentProjectListView = studentProjectListView;
     this.projectTableModel = projectTableModel;
+    this.projectModel = projectModel;
     this.projectRepository = projectRepository;
 
     init();
@@ -31,9 +36,13 @@ public class StudentProjectListController {
   }
 
   public void loadData() {
-    List<ProjectModel> project = projectRepository.findBySpecializationAndStatus("Software Engineer",
+    List<ProjectModel> projects = projectRepository.findBySpecializationAndStatus("Software Engineer",
         "Active");
-    projectTableModel.setProjects(project);
+
+    ProjectModel project = projectRepository.findByStudentId(Long.valueOf(103));
+    System.out.println("Project ---------------->" + project.getTitle());
+    projectTableModel.setProjects(projects);
+    projectModel.set(project);
   }
 
   public void init() {
