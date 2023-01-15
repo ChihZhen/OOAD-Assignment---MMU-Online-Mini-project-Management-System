@@ -47,8 +47,6 @@ public class ProjectListView extends JFrame implements Observer {
         addProjectButton = new JButton("Add Project");
         GridBagAdder gridCtr_3 = new GridBagAdder.GridBagAdderBuilder().setX(1).setY(2).marginB(25)
                 .anchor(GridBagConstraints.BASELINE_TRAILING).build();
-        // add(this, addProjectButton, 1, 2, 1, 1, 0, 0, 25, 0,
-        // GridBagConstraints.BASELINE_TRAILING);
         this.add(addProjectButton, gridCtr_3.getConstraint());
 
         String[][] data = {
@@ -69,9 +67,8 @@ public class ProjectListView extends JFrame implements Observer {
         tableContainer.setMinimumSize(new Dimension(896, 432));
         tableContainer.setMaximumSize(new Dimension(896, 432));
         // tableContainer.add(projectTable);
-        GridBagAdder gridCtr_4 = new GridBagAdder.GridBagAdderBuilder().setY(3).width(1).build();
+        GridBagAdder gridCtr_4 = new GridBagAdder.GridBagAdderBuilder().setY(3).width(2).build();
         this.add(tableContainer, gridCtr_4.getConstraint());
-        // add(this, tableContainer, 0, 3, 2, 1);
         // this.setVisible(true);
 
     }

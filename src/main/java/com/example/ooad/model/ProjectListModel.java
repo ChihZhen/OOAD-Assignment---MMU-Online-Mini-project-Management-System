@@ -15,20 +15,24 @@ public class ProjectListModel extends Observable {
 
     private List<ProjectModel> projects = new ArrayList<ProjectModel>();
     private static DefaultTableModel tableModel = new DefaultTableModel();
-    private User authUser = OoadApplication.getLoginUser();
+    private UserModel authUser = OoadApplication.getLoginUser();
 
     public Vector<String> getHeader() {
         Vector<String> header = new Vector<>();
         header.add("Id");
         header.add("Specialization");
-        if (authUser.getRole() == "Lecturer") {
-            header.add("Status");
-            header.add("Student");
-            header.add("Action");
-            header.add("");
-            return header;
-        }
-        header.add("Description");
+        header.add("Title");
+        // if (authUser.getRole() == "Lecturer") {
+        // header.add("Status");
+        // header.add("Student");
+        // header.add("Action");
+        // header.add("");
+        // return header;
+        // }
+        header.add("Status");
+        header.add("Student");
+        header.add("Action");
+        header.add("");
         header.add("");
         return header;
     };
