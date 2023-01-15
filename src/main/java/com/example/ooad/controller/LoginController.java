@@ -1,9 +1,11 @@
 package com.example.ooad.controller;
 
+import com.example.ooad.OoadApplication;
 import com.example.ooad.model.*;
 import com.example.ooad.repository.StudentRepository;
 import com.example.ooad.repository.UserRepository;
 import com.example.ooad.view.LoginView;
+import com.example.ooad.view.StudentProjectListView;
 
 import java.awt.event.*;
 
@@ -11,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -20,12 +23,17 @@ public class LoginController {
     private LoginModel loginModel;
     private UserRepository userRepository;
     private StudentRepository studentRepository;
+    private StudentProjectListController studentProjectListController;
+    private OoadApplication ooadApplication;
 
     @Autowired
-    public LoginController(LoginView loginView, UserRepository userRepository, StudentRepository studentRepository) {
+    public LoginController(LoginView loginView, UserRepository userRepository, StudentRepository studentRepository,
+            StudentProjectListController studentProjectListController, @Lazy OoadApplication ooadApplication) {
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.loginView = loginView;
+        this.studentProjectListController = studentProjectListController;
+        this.ooadApplication = ooadApplication;
         // this.loginModel = loginView.getLoginModel();
         init();
     }
@@ -61,14 +69,14 @@ public class LoginController {
                     JOptionPane.showMessageDialog(jf, "Account not found", "Login Failed", 2, null);
                     // System.out.println("Account not found");
                 } else if (loginModel.checkPassword(user.getPassword())) {
-                    System.out.println(((StudentModel) user).getSpecialization());
+                    ooadApplication.setLoginUser(user);
                     loginView.setVisible(false);
-                    if (user.getRole().equals("admin")) {
+                    if (user.getRole().equals("Admin")) {
 
-                    } else if (user.getRole().equals("lecturer")) {
+                    } else if (user.getRole().equals("Lecturer")) {
 
-                    } else if (user.getRole().equals("student")) {
-
+                    } else if (user.getRole().equals("Student")) {
+                        studentProjectListController.show();
                     }
                 } else {
                     JFrame jf = new JFrame();

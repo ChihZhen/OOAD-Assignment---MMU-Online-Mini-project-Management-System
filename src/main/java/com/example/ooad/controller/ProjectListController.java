@@ -23,19 +23,21 @@ public class ProjectListController {
     private ProjectListModel projectTableModel;
     private ProjectRepository projectRepository;
     private ProjectController projectController;
+    private OoadApplication ooadApplication;
     private AssignStudentController assignStudentController;
 
     public ProjectListController(ProjectListView projectListView, ProjectListModel projectTableModel,
             ProjectRepository projectRepository, ProjectController projectController,
-            AssignStudentController assignStudentController) {
+            AssignStudentController assignStudentController, OoadApplication ooadApplication) {
         this.projectListView = projectListView;
         this.projectTableModel = projectTableModel;
         this.projectRepository = projectRepository;
         this.projectController = projectController;
         this.assignStudentController = assignStudentController;
+        this.ooadApplication = ooadApplication;
 
         init();
-        projectListView.setVisible(true);
+        // projectListView.setVisible(true);
 
     }
 
@@ -51,9 +53,10 @@ public class ProjectListController {
         projectListView.addClickRowListener(new ClickRowListener());
         projectListView.addClickTableButtonListener(new ClickTableButtonListener());
         projectListView.addClickButtonListener(new ClickAddProjectButtonListener());
+        // loadData();
 
         // loadData();
-        projectListView.setVisible(true);
+        // projectListView.setVisible(true);
         // projectView.setVisible(true);
     }
 
@@ -130,7 +133,7 @@ public class ProjectListController {
         @Override
         public void actionPerformed(ActionEvent e) {
             // TODO Auto-generated method stub
-            OoadApplication.setLoginUser(null);
+            ooadApplication.setLoginUser(null);
 
         }
     }

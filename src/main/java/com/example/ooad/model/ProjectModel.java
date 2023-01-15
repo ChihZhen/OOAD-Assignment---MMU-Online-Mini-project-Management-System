@@ -122,8 +122,10 @@ public class ProjectModel extends Observable {
         if (this.id == null) {
             return data;
         }
+        data.add(this.id.toString());
         data.add(this.title);
         data.add(this.specialization);
+        data.add(this.creator.getFullName());
         data.add(this.description);
         return data;
     }
@@ -133,15 +135,17 @@ public class ProjectModel extends Observable {
     }
 
     public void set(ProjectModel project) {
-        this.id = project.getId();
-        this.title = project.getTitle();
-        this.description = project.getDescription();
-        this.status = project.getStatus();
-        this.specialization = project.getSpecialization();
-        this.student = project.getStudent();
-        this.creator = project.getCreator();
-        this.comments = project.getComments();
-        System.out.println("title-------------->" + this.title);
+        if (project != null) {
+            this.id = project.getId();
+            this.title = project.getTitle();
+            this.description = project.getDescription();
+            this.status = project.getStatus();
+            this.specialization = project.getSpecialization();
+            this.student = project.getStudent();
+            this.creator = project.getCreator();
+            this.comments = project.getComments();
+        }
+
         notifyObservers();
     }
 

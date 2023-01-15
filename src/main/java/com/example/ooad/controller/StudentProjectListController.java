@@ -8,11 +8,13 @@ import com.example.ooad.view.ProjectView;
 import com.example.ooad.view.StudentProjectListView;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.model.StudentModel;
+import com.example.ooad.model.UserModel;
 
 import java.awt.event.*;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -21,33 +23,48 @@ public class StudentProjectListController {
   private ProjectListModel projectTableModel;
   private ProjectModel projectModel;
   private ProjectRepository projectRepository;
+  private OoadApplication ooadApplication;
+  private StudentModel student;
 
   public StudentProjectListController(StudentProjectListView studentProjectListView, ProjectListModel projectTableModel,
       ProjectModel projectModel,
-      ProjectRepository projectRepository) {
+      ProjectRepository projectRepository, @Lazy OoadApplication ooadApplication, StudentModel student) {
     this.studentProjectListView = studentProjectListView;
     this.projectTableModel = projectTableModel;
     this.projectModel = projectModel;
     this.projectRepository = projectRepository;
+    this.ooadApplication = ooadApplication;
+    this.student = student;
 
     init();
-    studentProjectListView.setVisible(true);
+    // studentProjectListView.setVisible(true);
 
   }
 
   public void loadData() {
-    List<ProjectModel> projects = projectRepository.findBySpecializationAndStatus("Software Engineer",
+    this.student = (StudentModel) OoadApplication.getLoginUser();
+    List<ProjectModel> projects = projectRepository.findBySpecializationAndStatus(student.getSpecialization(),
         "Active");
+    if (student != null) {
+      System.out.println("special-------------------------->" +
+          student.getId());
+    }
 
-    // ProjectModel project = projectRepository.findByStudentId(Long.valueOf(103));
-    // System.out.println("Project ---------------->" + project.getTitle());
-    // projectTableModel.setProjects(projects);
-    // projectModel.set(project);
+    ProjectModel project = projectRepository.findByStudentId(student.getId());
+
+    projectTableModel.setProjects(projects);
+    projectModel.set(project);
   }
 
   public void init() {
     studentProjectListView.addClickRowListener(new ClickRowListener());
+    ;
+    // loadData();
+    // studentProjectListView.setVisible(true);
+  }
 
+  public void show() {
+    this.student = (StudentModel) OoadApplication.getLoginUser();
     loadData();
     studentProjectListView.setVisible(true);
   }

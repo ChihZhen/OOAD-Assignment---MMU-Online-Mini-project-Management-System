@@ -59,7 +59,7 @@ public class CreateUserController {
     private void init() {
         createUserView.addClickSubmitListener(new ClickSubmitButtonListener());
         // show();
-        createUserView.setVisible(true);
+        // createUserView.setVisible(true);
         // createUserView.setModal(true);
     }
 
