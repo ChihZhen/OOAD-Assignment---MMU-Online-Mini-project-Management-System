@@ -100,9 +100,9 @@ public class ProjectListModel extends Observable {
     public void setReportByLecturer(String name) {
         String data = new String();
         for (ProjectModel project : projects) {
-            System.out.print(Objects.isNull(project.getCreator()));
-            if (!Objects.isNull(project.getCreator())) {
-                if (project.getCreator().getFullName().equals(name)) {
+            System.out.print(Objects.isNull(project.getLecturer()));
+            if (!Objects.isNull(project.getLecturer())) {
+                if (project.getLecturer().getFullName().equals(name)) {
                     data += project.toReportStr();
                     data += "\n";
                 }
@@ -159,6 +159,11 @@ public class ProjectListModel extends Observable {
             data += "\n";
         }
         reportData = data;
+        notifyObservers();
+    }
+
+    public void resetReport() {
+        reportData = "";
         notifyObservers();
     }
 

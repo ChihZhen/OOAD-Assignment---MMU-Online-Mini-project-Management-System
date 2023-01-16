@@ -12,4 +12,6 @@ public interface ProjectRepository extends JpaRepository<ProjectModel, Long> {
 
   public ProjectModel findByStudentId(Long id);
 
+  // public List<ProjectModel> findByCreator();
+
 }

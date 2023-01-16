@@ -12,8 +12,8 @@ public class AdminModel extends UserModel {
     @Id
     private Long id;
 
-    @OneToMany(mappedBy = "creator")
-    private List<ProjectModel> projects = new ArrayList<ProjectModel>();
+    // @OneToMany(mappedBy = "creator")
+    // private List<ProjectModel> projects = new ArrayList<ProjectModel>();
 
     public AdminModel() {
 
@@ -34,13 +34,4 @@ public class AdminModel extends UserModel {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public List<ProjectModel> getProjects() {
-        return this.projects;
-    }
-
-    public void setProjects(List<ProjectModel> projects) {
-        this.projects = projects;
-    }
-
 }

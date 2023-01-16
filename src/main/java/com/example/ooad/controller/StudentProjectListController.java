@@ -36,9 +36,9 @@ public class StudentProjectListController {
     this.ooadApplication = ooadApplication;
     this.student = student;
 
-    init();
+    // init();
     // studentProjectListView.setVisible(true);
-
+    studentProjectListView.addClickRowListener(new ClickRowListener());
   }
 
   public void loadData() {
@@ -56,17 +56,21 @@ public class StudentProjectListController {
     projectModel.set(project);
   }
 
-  public void init() {
-    studentProjectListView.addClickRowListener(new ClickRowListener());
-    ;
-    // loadData();az
-    // studentProjectListView.setVisible(true);
-  }
+  // public void init() {
+  // studentProjectListView.addClickRowListener(new ClickRowListener());
+  // ;
+  // // loadData();az
+  // // studentProjectListView.setVisible(true);
+  // }
 
   public void show() {
     this.student = (StudentModel) OoadApplication.getLoginUser();
     loadData();
     studentProjectListView.setVisible(true);
+  }
+
+  public void hide() {
+    studentProjectListView.setVisible(false);
   }
 
   private class ClickRowListener implements MouseListener {

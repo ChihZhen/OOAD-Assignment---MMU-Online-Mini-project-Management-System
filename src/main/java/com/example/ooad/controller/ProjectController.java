@@ -1,9 +1,14 @@
 package com.example.ooad.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.example.ooad.model.ProjectModel;
+import com.example.ooad.model.UserModel;
+import com.example.ooad.OoadApplication;
+import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectListModel;
+import com.example.ooad.repository.LecturerRepository;
 import com.example.ooad.repository.ProjectRepository;
 import com.example.ooad.view.ProjectView;
 
@@ -16,6 +21,9 @@ public class ProjectController {
     private ProjectRepository projectRepository;
     private ProjectListModel projectTableModel;
     private ProjectModel projectModel;
+
+    @Autowired
+    private LecturerRepository lecturerRepository;
 
     public void showAddProject() {
         projectView.setTitle("New Project");
@@ -34,25 +42,36 @@ public class ProjectController {
         this.projectModel = projectModel;
         this.projectTableModel = projectTableModel;
         this.projectRepository = projectRepository;
-        init();
+        // init();
+
+        projectView.addClickSubmitListener(new ClickSubmitButtonListener());
     }
 
-    private void init() {
-        projectView.addClickSubmitListener(new ClickSubmitButtonListener());
-        // show();
-        // projectView.setVisible(true);
-    }
+    // private void init() {
+    // projectView.addClickSubmitListener(new ClickSubmitButtonListener());
+    // // show();
+    // // projectView.setVisible(true);
+    // }
 
     class ClickSubmitButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             projectView.setProjectModel();
+            LecturerModel lecturer = (LecturerModel) OoadApplication.getLoginUser();
+            projectModel.setLecturer(lecturer);
             projectRepository.save(projectModel);
-            List<ProjectModel> projects = projectRepository.findAll();
-            projectTableModel.setProjects(projects);
+
+            if (OoadApplication.getLoginUser().getRole().equals("Lecturer")) {
+                UserModel user = OoadApplication.getLoginUser();
+                List<ProjectModel> projects = lecturerRepository
+                        .findOneById(user.getId()).getProjects();
+                projectTableModel.setProjects(projects);
+            } else {
+                List<ProjectModel> projects = projectRepository.findAll();
+                projectTableModel.setProjects(projects);
+            }
             projectModel.reset();
-            System.out.println("clickbuttonlistener");
             projectView.dispose();
         }
     }

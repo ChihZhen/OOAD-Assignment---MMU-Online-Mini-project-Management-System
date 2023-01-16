@@ -153,7 +153,7 @@ public class StudentProjectListView extends JFrame implements Observer {
     panel.add(assignorLabel, gridCtr_9.getConstraint());
 
     // ===== Assignor Input
-    JTextField assignorInput = new JTextField(projectModel.getCreator().getFullName());
+    JTextField assignorInput = new JTextField(projectModel.getLecturer().getFullName());
     assignorInput.setPreferredSize(new Dimension(200, 22));
     assignorInput.setMinimumSize(new Dimension(200, 22));
     assignorInput.setEditable(false);

@@ -18,8 +18,8 @@ public class ProjectModel extends Observable {
     private String title, description, status, specialization;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserModel creator;
+    @JoinColumn(name = "lecturer_id")
+    private LecturerModel lecturer;
 
     @OneToOne
     private StudentModel student;
@@ -85,12 +85,12 @@ public class ProjectModel extends Observable {
         this.comments = comments;
     }
 
-    public UserModel getCreator() {
-        return this.creator;
+    public LecturerModel getLecturer() {
+        return this.lecturer;
     }
 
-    public void setCreator(UserModel creator) {
-        this.creator = creator;
+    public void setLecturer(LecturerModel lecturer) {
+        this.lecturer = lecturer;
     }
 
     public StudentModel getStudent() {
@@ -125,10 +125,10 @@ public class ProjectModel extends Observable {
         data.add(this.id.toString());
         data.add(this.title);
         data.add(this.specialization);
-        if (this.creator == null) {
+        if (this.lecturer == null) {
             data.add("-");
         } else {
-            data.add(this.creator.getFullName());
+            data.add(this.lecturer.getFullName());
         }
         data.add(this.description);
         return data;
@@ -140,10 +140,10 @@ public class ProjectModel extends Observable {
         data.add(this.title);
         data.add(this.specialization);
         data.add(this.status);
-        if (this.creator == null) {
+        if (this.lecturer == null) {
             data.add("-");
         } else {
-            data.add(this.creator.getFullName());
+            data.add(this.lecturer.getFullName());
         }
         if (student == null) {
             data.add("-");
@@ -193,7 +193,7 @@ public class ProjectModel extends Observable {
             this.status = project.getStatus();
             this.specialization = project.getSpecialization();
             this.student = project.getStudent();
-            this.creator = project.getCreator();
+            this.lecturer = project.getLecturer();
             this.comments = project.getComments();
         }
         notifyObservers();
@@ -206,7 +206,7 @@ public class ProjectModel extends Observable {
         this.specialization = "Computer Science";
         this.status = "Active";
         this.student = null;
-        this.creator = null;
+        this.lecturer = null;
         this.comments = new ArrayList<CommentModel>();
         notifyObservers();
     }

@@ -18,8 +18,8 @@ public class OoadApplication {
 	@Autowired(required = false)
 	private static UserModel loginUser;
 
-	public OoadApplication(CreateUserController createUserController) {
-		// loginController.show();
+	public OoadApplication(LoginController loginController) {
+		loginController.show();
 		// createUserController.show();
 
 	}
@@ -56,8 +56,9 @@ public class OoadApplication {
 		return loginUser;
 	}
 
+	// @Autowired(required = false)
 	public static void setLoginUser(UserModel user) {
-		System.out.println("user--------------->" + user.getFullName());
+		// System.out.println("user--------------->" + user.getFullName());
 		loginUser = user;
 		// System.out.println("login user-------------->" + this.loginUser);
 	}

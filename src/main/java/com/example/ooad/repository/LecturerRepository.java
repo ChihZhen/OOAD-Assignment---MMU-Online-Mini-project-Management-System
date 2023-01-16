@@ -7,5 +7,5 @@ import com.example.ooad.model.LecturerModel;
 
 @Repository
 public interface LecturerRepository extends JpaRepository<LecturerModel, Long> {
-
+    public LecturerModel findOneById(Long id);
 }

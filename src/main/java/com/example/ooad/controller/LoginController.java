@@ -25,30 +25,39 @@ public class LoginController {
     private StudentRepository studentRepository;
     private StudentProjectListController studentProjectListController;
     private ProjectListController projectListController;
+    private AdminProjectListController adminProjectListController;
     private OoadApplication ooadApplication;
 
-    @Autowired
+    // @Autowired
     public LoginController(LoginView loginView, UserRepository userRepository, StudentRepository studentRepository,
             StudentProjectListController studentProjectListController, @Lazy OoadApplication ooadApplication,
-            ProjectListController projectListController) {
+            ProjectListController projectListController, @Lazy AdminProjectListController adminProjectListController) {
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.loginView = loginView;
         this.studentProjectListController = studentProjectListController;
         this.ooadApplication = ooadApplication;
         this.projectListController = projectListController;
+        this.adminProjectListController = adminProjectListController;
         // this.loginModel = loginView.getLoginModel();
-        init();
+
+        this.loginView.addSubmitEventListener(new SubmitListener());
+
+        initDB();
     }
 
-    public void init() {
-        this.loginView.addSubmitEventListener(new SubmitListener());
-        // this.loginView.setVisible(true);
-    }
+    // public void init() {
+    // this.loginView.addSubmitEventListener(new SubmitListener());
+    // // this.loginView.setVisible(true);
+    // }
 
     public void show() {
         // System.out.println("login--------------------------------------------------------------");
         loginView.setVisible(true);
+    }
+
+    public void hide() {
+        loginView.setVisible(false);
     }
 
     class SubmitListener implements ActionListener {
@@ -59,23 +68,24 @@ public class LoginController {
             // studentRepository.save(student);
             loginModel = loginView.getLoginModel();
 
-            if (loginModel.isRoot()) {
-                if (loginModel.checkRoot()) {
-                } else {
-                    JFrame jf = new JFrame();
-                    JOptionPane.showMessageDialog(jf, "Password incorrect", "Login Failed", 2, null);
-                }
-            } else {
+            // if (loginModel.isRoot()) {
+            // if (loginModel.checkRoot()) {
+            // } else {
+            // JFrame jf = new JFrame();
+            // JOptionPane.showMessageDialog(jf, "Password incorrect", "Login Failed", 2,
+            // null);
+            // }
+            // } else {
                 UserModel user = userRepository.findByAccountId(loginModel.getId());
                 if (user == null) {
                     JFrame jf = new JFrame();
                     JOptionPane.showMessageDialog(jf, "Account not found", "Login Failed", 2, null);
                     // System.out.println("Account not found");
                 } else if (loginModel.checkPassword(user.getPassword())) {
-                    ooadApplication.setLoginUser(user);
+                    OoadApplication.setLoginUser(user);
                     loginView.setVisible(false);
                     if (user.getRole().equals("Admin")) {
-
+                        adminProjectListController.show();
                     } else if (user.getRole().equals("Lecturer")) {
                         projectListController.show();
                     } else if (user.getRole().equals("Student")) {
@@ -86,7 +96,7 @@ public class LoginController {
                     JOptionPane.showMessageDialog(jf, "Password incorrect", "Login Failed", 2, null);
                     // System.out.println("password not correct");
                 }
-            }
+                // }
         }
 
         // public boolean isRoot(LoginModel loginModel) {
@@ -98,4 +108,10 @@ public class LoginController {
         // }
     }
 
+    private void initDB() {
+        UserModel user = userRepository.findByAccountId("root");
+        if (user == null) {
+            userRepository.save(new AdminModel("Root Admin", "Admin", "root", "123"));
+        }
+    }
 }

@@ -80,6 +80,7 @@ public class AdminAddProjectView extends JDialog implements Observer {
                 .anchor(GridBagConstraints.BASELINE_LEADING)
                 .build();
         this.add(statusTitle, gridCtr_5.getConstraint());
+
         // ===== Status Input
         statusInput = new JComboBox<String>(
                 new String[] { "Active", "Inactive" });
@@ -133,7 +134,7 @@ public class AdminAddProjectView extends JDialog implements Observer {
         projectModel.setDescription(descriptionInput.getText());
         projectModel.setSpecialization(specializationInput.getSelectedItem().toString());
         projectModel.setStatus(statusInput.getSelectedItem().toString());
-        projectModel.setCreator(lecturerListModel.getLecturer(lecturerInput.getSelectedIndex()));
+        projectModel.setLecturer(lecturerListModel.getLecturer(lecturerInput.getSelectedIndex()));
     }
 
     public void update() {

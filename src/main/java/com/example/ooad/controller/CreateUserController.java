@@ -53,16 +53,19 @@ public class CreateUserController {
         // this.projectModel = projectModel;
         // this.projectTableModel = projectTableModel;
         // this.projectRepository = projectRepository;
-        init();
-    }
 
-    private void init() {
         createUserView.addClickSubmitListener(new ClickSubmitButtonListener());
         createUserView.addSelectRoleListener(new SelectRoleListener());
-        // show();
-        // createUserView.setVisible(true);
-        // createUserView.setModal(true);
+        // init();
     }
+
+    // private void init() {
+    // createUserView.addClickSubmitListener(new ClickSubmitButtonListener());
+    // createUserView.addSelectRoleListener(new SelectRoleListener());
+    // // show();
+    // // createUserView.setVisible(true);
+    // // createUserView.setModal(true);
+    // }
 
     private class ClickSubmitButtonListener implements ActionListener {
         @Override

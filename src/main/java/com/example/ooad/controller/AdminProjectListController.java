@@ -41,9 +41,6 @@ public class AdminProjectListController {
     private int tabIndex;
     private ReportTab tab;
 
-    // private AssignStudentController assignStudentController;
-    // private
-
     public AdminProjectListController(ProjectListModel projectTableModel, ComboListModel comboListModel,
             AdminProjectListView adminProjectListView, OoadApplication ooadApplication,
             ProjectController projectController, AdminAddProjectController adminAddProjectController,
@@ -60,17 +57,6 @@ public class AdminProjectListController {
         this.projectRepository = projectRepository;
         this.lecturerRepository = lecturerRepository;
 
-        init();
-
-    }
-
-    public void loadData() {
-        List<ProjectModel> projects = projectRepository.findAll();
-        projectTableModel.setProjects(projects);
-    }
-
-    public void init() {
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         adminProjectListView.addClickRowListener(new ClickRowListener());
         adminProjectListView.addClickTableButtonListener(new ClickTableButtonListener());
         adminProjectListView.addClickButtonListener(new ClickAddProjectButtonListener());
@@ -78,9 +64,39 @@ public class AdminProjectListController {
         adminProjectListView.addClickLogoutButtonListener(new ClickLogoutButtonListener());
         adminProjectListView.addSelectTabListener(new SelectTabListener());
         adminProjectListView.addClickGenerateListener(new addClickGenerateListener());
-        adminProjectListView.setVisible(true);
-        loadData();
+        // adminProjectListView.setVisible(true);
     }
+
+    public void show() {
+        loadData();
+        adminProjectListView.setVisible(true);
+    }
+
+    public void hide() {
+        adminProjectListView.setVisible(false);
+    }
+
+    public void loadData() {
+        List<ProjectModel> projects = projectRepository.findAll();
+        projectTableModel.setProjects(projects);
+    }
+
+    // public void init() {
+    // adminProjectListView.addClickRowListener(new ClickRowListener());
+    // adminProjectListView.addClickTableButtonListener(new
+    // ClickTableButtonListener());
+    // adminProjectListView.addClickButtonListener(new
+    // ClickAddProjectButtonListener());
+    // adminProjectListView.addClickCreateUserButtonListener(new
+    // ClickCreateUserButtonListener());
+    // adminProjectListView.addClickLogoutButtonListener(new
+    // ClickLogoutButtonListener());
+    // adminProjectListView.addSelectTabListener(new SelectTabListener());
+    // adminProjectListView.addClickGenerateListener(new
+    // addClickGenerateListener());
+    // adminProjectListView.setVisible(true);
+    // loadData();
+    // }
 
     private class addClickGenerateListener implements ActionListener {
         @Override
@@ -119,7 +135,7 @@ public class AdminProjectListController {
             String name = ((JTabbedPane) e.getSource()).getTitleAt(tabIndex);
             // System.out.println(index);
             System.out.println(name);
-
+            projectTableModel.resetReport();
             if (name.equals("All Projects")) {
                 projectTableModel.setAllReport();
                 // projectTableModel.setProjects(projectRepository.findAll());
@@ -170,7 +186,6 @@ public class AdminProjectListController {
     }
 
     private class ClickRowListener implements MouseListener {
-
         @Override
         public void mouseClicked(MouseEvent e) {
             // TableModel tableModel = projectView.getTableModel();
@@ -200,7 +215,6 @@ public class AdminProjectListController {
     }
 
     private class ClickTableButtonListener implements TableButtonPressedHandler {
-
         @Override
         public void onButtonPress(int row, int column) {
             if (column == 6) {
@@ -215,7 +229,6 @@ public class AdminProjectListController {
                     loadData();
                 }
             }
-
         }
     }
 
@@ -238,8 +251,7 @@ public class AdminProjectListController {
         public void actionPerformed(ActionEvent e) {
             loginController.show();
             adminProjectListView.setVisible(false);
-
-            // ooadApplication.setLoginUser(null);
+            OoadApplication.setLoginUser(null);
         }
     }
 }

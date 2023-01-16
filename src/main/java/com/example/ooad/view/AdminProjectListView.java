@@ -156,7 +156,7 @@ public class AdminProjectListView extends JFrame implements Observer {
         // });
 
         this.add(mainTp, gridCtr_4.getConstraint());
-        this.setVisible(true);
+        // this.setVisible(true);
     }
 
     public void addSelectTabListener(ChangeListener listener) {

@@ -15,16 +15,12 @@ import java.util.List;
 
 @Controller
 public class AdminAddProjectController {
+    private ProjectListModel projectTableModel;
+    private LecturerListModel lecturerListModel;
+    private ProjectModel projectModel;
     private AdminAddProjectView adminAddProjectView;
     private ProjectRepository projectRepository;
-    private ProjectListModel projectTableModel;
-    private ProjectModel projectModel;
-    private LecturerListModel lecturerListModel;
     private LecturerRepository lecturerRepository;
-
-    public void show() {
-        adminAddProjectView.setVisible(true);
-    }
 
     public AdminAddProjectController(AdminAddProjectView adminAddProjectView, ProjectRepository projectRepository,
             ProjectListModel projectTableModel, ProjectModel projectModel, LecturerListModel lecturerListModel,
@@ -35,28 +31,27 @@ public class AdminAddProjectController {
         this.projectRepository = projectRepository;
         this.lecturerListModel = lecturerListModel;
         this.lecturerRepository = lecturerRepository;
-        adminAddProjectView.addClickSubmitListener(new ClickSubmitButtonListener());
 
-        init();
+        adminAddProjectView.addClickSubmitListener(new ClickSubmitButtonListener());
+    }
+
+    public void show() {
+        loadData();
+        adminAddProjectView.setVisible(true);
+    }
+
+    public void hide() {
+        adminAddProjectView.setVisible(false);
     }
 
     public void loadData() {
         List<LecturerModel> lecturers = lecturerRepository.findAll();
         lecturerListModel.setLecturers(lecturers);
-
-    }
-
-    private void init() {
-        loadData();
-        // show();
-        // projectView.setVisible(true);
     }
 
     class ClickSubmitButtonListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-            // projectModel.reset();
             System.out.println(projectModel.getId());
             System.out.println(projectModel.getStudent());
             adminAddProjectView.setProjectModel();
@@ -65,7 +60,7 @@ public class AdminAddProjectController {
             projectTableModel.setProjects(projects);
             projectModel.reset();
             System.out.println("clickbuttonlistener");
-            // adminAddProjectView.dispose();
+            adminAddProjectView.dispose();
         }
     }
 }
