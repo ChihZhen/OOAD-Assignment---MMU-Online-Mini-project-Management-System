@@ -19,8 +19,10 @@ public class CreateUserView extends JDialog {
     private JTextField usernameInput;
     private JTextField idInput;
     private JComboBox<String> roleInput;
+    private JLabel specializationLabel;
     private JComboBox<String> specializationInput;
     private JButton submitButton;
+
 
     // private StudentModel studentModel;
 
@@ -91,23 +93,23 @@ public class CreateUserView extends JDialog {
         // });
 
         JLabel usernameLabel = new JLabel("Username");
-        add(this, usernameLabel, 0, 0, 1, 1, 0, 0, 0, 0, GridBagConstraints.BASELINE);
+        add(this, usernameLabel, 0, 0, 1, 1, 0, 20, 0, 0, GridBagConstraints.BASELINE);
 
         usernameInput = new JTextField();
         usernameInput.setPreferredSize(new Dimension(200, 22));
         usernameInput.setMinimumSize(new Dimension(200, 22));
         add(this, usernameInput, 1, 0, 1, 1);
 
-        JLabel idTitle = new JLabel("Id");
-        add(this, idTitle, 0, 1, 1, 1, GridBagConstraints.BASELINE);
+        JLabel idLabel = new JLabel("Id");
+        add(this, idLabel, 0, 1, 1, 1, GridBagConstraints.BASELINE);
 
         idInput = new JTextField();
         idInput.setPreferredSize(new Dimension(200, 22));
         idInput.setMinimumSize(new Dimension(200, 22));
         add(this, idInput, 1, 1, 1, 1, 20, 0, 20, 0, GridBagConstraints.BASELINE);
 
-        JLabel roleTitle = new JLabel("Role");
-        add(this, roleTitle, 0, 2, 1, 1, GridBagConstraints.BASELINE);
+        JLabel roleLabel = new JLabel("Role");
+        add(this, roleLabel, 0, 2, 1, 1, GridBagConstraints.BASELINE);
 
         roleInput = new JComboBox<String>(
                 new String[] { "Lecturer", "Admin", "Student" });
@@ -115,12 +117,14 @@ public class CreateUserView extends JDialog {
         roleInput.setMinimumSize(new Dimension(200, 22));
         add(this, roleInput, 1, 2, 1, 1, 0, 0, 20, 0);
 
-        JLabel specializationTitle = new JLabel("Specialization");
-        add(this, specializationTitle, 0, 3, 1, 1, 0, 15, 20, 0);
+        specializationLabel = new JLabel("Specialization");
+        specializationLabel.setVisible(false);
+        add(this, specializationLabel, 0, 3, 1, 1, 0, 15, 20, 0);
         specializationInput = new JComboBox<String>(
                 new String[] { "Software Engineer", "Data Science", "Game Development", "Cyber Security" });
         specializationInput.setPreferredSize(new Dimension(200, 22));
         specializationInput.setMinimumSize(new Dimension(200, 22));
+        specializationInput.setVisible(false);
         add(this, specializationInput, 1, 3, 1, 1, 0, 0, 20, 0);
 
         submitButton = new JButton("Submit");
@@ -134,6 +138,10 @@ public class CreateUserView extends JDialog {
 
     public void addClickSubmitListener(ActionListener Listener) {
         submitButton.addActionListener(Listener);
+    }
+
+    public void addSelectRoleListener(ActionListener listener) {
+        roleInput.addActionListener(listener);
     }
 
     public UserModel getUserModel() {
@@ -159,6 +167,7 @@ public class CreateUserView extends JDialog {
         return userModel;
     }
 
+
     // public void update() {
     // idInput.setText(studentModel.getAccountId());
     // usernameInput.setText(studentModel.getFullName());
@@ -167,6 +176,54 @@ public class CreateUserView extends JDialog {
 
     // public void setEditable(boolean editable) {
     // titleInput.setEditable(editable);
+
+    public JTextField getUsernameInput() {
+        return this.usernameInput;
+    }
+
+    public void setUsernameInput(JTextField usernameInput) {
+        this.usernameInput = usernameInput;
+    }
+
+    public JTextField getIdInput() {
+        return this.idInput;
+    }
+
+    public void setIdInput(JTextField idInput) {
+        this.idInput = idInput;
+    }
+
+    public JComboBox<String> getRoleInput() {
+        return this.roleInput;
+    }
+
+    public void setRoleInput(JComboBox<String> roleInput) {
+        this.roleInput = roleInput;
+    }
+
+    public JComboBox<String> getSpecializationInput() {
+        return this.specializationInput;
+    }
+
+    public void setSpecializationInput(JComboBox<String> specializationInput) {
+        this.specializationInput = specializationInput;
+    }
+
+    public JButton getSubmitButton() {
+        return this.submitButton;
+    }
+
+    public void setSubmitButton(JButton submitButton) {
+        this.submitButton = submitButton;
+    }
+
+    public JLabel getSpecializationLabel() {
+        return this.specializationLabel;
+    }
+
+    public void setSpecializationLabel(JLabel specializationLabel) {
+        this.specializationLabel = specializationLabel;
+    }
     // descriptionInput.setEditable(editable);
     // specializationInput.setEditable(editable);
     // statusInput.setEditable(editable);

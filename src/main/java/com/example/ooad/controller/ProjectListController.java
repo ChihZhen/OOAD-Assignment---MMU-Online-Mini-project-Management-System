@@ -6,12 +6,15 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.model.UserModel;
 import com.example.ooad.OoadApplication;
 import com.example.ooad.model.ProjectListModel;
+import com.example.ooad.repository.LecturerRepository;
 import com.example.ooad.repository.ProjectRepository;
 import com.example.ooad.view.ProjectListView;
 import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
@@ -22,48 +25,68 @@ import java.awt.event.*;
 public class ProjectListController {
     private ProjectListView projectListView;
     private ProjectListModel projectTableModel;
+
+    @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private LecturerRepository lecturerRepository;
+    // private OoadApplication ooadApplication;
+    @Autowired
     private ProjectController projectController;
-    private OoadApplication ooadApplication;
+
+    @Autowired
     private AssignStudentController assignStudentController;
 
-    public ProjectListController(ProjectListView projectListView, ProjectListModel projectTableModel,
-            ProjectRepository projectRepository, ProjectController projectController,
-            AssignStudentController assignStudentController, OoadApplication ooadApplication) {
+    @Autowired
+    @Lazy
+    private LoginController loginController;
+
+    public ProjectListController(ProjectListView projectListView, ProjectListModel projectTableModel) {
         this.projectListView = projectListView;
         this.projectTableModel = projectTableModel;
-        this.projectRepository = projectRepository;
-        this.projectController = projectController;
-        this.assignStudentController = assignStudentController;
-        this.ooadApplication = ooadApplication;
-        init();
-        // projectListView.setVisible(true);
 
+        // this.projectController = projectController;
+        // this.assignStudentController = assignStudentController;
+        // this.ooadApplication = ooadApplication;
+
+        projectListView.addClickRowListener(new ClickRowListener());
+        projectListView.addClickTableButtonListener(new ClickTableButtonListener());
+        projectListView.addClickButtonListener(new ClickAddProjectButtonListener());
+        projectListView.addClickLogoutButtonListener(new ClickLogoutButtonListener());
+        // init();
+        // projectListView.setVisible(true);
     }
 
     public void loadData() {
-        List<ProjectModel> projects = projectRepository.findAll();
+        // List<ProjectModel> projects = projectRepository.findAll();
+        UserModel user = OoadApplication.getLoginUser();
+        List<ProjectModel> projects = lecturerRepository
+                .findOneById(user.getId()).getProjects();
         projectTableModel.setProjects(projects);
         // projectView.addClickButtonListener(new ClickAddProjectButtonListener());
     }
 
-    public void init() {
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        loadData();
-        projectListView.addClickRowListener(new ClickRowListener());
-        projectListView.addClickTableButtonListener(new ClickTableButtonListener());
-        projectListView.addClickButtonListener(new ClickAddProjectButtonListener());
-        // loadData();
+    // public void init() {
+    // System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    // loadData();
+    // projectListView.addClickRowListener(new ClickRowListener());
+    // projectListView.addClickTableButtonListener(new ClickTableButtonListener());
+    // projectListView.addClickButtonListener(new ClickAddProjectButtonListener());
+    // // loadData();
 
-        // loadData();
-        // projectListView.setVisible(true);
-        // projectView.setVisible(true);
-    }
+    // // loadData();
+    // // projectListView.setVisible(true);
+    // // projectView.setVisible(true);
+    // }
 
     public void show() {
-        // this.lecturer = OoadApplication.getLoginUser();
-        loadData();
         projectListView.setVisible(true);
+        loadData();
+    }
+
+    public void hide() {
+        projectListView.setVisible(false);
     }
 
     private class ClickRowListener implements MouseListener {
@@ -97,7 +120,6 @@ public class ProjectListController {
     }
 
     private class ClickTableButtonListener implements TableButtonPressedHandler {
-
         @Override
         public void onButtonPress(int row, int column) {
             // TODO Auto-generated method stub
@@ -138,8 +160,9 @@ public class ProjectListController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
-            ooadApplication.setLoginUser(null);
+            loginController.show();
+            hide();
+            OoadApplication.setLoginUser(null);
 
         }
     }

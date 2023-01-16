@@ -37,12 +37,16 @@ public class AssignStudentController {
         this.studentRepository = studentRepository;
         this.projectListController = projectListController;
         this.projectRepository = projectRepository;
-        init();
+        // init();
+
+        assignStudentView.addClickSelectButtonListener(new ClickSelectButtonListener());
+
     }
 
-    public void init() {
-        assignStudentView.addClickSelectButtonListener(new ClickSelectButtonListener());
-    }
+    // public void init() {
+    // assignStudentView.addClickSelectButtonListener(new
+    // ClickSelectButtonListener());
+    // }
 
     public void show(ProjectModel project) {
         this.project = project;
@@ -57,7 +61,8 @@ public class AssignStudentController {
     public void loadData(String specialization) {
         List<StudentModel> students = studentRepository.findStudentBySpecializationAndProject(specialization, null);
         studentListModel.setStudents(students);
-        assignStudentView.addClickSelectButtonListener(new ClickSelectButtonListener());
+        // assignStudentView.addClickSelectButtonListener(new
+        // ClickSelectButtonListener());
     }
 
     class ClickSelectButtonListener implements ActionListener {

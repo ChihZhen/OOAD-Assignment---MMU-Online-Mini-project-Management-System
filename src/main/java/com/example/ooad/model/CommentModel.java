@@ -19,12 +19,12 @@ public class CommentModel {
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    private UserModel author;
+    private AdminModel author;
 
     public CommentModel() {
     }
 
-    public CommentModel(String date, ProjectModel project, String message, UserModel author) {
+    public CommentModel(String date, ProjectModel project, String message, AdminModel author) {
         this.date = date;
         this.project = project;
         this.message = message;
@@ -67,7 +67,7 @@ public class CommentModel {
         return this.author;
     }
 
-    public void setAuthor(UserModel author) {
+    public void setAuthor(AdminModel author) {
         this.author = author;
     }
 

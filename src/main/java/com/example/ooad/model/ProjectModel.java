@@ -18,8 +18,8 @@ public class ProjectModel extends Observable {
     private String title, description, status, specialization;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserModel creator;
+    @JoinColumn(name = "lecturer_id")
+    private LecturerModel lecturer;
 
     @OneToOne
     private StudentModel student;
@@ -85,12 +85,12 @@ public class ProjectModel extends Observable {
         this.comments = comments;
     }
 
-    public UserModel getCreator() {
-        return this.creator;
+    public LecturerModel getLecturer() {
+        return this.lecturer;
     }
 
-    public void setCreator(UserModel creator) {
-        this.creator = creator;
+    public void setLecturer(LecturerModel lecturer) {
+        this.lecturer = lecturer;
     }
 
     public StudentModel getStudent() {
@@ -125,13 +125,64 @@ public class ProjectModel extends Observable {
         data.add(this.id.toString());
         data.add(this.title);
         data.add(this.specialization);
-        data.add(this.creator.getFullName());
+        if (this.lecturer == null) {
+            data.add("-");
+        } else {
+            data.add(this.lecturer.getFullName());
+        }
         data.add(this.description);
+        return data;
+    }
+
+    public Vector<String> getAdminVector() {
+        Vector<String> data = new Vector<>();
+        data.add(Long.toString(id));
+        data.add(this.title);
+        data.add(this.specialization);
+        data.add(this.status);
+        if (this.lecturer == null) {
+            data.add("-");
+        } else {
+            data.add(this.lecturer.getFullName());
+        }
+        if (student == null) {
+            data.add("-");
+        } else {
+            data.add(student.getFullName());
+        }
+        data.add("COMMENT");
+        data.add("DELETE");
         return data;
     }
 
     public boolean isValid() {
         return !(title.isBlank() | description.isBlank());
+    }
+
+    public String toReportStr() {
+        String data = new String();
+        data += "ID: " + this.getId().toString() + "\n";
+        data += "TITLE: " + this.getTitle() + "\n";
+        data += "SPECIALIZATION: " + this.getSpecialization() + "\n";
+        data += "DESCRIPTION: " + this.getDescription() + "\n";
+        data += "STATUS: " + this.getStatus() + "\n";
+        // data += "LECTURER: " + this.getCreator().getFullName() + " (" +
+        // this.getCreator().getAccountId() + ")\n";
+        // data += "STUDENT: " + this.getStudent().getFullName() + " (" +
+        // this.getCreator().getAccountId() + ")\n";
+
+        // if (comments.size() == 0) {
+        // data += "COMMENT: - \n";
+
+        // } else {
+        // data += "COMMENT:\n";
+        // for (CommentModel comment : comments) {
+        // data += "\t" + comment.getAdmin().getFullName() + " (" +
+        // comment.getAdmin().getAccountId() + "): "
+        // + comment.getComment() + ")\n";
+        // }
+        // }
+        return data;
     }
 
     public void set(ProjectModel project) {
@@ -142,10 +193,9 @@ public class ProjectModel extends Observable {
             this.status = project.getStatus();
             this.specialization = project.getSpecialization();
             this.student = project.getStudent();
-            this.creator = project.getCreator();
+            this.lecturer = project.getLecturer();
             this.comments = project.getComments();
         }
-
         notifyObservers();
     }
 
@@ -156,7 +206,7 @@ public class ProjectModel extends Observable {
         this.specialization = "Computer Science";
         this.status = "Active";
         this.student = null;
-        this.creator = null;
+        this.lecturer = null;
         this.comments = new ArrayList<CommentModel>();
         notifyObservers();
     }

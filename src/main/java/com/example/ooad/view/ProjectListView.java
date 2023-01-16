@@ -37,6 +37,7 @@ public class ProjectListView extends JFrame implements Observer {
         }
     };
 
+
     public ProjectListView(ProjectListModel projectListModel) {
         this.projectListModel = projectListModel;
         this.projectListModel.registerObserver(this);
@@ -79,7 +80,7 @@ public class ProjectListView extends JFrame implements Observer {
 
         // // JTable projectTable = new JTable(data, header);
         projectTable = new JTable();
-        projectTable.setEnabled(false);
+        // projectTable.setEnabled(false);
         projectTable.getTableHeader().setReorderingAllowed(false);
 
         System.out.println(projectTable.getModel().getRowCount());
@@ -107,6 +108,10 @@ public class ProjectListView extends JFrame implements Observer {
 
     public void addClickButtonListener(ActionListener listener) {
         addProjectButton.addActionListener(listener);
+    }
+
+    public void addClickLogoutButtonListener(ActionListener listener) {
+        logoutButton.addActionListener(listener);
     }
 
     public void update() {

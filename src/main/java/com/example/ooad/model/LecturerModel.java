@@ -12,7 +12,7 @@ public class LecturerModel extends UserModel {
     @Id
     private Long id;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "lecturer", fetch = FetchType.EAGER)
     private List<ProjectModel> projects = new ArrayList<ProjectModel>();
 
     public LecturerModel() {
