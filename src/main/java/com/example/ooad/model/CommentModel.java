@@ -9,19 +9,26 @@ import jakarta.persistence.*;
 public class CommentModel {
     @Id
     private Long id;
-    private Date date;
+    private String date;
+
+    private String message;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
     private ProjectModel project;
 
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private UserModel author;
+
     public CommentModel() {
     }
 
-    public CommentModel(Long id, Date date, ProjectModel project) {
-        this.id = id;
+    public CommentModel(String date, ProjectModel project, String message, UserModel author) {
         this.date = date;
         this.project = project;
+        this.message = message;
+        this.author = author;
     }
 
     public Long getId() {
@@ -32,11 +39,11 @@ public class CommentModel {
         this.id = id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return this.date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -47,4 +54,21 @@ public class CommentModel {
     public void setProject(ProjectModel project) {
         this.project = project;
     }
+
+    public String getMessage() {
+        return this.message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public UserModel getAuthor() {
+        return this.author;
+    }
+
+    public void setAuthor(UserModel author) {
+        this.author = author;
+    }
+
 }
