@@ -107,6 +107,7 @@ public class AdminProjectListView extends JFrame implements Observer {
         GridBagAdder gridCtr_4 = new GridBagAdder.GridBagAdderBuilder().setY(3).width(2)
                 .build();
 
+
         JPanel jp = new JPanel();
         allProjectReport = new Report();
 
@@ -204,6 +205,7 @@ public class AdminProjectListView extends JFrame implements Observer {
         // return "";
         // }
         // return commentTab.getSelection().getSelectedItem().toString();
+
 
         // }
         // if (commentTab.getSelection().getSelectedItem() == null) {
