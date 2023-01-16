@@ -5,7 +5,6 @@ import javax.swing.*;
 import org.springframework.stereotype.Component;
 
 import com.example.ooad.model.StudentListModel;
-import com.example.ooad.model.StudentModel;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -75,26 +74,9 @@ public class AssignStudentView extends JDialog implements Observer {
         this.setLayout(new GridBagLayout());
         this.setSize(432, 600);
         this.setResizable(false);
-        // this.addWindowListener(new WindowAdapter() {
-        // public void windowClosed(WindowEvent e) {
-        // // update();
-        // projectModel.reset();
-        // }
-        // });
 
-        // String[] header = new String[] {
-        // "Student ID",
-        // "Full Name"
-        // };
-        // String[][] data = new String[][] {
-        // // { "1201101263", "lcz" }
-        // };
-
-        // studentTable = new JTable(data, header);
 
         studentTable = new JTable(this.studentListModel.getTableModel());
-
-        // System.out.println(studentTable.getModel().getRowCount());
 
         JScrollPane tableContainer = new JScrollPane(studentTable);
         tableContainer.setPreferredSize(new Dimension(400, 432));
@@ -105,7 +87,6 @@ public class AssignStudentView extends JDialog implements Observer {
 
         selectButton = new JButton("Select");
         add(this, selectButton, 1, 2, 1, 1, 15, 0, 0, 0, GridBagConstraints.BASELINE_TRAILING);
-        // this.setVisible(true);
     }
 
     // public static void main(String[] args) {

@@ -1,7 +1,6 @@
 package com.example.ooad.view;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.*;
 
@@ -107,26 +106,10 @@ public class AdminProjectListView extends JFrame implements Observer {
         GridBagAdder gridCtr_4 = new GridBagAdder.GridBagAdderBuilder().setY(3).width(2)
                 .build();
 
-
-        JPanel jp = new JPanel();
         allProjectReport = new Report();
 
         reportTp = new JTabbedPane();
         reportTp.add("All Projects", allProjectReport);
-        // specializationTp.add("", null);
-        // JPanel specializationPanel = new JPanel(new GridBagLayout());
-        // specializationInput = new JComboBox<String>(
-        // new String[] { "Software Engineer", "Data Science", "Game Development",
-        // "Cyber Security" });
-        // gridCtr = new GridBagAdder.GridBagAdderBuilder().setX(2).build();
-        // specializationPanel.add(specializationInput, gridCtr.getConstraint());
-
-        // specializationSubmit = new JButton("Generate");
-        // gridCtr = new GridBagAdder.GridBagAdderBuilder().setX(4).build();
-        // specializationPanel.add(specializationInput, gridCtr.getConstraint());
-
-        // specializationReport = new Report();
-
         specializationTab = new ReportTab();
         lecturerTab = new ReportTab();
         statusTab = new ReportTab();
@@ -205,7 +188,6 @@ public class AdminProjectListView extends JFrame implements Observer {
         // return "";
         // }
         // return commentTab.getSelection().getSelectedItem().toString();
-
 
         // }
         // if (commentTab.getSelection().getSelectedItem() == null) {

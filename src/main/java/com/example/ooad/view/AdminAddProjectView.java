@@ -4,9 +4,7 @@ import javax.swing.*;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.model.LecturerListModel;
-import com.example.ooad.model.LecturerModel;
-import com.example.ooad.model.ProjectModel;
+import com.example.ooad.model.*;
 import com.example.ooad.utils.GridBagAdder;
 
 import java.awt.*;

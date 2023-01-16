@@ -1,8 +1,5 @@
 package com.example.ooad.utils;
 
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-
 import java.awt.*;
 
 public class GridBagAdder {

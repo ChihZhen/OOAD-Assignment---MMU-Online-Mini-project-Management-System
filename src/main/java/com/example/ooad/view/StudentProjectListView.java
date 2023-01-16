@@ -5,11 +5,9 @@ import javax.swing.table.DefaultTableModel;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.OoadApplication;
 import com.example.ooad.model.ProjectListModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.model.StudentModel;
-import com.example.ooad.model.UserModel;
 import com.example.ooad.utils.GridBagAdder;
 
 import java.awt.*;
