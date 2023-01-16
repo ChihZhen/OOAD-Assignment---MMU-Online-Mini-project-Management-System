@@ -1,34 +1,65 @@
 package com.example.ooad.view;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.*;
 
 import org.springframework.stereotype.Component;
 
+import com.example.ooad.model.ComboListModel;
 import com.example.ooad.model.ProjectListModel;
 import com.example.ooad.utils.GridBagAdder;
+import com.example.ooad.view.Component.Report;
+import com.example.ooad.view.Component.ReportTab;
 import com.example.ooad.view.Component.TableButton;
 import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
+import java.util.List;
 
 @Component
 public class AdminProjectListView extends JFrame implements Observer {
-    // private ProjectListModel projectListModel;
+    private ProjectListModel projectListModel;
+    private ComboListModel comboListModel;
     private JButton logoutButton;
     private JTable projectTable;
     private JButton createUserButton;
     private JButton addProjectButton;
-    private TableButton assignButtons = new TableButton(new Color(23, 121, 233));
-    private TableButton editButtons = new TableButton(new Color(241, 143, 5));
+    private Report allProjectReport;
+    private ReportTab specializationTab;
+    private ReportTab lecturerTab;
+    private ReportTab statusTab;
+    private ReportTab assignTab;
+    private ReportTab commentTab;
+    private List<ReportTab> reportTabs;
+    private JTabbedPane mainTp;
+    private JTabbedPane reportTp;
+    private TableButton commentButtons = new TableButton(new Color(241, 143, 5));
     private TableButton deleteButtons = new TableButton(new Color(241, 95, 95));
 
-    // public AdminProjectListView(ProjectListModel projectListModel) {
-    public AdminProjectListView() {
+    private Vector<String> header = new Vector<String>() {
+        {
+            add("ID");
+            add("Title");
+            add("Specialization");
+            add("Status");
+            add("Lecturer");
+            add("Student");
+            add(""); // comment
+            add(""); // delete
+        }
+    };
 
-        // this.projectListModel = projectListModel;
-        // this.projectListModel.registerObserver(this);
+    public AdminProjectListView(ProjectListModel projectListModel, ComboListModel comboListModel) {
+        // public AdminProjectListView() {
+        GridBagAdder gridCtr;
+        this.projectListModel = projectListModel;
+        this.projectListModel.registerObserver(this);
+        this.comboListModel = comboListModel;
+        this.comboListModel.registerObserver(this);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new GridBagLayout());
@@ -37,7 +68,7 @@ public class AdminProjectListView extends JFrame implements Observer {
         this.setMinimumSize(new Dimension(1440, 900));
 
         JLabel welcomeLabel = new JLabel("Welcome Back");
-        GridBagAdder gridCtr = new GridBagAdder.GridBagAdderBuilder().width(2).marginB(25)
+        gridCtr = new GridBagAdder.GridBagAdderBuilder().width(2).marginB(25)
                 .anchor(GridBagConstraints.LINE_START).build();
         this.add(welcomeLabel, gridCtr.getConstraint());
 
@@ -63,6 +94,7 @@ public class AdminProjectListView extends JFrame implements Observer {
 
         // JTable projectTable = new JTable(data, header);
         // projectTable = new JTable(this.projectListModel.getTableModel());
+        projectTable = new JTable();
         // // projectTable.setEnabled(false);
         // projectTable.getTableHeader().setReorderingAllowed(false);
 
@@ -74,9 +106,112 @@ public class AdminProjectListView extends JFrame implements Observer {
         // tableContainer.add(projectTable);
         GridBagAdder gridCtr_4 = new GridBagAdder.GridBagAdderBuilder().setY(3).width(2)
                 .build();
-        this.add(tableContainer, gridCtr_4.getConstraint());
-        // this.setVisible(true);
 
+
+        JPanel jp = new JPanel();
+        allProjectReport = new Report();
+
+        reportTp = new JTabbedPane();
+        reportTp.add("All Projects", allProjectReport);
+        // specializationTp.add("", null);
+        // JPanel specializationPanel = new JPanel(new GridBagLayout());
+        // specializationInput = new JComboBox<String>(
+        // new String[] { "Software Engineer", "Data Science", "Game Development",
+        // "Cyber Security" });
+        // gridCtr = new GridBagAdder.GridBagAdderBuilder().setX(2).build();
+        // specializationPanel.add(specializationInput, gridCtr.getConstraint());
+
+        // specializationSubmit = new JButton("Generate");
+        // gridCtr = new GridBagAdder.GridBagAdderBuilder().setX(4).build();
+        // specializationPanel.add(specializationInput, gridCtr.getConstraint());
+
+        // specializationReport = new Report();
+
+        specializationTab = new ReportTab();
+        lecturerTab = new ReportTab();
+        statusTab = new ReportTab();
+        assignTab = new ReportTab();
+        commentTab = new ReportTab();
+
+        reportTabs = new ArrayList<ReportTab>() {
+            {
+                add(specializationTab);
+                add(lecturerTab);
+                add(statusTab);
+                add(assignTab);
+                add(commentTab);
+            }
+        };
+
+        reportTp.add("By Specialization", specializationTab);
+        reportTp.add("By Lecturer", lecturerTab);
+        reportTp.add("By Status", statusTab);
+        reportTp.add("By Assign", assignTab);
+        reportTp.add("By Comment", commentTab);
+
+        mainTp = new JTabbedPane();
+        mainTp.add("Project", tableContainer);
+        mainTp.add("Report", reportTp);
+
+        // });
+
+        this.add(mainTp, gridCtr_4.getConstraint());
+        this.setVisible(true);
+    }
+
+    public void addSelectTabListener(ChangeListener listener) {
+        mainTp.addChangeListener(listener);
+        reportTp.addChangeListener(listener);
+    }
+
+    public void addClickGenerateListener(ActionListener listener) {
+        for (ReportTab reportTab : reportTabs) {
+            reportTab.getGenerateButton().addActionListener(listener);
+        }
+    }
+
+    public String getSelection(int index) {
+        // System.out.println("getselection:" + index);
+        index = index - 1;
+        reportTabs.get(index).getSelection().getSelectedItem();
+        if (reportTabs.get(index).getSelection().getSelectedItem() == null) {
+            return "";
+        }
+        return reportTabs.get(index).getSelection().getSelectedItem().toString();
+        // if (index == 1) {
+        // if (specializationTab.getSelection().getSelectedItem() == null) {
+        // return "";
+        // }
+        // return specializationTab.getSelection().getSelectedItem().toString();
+        // } else if (index == 2) {
+        // if (lecturerTab.getSelection().getSelectedItem() == null) {
+        // return "";
+        // }
+        // return lecturerTab.getSelection().getSelectedItem().toString();
+        // } else if (index == 3) {
+        // if (statusTab.getSelection().getSelectedItem() == null) {
+        // return "";
+        // }
+        // return statusTab.getSelection().getSelectedItem().toString();
+
+        // } else if (index == 4) {
+        // if (assignTab.getSelection().getSelectedItem() == null) {
+        // return "";
+        // }
+        // return assignTab.getSelection().getSelectedItem().toString();
+
+        // } else if (index == 5) {
+        // if (commentTab.getSelection().getSelectedItem() == null) {
+        // return "";
+        // }
+        // return commentTab.getSelection().getSelectedItem().toString();
+
+
+        // }
+        // if (commentTab.getSelection().getSelectedItem() == null) {
+        // return "";
+        // }
+        // return commentTab.getSelection().getSelectedItem().toString();
     }
 
     public void addClickRowListener(MouseListener listener) {
@@ -84,8 +219,7 @@ public class AdminProjectListView extends JFrame implements Observer {
     }
 
     public void addClickTableButtonListener(TableButtonPressedHandler listener) {
-        assignButtons.addHandler(listener);
-        editButtons.addHandler(listener);
+        commentButtons.addHandler(listener);
         deleteButtons.addHandler(listener);
     }
 
@@ -93,32 +227,32 @@ public class AdminProjectListView extends JFrame implements Observer {
         addProjectButton.addActionListener(listener);
     }
 
-    public void update() {
-        // System.out.println(projectListModel.getTableModel().getRowCount());
-        // System.out.println("update");
-
-        // if (projectListModel.getTableModel().getRowCount() > 0) {
-        // for (int i = 0; i < projectListModel.getTableModel().getRowCount(); i++) {
-        // assignButtons.setButtonText(i, projectListModel.getTableModel().getValueAt(i,
-        // 4).toString());
-        // }
-        // TableColumn assignColumn = projectTable.getColumnModel().getColumn(4);
-        // assignColumn.setCellRenderer(assignButtons);
-        // assignColumn.setCellEditor(assignButtons);
-
-        // // editButtons = new TableButton(new Color(241, 143, 5));
-        // TableColumn editColumn = projectTable.getColumnModel().getColumn(5);
-        // editColumn.setCellRenderer(editButtons);
-        // editColumn.setCellEditor(editButtons);
-
-        // // deleteButtons = new TableButton(new Color(241, 95, 95));
-        // TableColumn deleteColumn = projectTable.getColumnModel().getColumn(6);
-        // deleteColumn.setCellRenderer(deleteButtons);
-        // deleteColumn.setCellEditor(deleteButtons);
-        // }
+    public void addClickCreateUserButtonListener(ActionListener listener) {
+        createUserButton.addActionListener(listener);
     }
 
-    public static void main(String[] args) {
-        new AdminProjectListView();
+    public void addClickLogoutButtonListener(ActionListener listener) {
+        logoutButton.addActionListener(listener);
+    }
+
+    public void update() {
+        projectTable.setModel(new DefaultTableModel(projectListModel.getAdminData(), header));
+
+        for (ReportTab reportTab : reportTabs) {
+            reportTab.setData(projectListModel.getReportData());
+            reportTab.setCombo(comboListModel.getComboBox());
+        }
+        allProjectReport.setData(projectListModel.getReportData());
+        // specializationTab.setData(projectListModel.getReportData());
+        // specializationTab.setCombo(comboListModel.getComboBox());
+        if (projectListModel.getProjects().size() > 0) {
+            TableColumn commentColumn = projectTable.getColumnModel().getColumn(6);
+            commentColumn.setCellRenderer(commentButtons);
+            commentColumn.setCellEditor(commentButtons);
+
+            TableColumn deleteColumn = projectTable.getColumnModel().getColumn(7);
+            deleteColumn.setCellRenderer(deleteButtons);
+            deleteColumn.setCellEditor(deleteButtons);
+        }
     }
 }

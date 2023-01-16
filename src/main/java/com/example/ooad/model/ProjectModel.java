@@ -125,13 +125,64 @@ public class ProjectModel extends Observable {
         data.add(this.id.toString());
         data.add(this.title);
         data.add(this.specialization);
-        data.add(this.creator.getFullName());
+        if (this.creator == null) {
+            data.add("-");
+        } else {
+            data.add(this.creator.getFullName());
+        }
         data.add(this.description);
+        return data;
+    }
+
+    public Vector<String> getAdminVector() {
+        Vector<String> data = new Vector<>();
+        data.add(Long.toString(id));
+        data.add(this.title);
+        data.add(this.specialization);
+        data.add(this.status);
+        if (this.creator == null) {
+            data.add("-");
+        } else {
+            data.add(this.creator.getFullName());
+        }
+        if (student == null) {
+            data.add("-");
+        } else {
+            data.add(student.getFullName());
+        }
+        data.add("COMMENT");
+        data.add("DELETE");
         return data;
     }
 
     public boolean isValid() {
         return !(title.isBlank() | description.isBlank());
+    }
+
+    public String toReportStr() {
+        String data = new String();
+        data += "ID: " + this.getId().toString() + "\n";
+        data += "TITLE: " + this.getTitle() + "\n";
+        data += "SPECIALIZATION: " + this.getSpecialization() + "\n";
+        data += "DESCRIPTION: " + this.getDescription() + "\n";
+        data += "STATUS: " + this.getStatus() + "\n";
+        // data += "LECTURER: " + this.getCreator().getFullName() + " (" +
+        // this.getCreator().getAccountId() + ")\n";
+        // data += "STUDENT: " + this.getStudent().getFullName() + " (" +
+        // this.getCreator().getAccountId() + ")\n";
+
+        // if (comments.size() == 0) {
+        // data += "COMMENT: - \n";
+
+        // } else {
+        // data += "COMMENT:\n";
+        // for (CommentModel comment : comments) {
+        // data += "\t" + comment.getAdmin().getFullName() + " (" +
+        // comment.getAdmin().getAccountId() + "): "
+        // + comment.getComment() + ")\n";
+        // }
+        // }
+        return data;
     }
 
     public void set(ProjectModel project) {
@@ -145,7 +196,6 @@ public class ProjectModel extends Observable {
             this.creator = project.getCreator();
             this.comments = project.getComments();
         }
-
         notifyObservers();
     }
 
