@@ -111,4 +111,16 @@ public class UserModel extends Observable {
         this.password = new String(password);
         // return password;
     }
+
+    public boolean isValid() {
+        // if (!role.isBlank() | this.role.equals("Student")) {
+        // return !(role.isBlank() | fullName.isBlank() | accountId.isBlank()
+        // | ((StudentModel) this).getSpecialization().isBlank());
+        // } else {
+        // return !(role.isBlank() | fullName.isBlank() | accountId.isBlank());
+        // }
+
+        return !(accountId.isBlank() | fullName.isBlank());
+    }
+
 }

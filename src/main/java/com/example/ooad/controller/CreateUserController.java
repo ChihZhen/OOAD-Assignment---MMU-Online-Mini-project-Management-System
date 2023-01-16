@@ -58,37 +58,53 @@ public class CreateUserController {
 
     private void init() {
         createUserView.addClickSubmitListener(new ClickSubmitButtonListener());
+        createUserView.addSelectRoleListener(new SelectRoleListener());
         // show();
         // createUserView.setVisible(true);
         // createUserView.setModal(true);
     }
 
-    class ClickSubmitButtonListener implements ActionListener {
-
+    private class ClickSubmitButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             // createUserView.setProjectModel();
-            System.out.println("createUserView.actionPerformed");
+            // System.out.println("createUserView.actionPerformed");
             UserModel userModel = createUserView.getUserModel();
             userModel.generateRandomPassword();
+            if (userModel.isValid()) {
+                if (userRepository.findByAccountId(userModel.getAccountId()) == null) {
+                    userRepository.save(userModel);
+                    JFrame jf = new JFrame();
+                    JOptionPane.showMessageDialog(jf,
+                            "Id: " + userModel.getAccountId() + ", Password: " + userModel.getPassword(),
+                            "Account Created Successfully", 1, null);
 
-            if (userRepository.findByAccountId(userModel.getAccountId()) == null) {
-                userRepository.save(userModel);
-                JFrame jf = new JFrame();
-                JOptionPane.showMessageDialog(jf,
-                        "Id: " + userModel.getAccountId() + ", Password: " + userModel.getPassword(),
-                        "Account Created Successfully", 1, null);
-
+                } else {
+                    JFrame jf = new JFrame();
+                    JOptionPane.showMessageDialog(jf,
+                            "Id already created",
+                            "Account Created Failed", 2, null);
+                }
             } else {
-
                 JFrame jf = new JFrame();
                 JOptionPane.showMessageDialog(jf,
-                        "Id already created",
-                        "Account Created Failed", 2, null);
+                        "Please enter all fields",
+                        "Invalid Input", 2, null);
             }
 
-            // System.out.println("clickbuttonlistener");
-            // addProjectView.dispose();
+        }
+    }
+
+    private class SelectRoleListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (createUserView.getRoleInput().getSelectedItem().toString().equals("Student")) {
+                createUserView.getSpecializationLabel().setVisible(true);
+                createUserView.getSpecializationInput().setVisible(true);
+            } else {
+                createUserView.getSpecializationLabel().setVisible(false);
+                createUserView.getSpecializationInput().setVisible(false);
+            }
         }
     }
 }

@@ -23,7 +23,6 @@ public class AdminAddProjectController {
     private LecturerRepository lecturerRepository;
 
     public void show() {
-
         adminAddProjectView.setVisible(true);
     }
 

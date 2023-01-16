@@ -10,18 +10,24 @@ public class CommentModel {
     @Id
     private Long id;
     private Date date;
+    private String comment;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
     private ProjectModel project;
 
+    @ManyToOne
+    private AdminModel admin;
+
     public CommentModel() {
     }
 
-    public CommentModel(Long id, Date date, ProjectModel project) {
+    public CommentModel(Long id, Date date, String comment, ProjectModel project, AdminModel admin) {
         this.id = id;
         this.date = date;
+        this.comment = comment;
         this.project = project;
+        this.admin = admin;
     }
 
     public Long getId() {
@@ -40,6 +46,14 @@ public class CommentModel {
         this.date = date;
     }
 
+    public String getComment() {
+        return this.comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public ProjectModel getProject() {
         return this.project;
     }
@@ -47,4 +61,13 @@ public class CommentModel {
     public void setProject(ProjectModel project) {
         this.project = project;
     }
+
+    public AdminModel getAdmin() {
+        return this.admin;
+    }
+
+    public void setAdmin(AdminModel admin) {
+        this.admin = admin;
+    }
+
 }
