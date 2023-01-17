@@ -4,16 +4,16 @@ import javax.swing.*;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.model.AdminModel;
-import com.example.ooad.model.LecturerModel;
-import com.example.ooad.model.StudentModel;
-import com.example.ooad.model.UserModel;
+import com.example.ooad.entity.Admin;
+import com.example.ooad.entity.Lecturer;
+import com.example.ooad.entity.Student;
+import com.example.ooad.entity.User;
 
 import java.awt.*;
 import java.awt.event.*;
 
 @Component
-public class CreateUserView extends JDialog {
+public class AdminCreateUserView extends JDialog {
 
     private JTextField usernameInput;
     private JTextField idInput;
@@ -21,7 +21,6 @@ public class CreateUserView extends JDialog {
     private JLabel specializationLabel;
     private JComboBox<String> specializationInput;
     private JButton submitButton;
-
 
     // private StudentModel studentModel;
 
@@ -74,7 +73,7 @@ public class CreateUserView extends JDialog {
     }
 
     // public CreateUserView(ProjectModel projectModel) {
-    public CreateUserView() {
+    public AdminCreateUserView() {
 
         // this.studentModel = studentModel;
 
@@ -132,7 +131,7 @@ public class CreateUserView extends JDialog {
     }
 
     public static void main(String[] args) {
-        new CreateUserView();
+        new AdminCreateUserView();
     }
 
     public void addClickSubmitListener(ActionListener Listener) {
@@ -143,18 +142,18 @@ public class CreateUserView extends JDialog {
         roleInput.addActionListener(listener);
     }
 
-    public UserModel getUserModel() {
-        UserModel userModel;
+    public User getUserModel() {
+        User userModel;
         if (roleInput.getSelectedItem().toString().equals("Lecturer")) {
-            userModel = new LecturerModel(usernameInput.getText(),
+            userModel = new Lecturer(usernameInput.getText(),
                     roleInput.getSelectedItem().toString(),
                     idInput.getText());
         } else if (roleInput.getSelectedItem().toString().equals("Admin")) {
-            userModel = new AdminModel(usernameInput.getText(),
+            userModel = new Admin(usernameInput.getText(),
                     roleInput.getSelectedItem().toString(),
                     idInput.getText());
         } else {
-            userModel = new StudentModel(usernameInput.getText(),
+            userModel = new Student(usernameInput.getText(),
                     roleInput.getSelectedItem().toString(),
                     idInput.getText(), specializationInput.getSelectedItem().toString());
         }
@@ -165,7 +164,6 @@ public class CreateUserView extends JDialog {
 
         return userModel;
     }
-
 
     // public void update() {
     // idInput.setText(studentModel.getAccountId());

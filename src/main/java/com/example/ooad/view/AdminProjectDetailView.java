@@ -12,8 +12,8 @@ import javax.swing.ScrollPaneLayout;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.model.CommentModel;
-import com.example.ooad.model.ProjectModel;
+import com.example.ooad.entity.Comment;
+import com.example.ooad.entity.Project;
 import com.example.ooad.utils.GridBagAdder;
 
 import java.awt.*;
@@ -21,14 +21,14 @@ import java.awt.event.*;
 import java.util.*;
 
 @Component
-public class AdminProjectDetailView extends JDialog implements Observer {
+public class AdminProjectDetailView extends JDialog {
 
   private JTextField titleInput;
   private JTextField specializationInput;
   private JTextField statusInput;
   private JTextArea descriptionInput;
   public int inc = 6;
-  private ProjectModel projectModel;
+  private Project projectModel;
   private Vector<String> comments = new Vector<String>() {
     {
       add("asdfasdf");
@@ -38,9 +38,9 @@ public class AdminProjectDetailView extends JDialog implements Observer {
 
   };
 
-  public AdminProjectDetailView(ProjectModel projectModel) {
+  public AdminProjectDetailView(Project projectModel) {
     this.projectModel = projectModel;
-    projectModel.registerObserver(this);
+    // projectModel.registerObserver(this);
     // this.setModal(true);
     this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     this.setLayout(new GridBagLayout());

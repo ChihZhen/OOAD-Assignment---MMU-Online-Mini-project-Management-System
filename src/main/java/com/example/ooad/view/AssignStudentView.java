@@ -4,15 +4,17 @@ import javax.swing.*;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.model.StudentListModel;
+import com.example.ooad.model.StudentModel;
+import com.example.ooad.utils.Observable;
+import com.example.ooad.utils.Observer;
 
 import java.awt.*;
 import java.awt.event.*;
 
 @Component
-public class AssignStudentView extends JDialog implements Observer {
+public class AssignStudentView extends JDialog implements Observer<StudentModel> {
 
-    private StudentListModel studentListModel;
+    private StudentModel studentModel;
     private JButton selectButton;
     private JTable studentTable;
 
@@ -64,9 +66,9 @@ public class AssignStudentView extends JDialog implements Observer {
         dialog.add(comp, constr);
     }
 
-    public AssignStudentView(StudentListModel studentListModel) {
-        this.studentListModel = studentListModel;
-        this.studentListModel.registerObserver(this);
+    public AssignStudentView(StudentModel studentModel) {
+        this.studentModel = studentModel;
+        this.studentModel.registerObserver(this);
 
         this.setModal(true);
         this.setTitle("Assign Student");
@@ -76,7 +78,7 @@ public class AssignStudentView extends JDialog implements Observer {
         this.setResizable(false);
 
 
-        studentTable = new JTable(this.studentListModel.getTableModel());
+        // studentTable = new JTable(this.studentListModel.getTableModel());
 
         JScrollPane tableContainer = new JScrollPane(studentTable);
         tableContainer.setPreferredSize(new Dimension(400, 432));
@@ -89,11 +91,35 @@ public class AssignStudentView extends JDialog implements Observer {
         add(this, selectButton, 1, 2, 1, 1, 15, 0, 0, 0, GridBagConstraints.BASELINE_TRAILING);
     }
 
+    // public StudentModel getStudentListModel() {
+    // return this.studentListModel;
+    // }
+
+    // public void setStudentListModel(StudentModel studentListModel) {
+    // this.studentListModel = studentListModel;
+    // }
+
+    public JButton getSelectButton() {
+        return this.selectButton;
+    }
+
+    public void setSelectButton(JButton selectButton) {
+        this.selectButton = selectButton;
+    }
+
+    public JTable getStudentTable() {
+        return this.studentTable;
+    }
+
+    public void setStudentTable(JTable studentTable) {
+        this.studentTable = studentTable;
+    }
+
     // public static void main(String[] args) {
     // new AssignStudentView();
     // }
 
-    public void update() {
+    public void update(Observable<StudentModel> observable) {
 
     };
 

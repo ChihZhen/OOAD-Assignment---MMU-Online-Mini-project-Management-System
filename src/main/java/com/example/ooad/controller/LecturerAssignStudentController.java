@@ -8,9 +8,9 @@ import javax.swing.JOptionPane;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
-import com.example.ooad.model.ProjectListModel;
+import com.example.ooad.entity.Project;
+import com.example.ooad.entity.Student;
 import com.example.ooad.model.ProjectModel;
-import com.example.ooad.model.StudentListModel;
 import com.example.ooad.model.StudentModel;
 import com.example.ooad.repository.ProjectRepository;
 import com.example.ooad.repository.StudentRepository;
@@ -20,23 +20,23 @@ import com.example.ooad.view.ProjectView;
 import java.awt.event.*;
 
 @Controller
-public class AssignStudentController {
-    private StudentRepository studentRepository;
+public class LecturerAssignStudentController {
+    // private StudentRepository studentRepository;
     private AssignStudentView assignStudentView;
-    private StudentListModel studentListModel;
-    private ProjectListController projectListController;
-    private ProjectModel project;
+    private StudentModel studentModel;
+    private LecturerDashboardController projectListController;
+    // private Project project;
+    private ProjectModel projectModel;
 
-    private ProjectRepository projectRepository;
+    // private ProjectRepository projectRepository;
 
-    public AssignStudentController(StudentRepository studentRepository, AssignStudentView assignStudentView,
-            StudentListModel studentListModel, ProjectRepository projectRepository,
-            @Lazy ProjectListController projectListController) {
+    public LecturerAssignStudentController(AssignStudentView assignStudentView,
+            StudentModel studentModel, @Lazy LecturerDashboardController projectListController) {
         this.assignStudentView = assignStudentView;
-        this.studentListModel = studentListModel;
-        this.studentRepository = studentRepository;
+        this.studentModel = studentModel;
+        // this.studentRepository = studentRepository;
         this.projectListController = projectListController;
-        this.projectRepository = projectRepository;
+        // this.projectRepository = projectRepository;
         // init();
 
         assignStudentView.addClickSelectButtonListener(new ClickSelectButtonListener());
@@ -48,9 +48,10 @@ public class AssignStudentController {
     // ClickSelectButtonListener());
     // }
 
-    public void show(ProjectModel project) {
-        this.project = project;
-        loadData(project.getSpecialization());
+    public void show(Project project) {
+        // this.project = project;
+        projectModel.load();
+        // loadData(project.getSpecialization());
         assignStudentView.setVisible(true);
     }
 
@@ -58,12 +59,14 @@ public class AssignStudentController {
         assignStudentView.setVisible(false);
     }
 
-    public void loadData(String specialization) {
-        List<StudentModel> students = studentRepository.findStudentBySpecializationAndProject(specialization, null);
-        studentListModel.setStudents(students);
-        // assignStudentView.addClickSelectButtonListener(new
-        // ClickSelectButtonListener());
-    }
+    // public void loadData(String specialization) {
+    // List<Student> students =
+    // studentRepository.findStudentBySpecializationAndProject(specialization,
+    // null);
+    // studentListModel.setStudents(students);
+    // // assignStudentView.addClickSelectButtonListener(new
+    // // ClickSelectButtonListener());
+    // }
 
     class ClickSelectButtonListener implements ActionListener {
 
@@ -79,10 +82,12 @@ public class AssignStudentController {
                         "Please select a student",
                         "No Selection", 2, null);
             } else {
-                StudentModel student = studentListModel.getStudent(row);
-                project.setStudent(student);
-                projectRepository.save(project);
-                projectListController.loadData();
+                Student student = studentModel.get(row);
+                projectModel.getCurrent().setStudent(student);
+                projectModel.save();
+                // project.setStudent(student);
+                // projectRepository.save(project);
+                // projectListController.loadData();
                 assignStudentView.dispose();
             }
         }

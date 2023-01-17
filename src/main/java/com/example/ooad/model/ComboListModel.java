@@ -8,6 +8,8 @@ import javax.swing.table.DefaultTableModel;
 
 import org.springframework.stereotype.Component;
 
+import com.example.ooad.utils.Observable;
+
 @Component
 public class ComboListModel extends Observable {
     private List<String> data = new ArrayList<String>();

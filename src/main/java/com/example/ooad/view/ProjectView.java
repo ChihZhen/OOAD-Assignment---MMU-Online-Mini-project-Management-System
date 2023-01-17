@@ -4,14 +4,14 @@ import javax.swing.*;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.model.ProjectModel;
+import com.example.ooad.entity.Project;
 import com.example.ooad.utils.GridBagAdder;
 
 import java.awt.*;
 import java.awt.event.*;
 
 @Component
-public class ProjectView extends JDialog implements Observer {
+public class ProjectView extends JDialog {
 
     private JButton submitButton;
     private JTextField titleInput;
@@ -19,12 +19,12 @@ public class ProjectView extends JDialog implements Observer {
     private JComboBox<String> statusInput;
     private JTextArea descriptionInput;
 
-    private ProjectModel projectModel;
+    private Project projectModel;
 
-    public ProjectView(ProjectModel projectModel) {
+    public ProjectView(Project projectModel) {
 
         this.projectModel = projectModel;
-        projectModel.registerObserver(this);
+        // projectModel.registerObserver(this);
 
         this.setModal(true);
         // this.setTitle("New Project");

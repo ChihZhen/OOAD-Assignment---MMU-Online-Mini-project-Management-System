@@ -1,13 +1,15 @@
-package com.example.ooad.model;
+package com.example.ooad.entity;
 
 import java.util.Random;
+
+import com.example.ooad.utils.Observable;
 
 import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "\"User\"")
-public class UserModel extends Observable {
+public class User extends Observable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -20,16 +22,16 @@ public class UserModel extends Observable {
 
     private String accountId;
 
-    protected UserModel() {
+    protected User() {
     }
 
-    protected UserModel(String fullName, String role, String accountId) {
+    protected User(String fullName, String role, String accountId) {
         this.fullName = fullName;
         this.role = role;
         this.accountId = accountId;
     }
 
-    protected UserModel(String fullName, String role, String accountId, String password) {
+    protected User(String fullName, String role, String accountId, String password) {
         this.password = password;
         this.fullName = fullName;
         this.role = role;

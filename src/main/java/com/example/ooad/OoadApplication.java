@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-import com.example.ooad.controller.CreateUserController;
+import com.example.ooad.controller.AdminCreateUserController;
 import com.example.ooad.controller.LoginController;
-import com.example.ooad.model.UserModel;
+import com.example.ooad.entity.User;
 // import com.example.ooad.repository.StudentRepository;
 import com.example.ooad.repository.StudentRepository;
 
@@ -16,7 +16,7 @@ import java.awt.*;
 public class OoadApplication {
 
 	@Autowired(required = false)
-	private static UserModel loginUser;
+	private static User loginUser;
 
 	public OoadApplication(LoginController loginController) {
 		loginController.show();
@@ -47,7 +47,7 @@ public class OoadApplication {
 
 	}
 
-	public static UserModel getLoginUser() {
+	public static User getLoginUser() {
 		// if (this.loginUser != null) {
 		// System.out.println("login user function-------------->" +
 		// loginUser.getFullName());
@@ -57,7 +57,7 @@ public class OoadApplication {
 	}
 
 	// @Autowired(required = false)
-	public static void setLoginUser(UserModel user) {
+	public static void setLoginUser(User user) {
 		// System.out.println("user--------------->" + user.getFullName());
 		loginUser = user;
 		// System.out.println("login user-------------->" + this.loginUser);

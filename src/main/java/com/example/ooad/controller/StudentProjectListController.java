@@ -1,14 +1,14 @@
 package com.example.ooad.controller;
 
 import com.example.ooad.OoadApplication;
-import com.example.ooad.model.ProjectListModel;
+import com.example.ooad.entity.Project;
+import com.example.ooad.entity.Student;
+import com.example.ooad.entity.User;
+import com.example.ooad.model.ProjectModel;
 import com.example.ooad.repository.ProjectRepository;
 import com.example.ooad.view.ProjectListView;
 import com.example.ooad.view.ProjectView;
 import com.example.ooad.view.StudentProjectListView;
-import com.example.ooad.model.ProjectModel;
-import com.example.ooad.model.StudentModel;
-import com.example.ooad.model.UserModel;
 
 import java.awt.event.*;
 import java.util.List;
@@ -20,20 +20,20 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class StudentProjectListController {
   private StudentProjectListView studentProjectListView;
-  private ProjectListModel projectTableModel;
   private ProjectModel projectModel;
-  private ProjectRepository projectRepository;
-  private OoadApplication ooadApplication;
-  private StudentModel student;
+  // private Project projectModel;
+  // private ProjectRepository projectRepository;
+  // private OoadApplication ooadApplication;
+  private Student student;
 
-  public StudentProjectListController(StudentProjectListView studentProjectListView, ProjectListModel projectTableModel,
-      ProjectModel projectModel,
-      ProjectRepository projectRepository, @Lazy OoadApplication ooadApplication, StudentModel student) {
+  public StudentProjectListController(StudentProjectListView studentProjectListView, ProjectModel projectTableModel,
+      Project projectModel,
+      ProjectRepository projectRepository, @Lazy OoadApplication ooadApplication, Student student) {
     this.studentProjectListView = studentProjectListView;
-    this.projectTableModel = projectTableModel;
-    this.projectModel = projectModel;
-    this.projectRepository = projectRepository;
-    this.ooadApplication = ooadApplication;
+    // this.projectTableModel = projectTableModel;
+    // this.projectModel = projectModel;
+    // this.projectRepository = projectRepository;
+    // this.ooadApplication = ooadApplication;
     this.student = student;
 
     // init();
@@ -42,18 +42,19 @@ public class StudentProjectListController {
   }
 
   public void loadData() {
-    this.student = (StudentModel) OoadApplication.getLoginUser();
-    List<ProjectModel> projects = projectRepository.findBySpecializationAndStatus(student.getSpecialization(),
-        "Active");
-    if (student != null) {
-      System.out.println("special-------------------------->" +
-          student.getId());
-    }
+    this.student = (Student) OoadApplication.getLoginUser();
+    // List<Project> projects =
+    // projectRepository.findBySpecializationAndStatus(student.getSpecialization(),
+    // "Active");
+    // if (student != null) {
+    // System.out.println("special-------------------------->" +
+    // student.getId());
+    // }
 
-    ProjectModel project = projectRepository.findByStudentId(student.getId());
+    // Project project = projectRepository.findByStudentId(student.getId());
 
-    projectTableModel.setProjects(projects);
-    projectModel.set(project);
+    // projectTableModel.setProjects(projects);
+    // projectModel.set(project);
   }
 
   // public void init() {
@@ -64,7 +65,7 @@ public class StudentProjectListController {
   // }
 
   public void show() {
-    this.student = (StudentModel) OoadApplication.getLoginUser();
+    this.student = (Student) OoadApplication.getLoginUser();
     loadData();
     studentProjectListView.setVisible(true);
   }

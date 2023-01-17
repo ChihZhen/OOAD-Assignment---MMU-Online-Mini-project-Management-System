@@ -5,9 +5,9 @@ import javax.swing.table.DefaultTableModel;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.model.ProjectListModel;
+import com.example.ooad.entity.Project;
+import com.example.ooad.entity.Student;
 import com.example.ooad.model.ProjectModel;
-import com.example.ooad.model.StudentModel;
 import com.example.ooad.utils.GridBagAdder;
 
 import java.awt.*;
@@ -15,10 +15,10 @@ import java.awt.event.*;
 import java.util.*;
 
 @Component
-public class StudentProjectListView extends JFrame implements Observer {
+public class StudentProjectListView extends JFrame {
   private JTable projectTable;
-  private ProjectListModel projectListModel;
-  private ProjectModel projectModel;
+  private ProjectModel projectListModel;
+  private Project projectModel;
   JPanel panel = new JPanel();
   JLabel l = new JLabel("You are not assigned with any project yet.");
 
@@ -33,11 +33,11 @@ public class StudentProjectListView extends JFrame implements Observer {
     }
   };
 
-  public StudentProjectListView(ProjectListModel projectListModel, ProjectModel projectModel, StudentModel student) {
+  public StudentProjectListView(ProjectModel projectListModel, Project projectModel, Student student) {
     this.projectListModel = projectListModel;
     this.projectModel = projectModel;
-    this.projectModel.registerObserver(this);
-    this.projectListModel.registerObserver(this);
+    // this.projectModel.registerObserver(this);
+    // this.projectListModel.registerObserver(this);
 
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     this.setLayout(new GridBagLayout());

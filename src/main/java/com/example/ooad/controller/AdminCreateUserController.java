@@ -2,13 +2,13 @@ package com.example.ooad.controller;
 
 import org.springframework.stereotype.Controller;
 
-import com.example.ooad.model.AdminModel;
-import com.example.ooad.model.LecturerModel;
-import com.example.ooad.model.StudentModel;
-import com.example.ooad.model.UserModel;
+import com.example.ooad.entity.Admin;
+import com.example.ooad.entity.Lecturer;
+import com.example.ooad.entity.Student;
+import com.example.ooad.entity.User;
 import com.example.ooad.repository.StudentRepository;
 import com.example.ooad.repository.UserRepository;
-import com.example.ooad.view.CreateUserView;
+import com.example.ooad.view.AdminCreateUserView;
 
 import java.awt.event.*;
 
@@ -16,14 +16,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 @Controller
-public class CreateUserController {
-    private CreateUserView createUserView;
+public class AdminCreateUserController {
+    private AdminCreateUserView createUserView;
     // private ProjectRepository projectRepository;
     // private ProjectListModel projectTableModel;
     // private UserModel userModel;
-    private AdminModel adminModel;
-    private StudentModel studentModel;
-    private LecturerModel lecturerModel;
+    private Admin adminModel;
+    private Student studentModel;
+    private Lecturer lecturerModel;
     private UserRepository userRepository;
     private StudentRepository studentRepository;
 
@@ -42,8 +42,8 @@ public class CreateUserController {
         createUserView.setVisible(true);
     }
 
-    public CreateUserController(CreateUserView createUserView, AdminModel adminModel, StudentModel studentModel,
-            LecturerModel lecturerModel, UserRepository userRepository, StudentRepository studentRepository) {
+    public AdminCreateUserController(AdminCreateUserView createUserView, Admin adminModel, Student studentModel,
+            Lecturer lecturerModel, UserRepository userRepository, StudentRepository studentRepository) {
         this.createUserView = createUserView;
         this.lecturerModel = lecturerModel;
         this.adminModel = adminModel;
@@ -72,7 +72,7 @@ public class CreateUserController {
         public void actionPerformed(ActionEvent e) {
             // createUserView.setProjectModel();
             // System.out.println("createUserView.actionPerformed");
-            UserModel userModel = createUserView.getUserModel();
+            User userModel = createUserView.getUserModel();
             userModel.generateRandomPassword();
             if (userModel.isValid()) {
                 if (userRepository.findByAccountId(userModel.getAccountId()) == null) {

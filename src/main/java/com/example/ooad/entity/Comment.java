@@ -1,4 +1,4 @@
-package com.example.ooad.model;
+package com.example.ooad.entity;
 
 import java.sql.Date;
 
@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Comment")
-public class CommentModel {
+public class Comment {
     @Id
     private Long id;
     private Date date;
@@ -14,15 +14,15 @@ public class CommentModel {
 
     @ManyToOne
     @JoinColumn(name = "project_id")
-    private ProjectModel project;
+    private Project project;
 
     @ManyToOne
-    private AdminModel admin;
+    private Admin admin;
 
-    public CommentModel() {
+    public Comment() {
     }
 
-    public CommentModel(Long id, Date date, String comment, ProjectModel project, AdminModel admin) {
+    public Comment(Long id, Date date, String comment, Project project, Admin admin) {
         this.id = id;
         this.date = date;
         this.comment = comment;
@@ -54,19 +54,19 @@ public class CommentModel {
         this.comment = comment;
     }
 
-    public ProjectModel getProject() {
+    public Project getProject() {
         return this.project;
     }
 
-    public void setProject(ProjectModel project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 
-    public AdminModel getAdmin() {
+    public Admin getAdmin() {
         return this.admin;
     }
 
-    public void setAdmin(AdminModel admin) {
+    public void setAdmin(Admin admin) {
         this.admin = admin;
     }
 

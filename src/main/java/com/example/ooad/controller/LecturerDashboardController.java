@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 
-import com.example.ooad.model.ProjectModel;
-import com.example.ooad.model.UserModel;
 import com.example.ooad.OoadApplication;
-import com.example.ooad.model.ProjectListModel;
+import com.example.ooad.entity.Project;
+import com.example.ooad.entity.User;
+import com.example.ooad.model.ProjectModel;
 import com.example.ooad.repository.LecturerRepository;
 import com.example.ooad.repository.ProjectRepository;
 import com.example.ooad.view.ProjectListView;
@@ -22,29 +22,29 @@ import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
 import java.awt.event.*;
 
 @Controller
-public class ProjectListController {
+public class LecturerDashboardController {
     private ProjectListView projectListView;
-    private ProjectListModel projectTableModel;
+    private ProjectModel projectModel;
 
-    @Autowired
-    private ProjectRepository projectRepository;
+    // @Autowired
+    // private ProjectRepository projectRepository;
 
-    @Autowired
-    private LecturerRepository lecturerRepository;
+    // @Autowired
+    // private LecturerRepository lecturerRepository;
     // private OoadApplication ooadApplication;
     @Autowired
     private ProjectController projectController;
 
     @Autowired
-    private AssignStudentController assignStudentController;
+    private LecturerAssignStudentController assignStudentController;
 
     @Autowired
     @Lazy
     private LoginController loginController;
 
-    public ProjectListController(ProjectListView projectListView, ProjectListModel projectTableModel) {
+    public LecturerDashboardController(ProjectListView projectListView, ProjectModel projectTableModel) {
         this.projectListView = projectListView;
-        this.projectTableModel = projectTableModel;
+        this.projectModel = projectTableModel;
 
         // this.projectController = projectController;
         // this.assignStudentController = assignStudentController;
@@ -60,10 +60,11 @@ public class ProjectListController {
 
     public void loadData() {
         // List<ProjectModel> projects = projectRepository.findAll();
-        UserModel user = OoadApplication.getLoginUser();
-        List<ProjectModel> projects = lecturerRepository
-                .findOneById(user.getId()).getProjects();
-        projectTableModel.setProjects(projects);
+        User user = OoadApplication.getLoginUser();
+        // List<Project> projects = lecturerRepository
+        // .findOneById(user.getId()).getProjects();
+        // projectTableModel.setProjects(projects);
+
         // projectView.addClickButtonListener(new ClickAddProjectButtonListener());
     }
 
@@ -128,7 +129,7 @@ public class ProjectListController {
             if (column == 4) {
                 // String specialization =
                 // projectTableModel.getProject(row).getSpecialization();
-                assignStudentController.show(projectTableModel.getProject(row));
+                assignStudentController.show(projectModel.get(row));
 
             } else if (column == 5) {
                 projectController.showEditProject(row);
@@ -138,7 +139,8 @@ public class ProjectListController {
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (result == JOptionPane.YES_OPTION) {
-                    projectRepository.delete(projectTableModel.getProject(row));
+                    projectModel.delete(row);
+                    // projectRepository.delete(projectTableModel.getProject(row));
                     loadData();
                 }
             }

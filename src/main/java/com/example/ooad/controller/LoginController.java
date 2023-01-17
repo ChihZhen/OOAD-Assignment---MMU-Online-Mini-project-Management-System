@@ -1,6 +1,8 @@
 package com.example.ooad.controller;
 
 import com.example.ooad.OoadApplication;
+import com.example.ooad.entity.Admin;
+import com.example.ooad.entity.User;
 import com.example.ooad.model.*;
 import com.example.ooad.repository.StudentRepository;
 import com.example.ooad.repository.UserRepository;
@@ -24,14 +26,18 @@ public class LoginController {
     private UserRepository userRepository;
     private StudentRepository studentRepository;
     private StudentProjectListController studentProjectListController;
-    private ProjectListController projectListController;
-    private AdminProjectListController adminProjectListController;
+    private LecturerDashboardController projectListController;
+    private AdminDashboardController adminProjectListController;
     private OoadApplication ooadApplication;
+
+    @Autowired
+    private AdminModel adminModel;
 
     // @Autowired
     public LoginController(LoginView loginView, UserRepository userRepository, StudentRepository studentRepository,
             StudentProjectListController studentProjectListController, @Lazy OoadApplication ooadApplication,
-            ProjectListController projectListController, @Lazy AdminProjectListController adminProjectListController) {
+            LecturerDashboardController projectListController,
+            @Lazy AdminDashboardController adminProjectListController) {
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.loginView = loginView;
@@ -52,6 +58,7 @@ public class LoginController {
     // }
 
     public void show() {
+        adminModel.load();
         // System.out.println("login--------------------------------------------------------------");
         loginView.setVisible(true);
     }
@@ -76,7 +83,7 @@ public class LoginController {
             // null);
             // }
             // } else {
-                UserModel user = userRepository.findByAccountId(loginModel.getId());
+            User user = userRepository.findByAccountId(loginModel.getId());
                 if (user == null) {
                     JFrame jf = new JFrame();
                     JOptionPane.showMessageDialog(jf, "Account not found", "Login Failed", 2, null);
@@ -109,9 +116,9 @@ public class LoginController {
     }
 
     private void initDB() {
-        UserModel user = userRepository.findByAccountId("root");
+        User user = userRepository.findByAccountId("root");
         if (user == null) {
-            userRepository.save(new AdminModel("Root Admin", "Admin", "root", "123"));
+            userRepository.save(new Admin("Root Admin", "Admin", "root", "123"));
         }
     }
 }

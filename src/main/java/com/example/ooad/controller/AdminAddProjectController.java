@@ -2,9 +2,9 @@ package com.example.ooad.controller;
 
 import org.springframework.stereotype.Controller;
 
-import com.example.ooad.model.LecturerListModel;
+import com.example.ooad.entity.Lecturer;
+import com.example.ooad.entity.Project;
 import com.example.ooad.model.LecturerModel;
-import com.example.ooad.model.ProjectListModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.repository.LecturerRepository;
 import com.example.ooad.repository.ProjectRepository;
@@ -15,28 +15,24 @@ import java.util.List;
 
 @Controller
 public class AdminAddProjectController {
-    private ProjectListModel projectTableModel;
-    private LecturerListModel lecturerListModel;
     private ProjectModel projectModel;
+    private LecturerModel lecturerModel;
     private AdminAddProjectView adminAddProjectView;
-    private ProjectRepository projectRepository;
-    private LecturerRepository lecturerRepository;
 
-    public AdminAddProjectController(AdminAddProjectView adminAddProjectView, ProjectRepository projectRepository,
-            ProjectListModel projectTableModel, ProjectModel projectModel, LecturerListModel lecturerListModel,
-            LecturerRepository lecturerRepository) {
+    public AdminAddProjectController(AdminAddProjectView adminAddProjectView,
+            ProjectModel projectModel, LecturerModel lecturerModel) {
         this.adminAddProjectView = adminAddProjectView;
         this.projectModel = projectModel;
-        this.projectTableModel = projectTableModel;
-        this.projectRepository = projectRepository;
-        this.lecturerListModel = lecturerListModel;
-        this.lecturerRepository = lecturerRepository;
-
-        adminAddProjectView.addClickSubmitListener(new ClickSubmitButtonListener());
+        // this.projectTableModel = projectTableModel;
+        // this.projectRepository = projectRepository;
+        this.lecturerModel = lecturerModel;
+        // this.lecturerRepository = lecturerRepository;
+        adminAddProjectView.getSubmitButton().addActionListener(new SubmitButtonListener());
+        // adminAddProjectView.addClickSubmitListener(new ClickSubmitButtonListener());
     }
 
     public void show() {
-        loadData();
+        lecturerModel.load();
         adminAddProjectView.setVisible(true);
     }
 
@@ -44,22 +40,29 @@ public class AdminAddProjectController {
         adminAddProjectView.setVisible(false);
     }
 
-    public void loadData() {
-        List<LecturerModel> lecturers = lecturerRepository.findAll();
-        lecturerListModel.setLecturers(lecturers);
-    }
+    // public void loadData() {
+    // List<Lecturer> lecturers = lecturerRepository.findAll();
+    // lecturerListModel.setLecturers(lecturers);
+    // }
 
-    class ClickSubmitButtonListener implements ActionListener {
+    class SubmitButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(projectModel.getId());
-            System.out.println(projectModel.getStudent());
-            adminAddProjectView.setProjectModel();
-            projectRepository.save(projectModel);
-            List<ProjectModel> projects = projectRepository.findAll();
-            projectTableModel.setProjects(projects);
-            projectModel.reset();
-            System.out.println("clickbuttonlistener");
+            String title = adminAddProjectView.getTitleInput().getText();
+            String specialization = adminAddProjectView.getSpecializationInput().getSelectedItem().toString();
+            String status = adminAddProjectView.getStatusInput().getSelectedItem().toString();
+            String description = adminAddProjectView.getDescriptionInput().getText();
+            int lecturerIndex = adminAddProjectView.getLecturerInput().getSelectedIndex();
+
+            // adminAddProjectView.setProjectModel();
+            Lecturer lecturer = lecturerModel.get(lecturerIndex);
+            Project project = new Project(title, description, status, specialization, lecturer);
+            // projectRepository.save(projectModel);
+            projectModel.create(project);
+            // List<Project> projects = projectRepository.findAll();
+            // projectTableModel.setProjects(projects);
+            // projectModel.reset();
+            // System.out.println("clickbuttonlistener");
             adminAddProjectView.dispose();
         }
     }
