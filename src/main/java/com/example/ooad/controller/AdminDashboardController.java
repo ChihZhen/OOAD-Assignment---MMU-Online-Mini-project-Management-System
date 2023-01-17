@@ -29,7 +29,7 @@ public class AdminDashboardController {
     private ProjectModel projectModel;
     private ComboListModel comboListModel;
     private AdminDashboardView adminProjectListView;
-    private ProjectController projectController;
+    private LecturerAddProjectController projectController;
     private AdminAddProjectController adminAddProjectController;
     private AdminCreateUserController createUserController;
     private LoginController loginController;
@@ -38,7 +38,7 @@ public class AdminDashboardController {
     private int tabIndex;
 
     public AdminDashboardController(ProjectModel projectTableModel, ComboListModel comboListModel,
-            AdminDashboardView adminProjectListView, ProjectController projectController,
+            AdminDashboardView adminProjectListView, LecturerAddProjectController projectController,
             AdminAddProjectController adminAddProjectController,
             AdminCreateUserController createUserController, LoginController loginController,
             ProjectRepository projectRepository, LecturerRepository lecturerRepository) {
@@ -253,7 +253,8 @@ public class AdminDashboardController {
         public void actionPerformed(ActionEvent e) {
             loginController.show();
             adminProjectListView.setVisible(false);
-            OoadApplication.setLoginUser(null);
+            // OoadApplication.setLoginUser(null);
+            projectModel.setAuthUser(null);
         }
     }
 }

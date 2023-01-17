@@ -5,7 +5,6 @@ import javax.swing.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.model.LoginModel;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -16,7 +15,7 @@ public class LoginView extends JFrame {
     private JButton loginButton;
     private JTextField idInput;
     private JTextField passwordInput;
-    private LoginModel loginModel;
+    // private LoginModel loginModel;
 
     public static void add(JPanel panel, JComponent comp, int x, int y, int width, int height) {
         GridBagConstraints constr = new GridBagConstraints();
@@ -53,9 +52,8 @@ public class LoginView extends JFrame {
         panel.add(comp, constr);
     }
 
-    @Autowired
-    public LoginView(LoginModel loginModel) {
-        this.loginModel = loginModel;
+    public LoginView() {
+        // this.loginModel = loginModel;
         JLabel systemLabel1 = new JLabel("MMU Online");
         systemLabel1.setForeground(Color.white);
         systemLabel1.setFont(new Font("Source Code Pro", 1, 18));
@@ -124,11 +122,35 @@ public class LoginView extends JFrame {
         loginButton.addActionListener(listener);
     }
 
-    public LoginModel getLoginModel() {
-        loginModel.setId(idInput.getText());
-        loginModel.setPassword(passwordInput.getText());
-        return loginModel;
+    public JButton getLoginButton() {
+        return this.loginButton;
     }
+
+    public void setLoginButton(JButton loginButton) {
+        this.loginButton = loginButton;
+    }
+
+    public JTextField getIdInput() {
+        return this.idInput;
+    }
+
+    public void setIdInput(JTextField idInput) {
+        this.idInput = idInput;
+    }
+
+    public JTextField getPasswordInput() {
+        return this.passwordInput;
+    }
+
+    public void setPasswordInput(JTextField passwordInput) {
+        this.passwordInput = passwordInput;
+    }
+
+    // public LoginModel getLoginModel() {
+    // loginModel.setId(idInput.getText());
+    // loginModel.setPassword(passwordInput.getText());
+    // return loginModel;
+    // }
 
     // public Hashtable<String, String> getLoginForm() {
     // Hashtable<String, String> loginForm = new Hashtable<String, String>();

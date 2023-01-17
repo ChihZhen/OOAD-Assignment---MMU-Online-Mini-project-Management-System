@@ -6,8 +6,8 @@ import com.example.ooad.entity.Student;
 import com.example.ooad.entity.User;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.repository.ProjectRepository;
-import com.example.ooad.view.ProjectListView;
-import com.example.ooad.view.ProjectView;
+import com.example.ooad.view.LecturerDashboardView;
+import com.example.ooad.view.LecturerAddProjectView;
 import com.example.ooad.view.StudentProjectListView;
 
 import java.awt.event.*;

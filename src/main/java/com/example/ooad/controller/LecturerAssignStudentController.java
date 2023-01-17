@@ -12,34 +12,35 @@ import com.example.ooad.entity.Project;
 import com.example.ooad.entity.Student;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.model.StudentModel;
-import com.example.ooad.repository.ProjectRepository;
-import com.example.ooad.repository.StudentRepository;
-import com.example.ooad.view.AssignStudentView;
-import com.example.ooad.view.ProjectView;
+import com.example.ooad.view.LecturerAssignStudentView;
+import com.example.ooad.view.LecturerAddProjectView;
 
 import java.awt.event.*;
 
 @Controller
 public class LecturerAssignStudentController {
     // private StudentRepository studentRepository;
-    private AssignStudentView assignStudentView;
+    private LecturerAssignStudentView view;
     private StudentModel studentModel;
-    private LecturerDashboardController projectListController;
+    // private LecturerDashboardController projectListController;
     // private Project project;
     private ProjectModel projectModel;
 
     // private ProjectRepository projectRepository;
 
-    public LecturerAssignStudentController(AssignStudentView assignStudentView,
-            StudentModel studentModel, @Lazy LecturerDashboardController projectListController) {
-        this.assignStudentView = assignStudentView;
+    public LecturerAssignStudentController(LecturerAssignStudentView view, ProjectModel projectModel,
+            StudentModel studentModel) {
+        this.view = view;
+        this.projectModel = projectModel;
         this.studentModel = studentModel;
         // this.studentRepository = studentRepository;
-        this.projectListController = projectListController;
+        // this.projectListController = projectListController;
         // this.projectRepository = projectRepository;
         // init();
 
-        assignStudentView.addClickSelectButtonListener(new ClickSelectButtonListener());
+        view.getSelectButton().addActionListener(new SelectButtonListener());
+        // assignStudentView.addClickSelectButtonListener(new
+        // ClickSelectButtonListener());
 
     }
 
@@ -48,33 +49,22 @@ public class LecturerAssignStudentController {
     // ClickSelectButtonListener());
     // }
 
-    public void show(Project project) {
-        // this.project = project;
-        projectModel.load();
-        // loadData(project.getSpecialization());
-        assignStudentView.setVisible(true);
+    public void show() {
+        Project project = projectModel.getCurrent();
+        studentModel.loadBySpecialization(project.getSpecialization());
+        view.setVisible(true);
     }
 
     public void hide() {
-        assignStudentView.setVisible(false);
+        view.setVisible(false);
     }
 
-    // public void loadData(String specialization) {
-    // List<Student> students =
-    // studentRepository.findStudentBySpecializationAndProject(specialization,
-    // null);
-    // studentListModel.setStudents(students);
-    // // assignStudentView.addClickSelectButtonListener(new
-    // // ClickSelectButtonListener());
-    // }
 
-    class ClickSelectButtonListener implements ActionListener {
-
+    class SelectButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // createUserView.setProjectModel();
-            // studentListModel.
-            int row = assignStudentView.getSelectedRow();
+            // int row = view.getSelectedRow();
+            int row = view.getStudentTable().getSelectedRow();
 
             if (row == -1) {
                 JFrame jf = new JFrame();
@@ -85,10 +75,11 @@ public class LecturerAssignStudentController {
                 Student student = studentModel.get(row);
                 projectModel.getCurrent().setStudent(student);
                 projectModel.save();
+                projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
                 // project.setStudent(student);
                 // projectRepository.save(project);
                 // projectListController.loadData();
-                assignStudentView.dispose();
+                view.dispose();
             }
         }
     }

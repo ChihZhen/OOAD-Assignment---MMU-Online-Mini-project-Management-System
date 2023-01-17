@@ -14,5 +14,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     public Student findStudentById(Long id);
 
+    public List<Student> findBySpecialization(String specialization);
+
     // public S
 }

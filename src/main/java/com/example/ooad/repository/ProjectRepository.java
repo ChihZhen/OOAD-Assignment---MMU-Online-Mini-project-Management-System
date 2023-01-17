@@ -29,6 +29,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
   public List<Project> findByCommentsIdNot(Long id);
 
+  public List<Project> findByLecturerId(Long id);
+
   // public List<ProjectModel> findByCreator();
 
 }

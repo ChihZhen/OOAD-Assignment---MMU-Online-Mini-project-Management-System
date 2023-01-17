@@ -10,13 +10,14 @@ import javax.swing.table.DefaultTableModel;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.OoadApplication;
+// import com.example.ooad.OoadApplication;
 import com.example.ooad.entity.Project;
 import com.example.ooad.entity.User;
 import com.example.ooad.repository.ProjectRepository;
+// import com.example.ooad.repository.StudentRepository;
 
 @Component
-public class ProjectModel extends Model<Project> {
+public class ProjectModel extends Model<Project, ProjectModel> {
 
     // private List<Project> projects = new ArrayList<Project>();
     // private static DefaultTableModel lecturertableModel = new
@@ -27,15 +28,20 @@ public class ProjectModel extends Model<Project> {
 
     private String reportData;
 
-    public ProjectModel(ProjectRepository projectRepository) {
-        super(projectRepository);
+    private ProjectRepository repository;
+
+    public ProjectModel(ProjectRepository repository) {
+        super(repository);
+        this.repository = repository;
     }
 
     public void loadBySpecialization(String specialization) {
-        ((ProjectRepository) repository).findBySpecialization(specialization);
+        setList(repository.findBySpecialization(specialization));
     }
 
-
+    public void loadByLecturerId(Long id) {
+        setList(repository.findByLecturerId(id));
+    }
 
     // public Project getProject(int index) {
     // return projects.get(index);

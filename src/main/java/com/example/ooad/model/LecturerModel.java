@@ -13,7 +13,7 @@ import com.example.ooad.entity.Lecturer;
 import com.example.ooad.repository.LecturerRepository;
 
 @Component
-public class LecturerModel extends Model<Lecturer> {
+public class LecturerModel extends Model<Lecturer, LecturerModel> {
     private List<Lecturer> lecturers = new ArrayList<Lecturer>();
     // private static DefaultComboBoxModel<String> comboBoxModel = new
     // DefaultComboBoxModel<String>();

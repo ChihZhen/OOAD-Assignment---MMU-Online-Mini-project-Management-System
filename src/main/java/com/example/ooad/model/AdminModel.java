@@ -8,7 +8,7 @@ import com.example.ooad.entity.Admin;
 import com.example.ooad.repository.AdminRepository;
 
 @Component
-public class AdminModel extends Model<Admin> {
+public class AdminModel extends Model<Admin, AdminModel> {
     public AdminModel(AdminRepository adminRepository) {
         super(adminRepository);
     }

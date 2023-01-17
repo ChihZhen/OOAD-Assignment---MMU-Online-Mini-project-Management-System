@@ -2,42 +2,43 @@ package com.example.ooad.view;
 
 import javax.swing.*;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.example.ooad.entity.Project;
+import com.example.ooad.model.ProjectModel;
 import com.example.ooad.utils.GridBagAdder;
 
 import java.awt.*;
 import java.awt.event.*;
 
 @Component
-public class ProjectView extends JDialog {
+@Primary
+public class LecturerAddProjectView extends JDialog {
 
-    private JButton submitButton;
-    private JTextField titleInput;
-    private JComboBox<String> specializationInput;
-    private JComboBox<String> statusInput;
-    private JTextArea descriptionInput;
+    protected JButton submitButton;
+    protected JTextField titleInput;
+    protected JComboBox<String> specializationInput;
+    protected JComboBox<String> statusInput;
+    protected JTextArea descriptionInput;
+    protected ProjectModel projectModel;
 
-    private Project projectModel;
-
-    public ProjectView(Project projectModel) {
+    public LecturerAddProjectView(ProjectModel projectModel) {
 
         this.projectModel = projectModel;
-        // projectModel.registerObserver(this);
 
         this.setModal(true);
-        // this.setTitle("New Project");
+        this.setTitle("New Project");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLayout(new GridBagLayout());
         this.setSize(432, 600);
         this.setResizable(false);
-        this.addWindowListener(new WindowAdapter() {
-            public void windowClosed(WindowEvent e) {
-                // update();
-                projectModel.reset();
-            }
-        });
+        // this.addWindowListener(new WindowAdapter() {
+        // public void windowClosed(WindowEvent e) {
+        // // update();
+        // // projectModel.reset();
+        // }
+        // });
 
         // ===== Title Label
         JLabel titleLabel = new JLabel("Title");
@@ -100,33 +101,80 @@ public class ProjectView extends JDialog {
         this.add(submitButton, gridCtr_9.getConstraint());
 
     }
-
     // public static void main(String[] args) {
     // new AddProjectView();
     // }
+
+    public JButton getSubmitButton() {
+        return this.submitButton;
+    }
+
+    public void setSubmitButton(JButton submitButton) {
+        this.submitButton = submitButton;
+    }
+
+    public JTextField getTitleInput() {
+        return this.titleInput;
+    }
+
+    public void setTitleInput(JTextField titleInput) {
+        this.titleInput = titleInput;
+    }
+
+    public JComboBox<String> getSpecializationInput() {
+        return this.specializationInput;
+    }
+
+    public void setSpecializationInput(JComboBox<String> specializationInput) {
+        this.specializationInput = specializationInput;
+    }
+
+    public JComboBox<String> getStatusInput() {
+        return this.statusInput;
+    }
+
+    public void setStatusInput(JComboBox<String> statusInput) {
+        this.statusInput = statusInput;
+    }
+
+    public JTextArea getDescriptionInput() {
+        return this.descriptionInput;
+    }
+
+    public void setDescriptionInput(JTextArea descriptionInput) {
+        this.descriptionInput = descriptionInput;
+    }
+
+    public ProjectModel getProjectModel() {
+        return this.projectModel;
+    }
+
+    public void setProjectModel(ProjectModel projectModel) {
+        this.projectModel = projectModel;
+    }
 
     public void addClickSubmitListener(ActionListener Listener) {
         submitButton.addActionListener(Listener);
     }
 
-    public void setProjectModel() {
-        projectModel.setTitle(titleInput.getText());
-        projectModel.setDescription(descriptionInput.getText());
-        projectModel.setSpecialization(specializationInput.getSelectedItem().toString());
-        projectModel.setStatus(statusInput.getSelectedItem().toString());
-    }
+    // public void setProjectModel() {
+    // projectModel.setTitle(titleInput.getText());
+    // projectModel.setDescription(descriptionInput.getText());
+    // projectModel.setSpecialization(specializationInput.getSelectedItem().toString());
+    // projectModel.setStatus(statusInput.getSelectedItem().toString());
+    // }
 
-    public void update() {
-        titleInput.setText(projectModel.getTitle());
-        descriptionInput.setText(projectModel.getDescription());
-        specializationInput.setSelectedItem(projectModel.getSpecialization());
-        statusInput.setSelectedItem(projectModel.getStatus());
-    }
+    // public void update() {
+    // titleInput.setText(projectModel.getTitle());
+    // descriptionInput.setText(projectModel.getDescription());
+    // specializationInput.setSelectedItem(projectModel.getSpecialization());
+    // statusInput.setSelectedItem(projectModel.getStatus());
+    // }
 
-    public void setEditable(boolean editable) {
-        titleInput.setEditable(editable);
-        descriptionInput.setEditable(editable);
-        specializationInput.setEditable(editable);
-        statusInput.setEditable(editable);
-    }
+    // public void setEditable(boolean editable) {
+    // titleInput.setEditable(editable);
+    // descriptionInput.setEditable(editable);
+    // specializationInput.setEditable(editable);
+    // statusInput.setEditable(editable);
+    // }
 }

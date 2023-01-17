@@ -16,14 +16,14 @@ import com.example.ooad.entity.User;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.repository.LecturerRepository;
 import com.example.ooad.repository.ProjectRepository;
-import com.example.ooad.view.ProjectListView;
+import com.example.ooad.view.LecturerDashboardView;
 import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
 
 import java.awt.event.*;
 
 @Controller
 public class LecturerDashboardController {
-    private ProjectListView projectListView;
+    private LecturerDashboardView view;
     private ProjectModel projectModel;
 
     // @Autowired
@@ -33,7 +33,10 @@ public class LecturerDashboardController {
     // private LecturerRepository lecturerRepository;
     // private OoadApplication ooadApplication;
     @Autowired
-    private ProjectController projectController;
+    private LecturerAddProjectController addProjectController;
+
+    @Autowired
+    private LecturerEditProjectController editProjectController;
 
     @Autowired
     private LecturerAssignStudentController assignStudentController;
@@ -42,31 +45,31 @@ public class LecturerDashboardController {
     @Lazy
     private LoginController loginController;
 
-    public LecturerDashboardController(ProjectListView projectListView, ProjectModel projectTableModel) {
-        this.projectListView = projectListView;
-        this.projectModel = projectTableModel;
+    public LecturerDashboardController(LecturerDashboardView view, ProjectModel projectModel) {
+        this.view = view;
+        this.projectModel = projectModel;
 
         // this.projectController = projectController;
         // this.assignStudentController = assignStudentController;
         // this.ooadApplication = ooadApplication;
 
-        projectListView.addClickRowListener(new ClickRowListener());
-        projectListView.addClickTableButtonListener(new ClickTableButtonListener());
-        projectListView.addClickButtonListener(new ClickAddProjectButtonListener());
-        projectListView.addClickLogoutButtonListener(new ClickLogoutButtonListener());
+        view.addClickRowListener(new ClickRowListener());
+        view.addClickTableButtonListener(new ClickTableButtonListener());
+        view.addClickButtonListener(new ClickAddProjectButtonListener());
+        view.addClickLogoutButtonListener(new ClickLogoutButtonListener());
         // init();
         // projectListView.setVisible(true);
     }
 
-    public void loadData() {
-        // List<ProjectModel> projects = projectRepository.findAll();
-        User user = OoadApplication.getLoginUser();
-        // List<Project> projects = lecturerRepository
-        // .findOneById(user.getId()).getProjects();
-        // projectTableModel.setProjects(projects);
+    // public void loadData() {
+    // // List<ProjectModel> projects = projectRepository.findAll();
+    // User user = OoadApplication.getLoginUser();
+    // // List<Project> projects = lecturerRepository
+    // // .findOneById(user.getId()).getProjects();
+    // // projectTableModel.setProjects(projects);
 
-        // projectView.addClickButtonListener(new ClickAddProjectButtonListener());
-    }
+    // // projectView.addClickButtonListener(new ClickAddProjectButtonListener());
+    // }
 
     // public void init() {
     // System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -82,12 +85,14 @@ public class LecturerDashboardController {
     // }
 
     public void show() {
-        projectListView.setVisible(true);
-        loadData();
+        // User user = OoadApplication.getLoginUser();
+        projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
+        // System.out.println(projectModel.getList());
+        view.setVisible(true);
     }
 
     public void hide() {
-        projectListView.setVisible(false);
+        view.setVisible(false);
     }
 
     private class ClickRowListener implements MouseListener {
@@ -124,24 +129,24 @@ public class LecturerDashboardController {
         @Override
         public void onButtonPress(int row, int column) {
             // TODO Auto-generated method stub
-            System.out.println(row + " " + column);
-
+            // System.out.println(row + " " + column);
+            projectModel.setCurrent(row);
             if (column == 4) {
                 // String specialization =
                 // projectTableModel.getProject(row).getSpecialization();
-                assignStudentController.show(projectModel.get(row));
+                assignStudentController.show();
 
             } else if (column == 5) {
-                projectController.showEditProject(row);
+                // System.out.print(projectModel.getCurrent().getTitle());
+                editProjectController.show();
             } else if (column == 6) {
                 JFrame jf = new JFrame();
-                int result = JOptionPane.showConfirmDialog(jf, "Are you want to delete proejct?", "Delete Project",
+                int result = JOptionPane.showConfirmDialog(jf, "Are you want to delete project?", "Delete Project",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (result == JOptionPane.YES_OPTION) {
-                    projectModel.delete(row);
-                    // projectRepository.delete(projectTableModel.getProject(row));
-                    loadData();
+                    projectModel.delete(projectModel.getCurrent());
+                    projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
                 }
             }
 
@@ -153,7 +158,7 @@ public class LecturerDashboardController {
         @Override
         public void actionPerformed(ActionEvent e) {
             // TODO Auto-generated method stub
-            projectController.showAddProject();
+            addProjectController.show();
             // projectView.setEnabled(false);
         }
     }
@@ -164,7 +169,8 @@ public class LecturerDashboardController {
         public void actionPerformed(ActionEvent e) {
             loginController.show();
             hide();
-            OoadApplication.setLoginUser(null);
+            projectModel.setAuthUser(null);
+            // OoadApplication.setLoginUser(null);
 
         }
     }

@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 @Component
-public class AssignStudentView extends JDialog implements Observer<StudentModel> {
+public class LecturerAssignStudentView extends JDialog implements Observer<StudentModel> {
 
     private StudentModel studentModel;
     private JButton selectButton;
@@ -29,7 +29,8 @@ public class AssignStudentView extends JDialog implements Observer<StudentModel>
         dialog.add(comp, constr);
     }
 
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height, int marginT,
+    public static void add(JDialog dialog, JComponent comp, int x, int y, int width,
+            int height, int marginT,
             int marginR,
             int marginB, int marginL) {
         GridBagConstraints constr = new GridBagConstraints();
@@ -66,7 +67,7 @@ public class AssignStudentView extends JDialog implements Observer<StudentModel>
         dialog.add(comp, constr);
     }
 
-    public AssignStudentView(StudentModel studentModel) {
+    public LecturerAssignStudentView(StudentModel studentModel) {
         this.studentModel = studentModel;
         this.studentModel.registerObserver(this);
 

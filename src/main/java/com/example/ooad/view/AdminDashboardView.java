@@ -6,6 +6,7 @@ import javax.swing.table.*;
 
 import org.springframework.stereotype.Component;
 
+import com.example.ooad.entity.Project;
 import com.example.ooad.model.ComboListModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.utils.GridBagAdder;
@@ -145,7 +146,7 @@ public class AdminDashboardView extends JFrame implements Observer<ProjectModel>
         this.add(mainTp, gridCtr_4.getConstraint());
         // this.setVisible(true);
 
-        projectModel.registerObserver(this);
+        // projectModel.registerObserver(this);
     }
 
     public ProjectModel getProjectListModel() {

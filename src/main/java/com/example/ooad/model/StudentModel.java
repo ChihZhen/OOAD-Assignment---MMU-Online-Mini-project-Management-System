@@ -12,7 +12,7 @@ import com.example.ooad.entity.Student;
 import com.example.ooad.repository.StudentRepository;
 
 @Component
-public class StudentModel extends Model<Student> {
+public class StudentModel extends Model<Student, StudentModel> {
     // private List<Student> students = new ArrayList<Student>();
     // private static DefaultTableModel tableModel = new DefaultTableModel();
     private StudentRepository repository;
@@ -35,7 +35,7 @@ public class StudentModel extends Model<Student> {
     // }
 
     public void loadBySpecialization(String specialization) {
-        // repository.find
+        repository.findBySpecialization(specialization);
     }
     // public void setStudents(List<StudentModel> Students) {
     // this.students = students;
