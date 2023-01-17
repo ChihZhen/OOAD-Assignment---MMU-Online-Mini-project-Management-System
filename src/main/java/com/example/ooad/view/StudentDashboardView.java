@@ -9,16 +9,19 @@ import com.example.ooad.entity.Project;
 import com.example.ooad.entity.Student;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.utils.GridBagAdder;
+import com.example.ooad.utils.Observable;
+import com.example.ooad.utils.Observer;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
+// import java.util.*;
+import java.util.Vector;
 
 @Component
-public class StudentProjectListView extends JFrame {
+public class StudentDashboardView extends JFrame implements Observer<ProjectModel> {
   private JTable projectTable;
-  private ProjectModel projectListModel;
-  private Project projectModel;
+  private ProjectModel projectModel;
+  // private Project projectModel;
   JPanel panel = new JPanel();
   JLabel l = new JLabel("You are not assigned with any project yet.");
 
@@ -33,10 +36,9 @@ public class StudentProjectListView extends JFrame {
     }
   };
 
-  public StudentProjectListView(ProjectModel projectListModel, Project projectModel, Student student) {
-    this.projectListModel = projectListModel;
+  public StudentDashboardView(ProjectModel projectModel) {
     this.projectModel = projectModel;
-    // this.projectModel.registerObserver(this);
+    this.projectModel.registerObserver(this);
     // this.projectListModel.registerObserver(this);
 
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -78,10 +80,12 @@ public class StudentProjectListView extends JFrame {
     projectTable.addMouseListener(listener);
   }
 
-  public void update() {
-    System.out.println("Project-------------->" + projectModel.getId());
-    projectTable.setModel(new DefaultTableModel(projectListModel.getStudentData(), header));
-    if (projectModel.getId() == null) {
+  public void update(Observable<ProjectModel> _observable) {
+    // System.out.println("Project-------------->" + projectModel.getId());
+    projectTable.setModel(new DefaultTableModel(projectModel.getStudentData(), header));
+
+    Project project = projectModel.getCurrent();
+    if (project == null) {
       panel.add(l);
       return;
     }
@@ -95,7 +99,7 @@ public class StudentProjectListView extends JFrame {
     panel.add(projectIdLabel, gridCtr_id.getConstraint());
 
     // ===== Project Input
-    JTextField projectInput = new JTextField(projectModel.getId().toString());
+    JTextField projectInput = new JTextField(project.getId().toString());
     projectInput.setPreferredSize(new Dimension(200, 22));
     projectInput.setMinimumSize(new Dimension(200, 22));
     projectInput.setEditable(false);
@@ -109,7 +113,7 @@ public class StudentProjectListView extends JFrame {
     panel.add(titleLabel, gridCtr.getConstraint());
 
     // ===== Title Input
-    JTextField titleInput = new JTextField(projectModel.getTitle());
+    JTextField titleInput = new JTextField(project.getTitle());
     titleInput.setPreferredSize(new Dimension(200, 22));
     titleInput.setMinimumSize(new Dimension(200, 22));
     titleInput.setEditable(false);
@@ -123,7 +127,7 @@ public class StudentProjectListView extends JFrame {
     panel.add(specializationTitle, gridCtr_3.getConstraint());
 
     // ===== Specialization Input
-    JTextField specializationInput = new JTextField(projectModel.getSpecialization());
+    JTextField specializationInput = new JTextField(project.getSpecialization());
     specializationInput.setPreferredSize(new Dimension(200, 22));
     specializationInput.setMinimumSize(new Dimension(200, 22));
     specializationInput.setEditable(false);
@@ -137,7 +141,7 @@ public class StudentProjectListView extends JFrame {
     panel.add(descriptionTitle, gridCtr_7.getConstraint());
 
     // ===== Description Input
-    JTextArea descriptionInput = new JTextArea(projectModel.getDescription());
+    JTextArea descriptionInput = new JTextArea(project.getDescription());
     descriptionInput.setPreferredSize(new Dimension(200, 84));
     descriptionInput.setMinimumSize(new Dimension(200, 84));
     descriptionInput.setEditable(false);
@@ -151,7 +155,7 @@ public class StudentProjectListView extends JFrame {
     panel.add(assignorLabel, gridCtr_9.getConstraint());
 
     // ===== Assignor Input
-    JTextField assignorInput = new JTextField(projectModel.getLecturer().getFullName());
+    JTextField assignorInput = new JTextField(project.getLecturer().getFullName());
     assignorInput.setPreferredSize(new Dimension(200, 22));
     assignorInput.setMinimumSize(new Dimension(200, 22));
     assignorInput.setEditable(false);

@@ -9,7 +9,7 @@ import com.example.ooad.model.*;
 import com.example.ooad.repository.StudentRepository;
 import com.example.ooad.repository.UserRepository;
 import com.example.ooad.view.LoginView;
-import com.example.ooad.view.StudentProjectListView;
+import com.example.ooad.view.StudentDashboardView;
 
 import java.awt.event.*;
 
@@ -25,12 +25,12 @@ public class LoginController {
 
     private LoginView view;
     private UserModel userModel;
-    private StudentProjectListController studentProjectListController;
+    private StudentDashboardcontroller studentProjectListController;
     private LecturerDashboardController projectListController;
     private AdminDashboardController adminProjectListController;
 
     public LoginController(LoginView view, UserModel userModel,
-            StudentProjectListController studentProjectListController,
+            StudentDashboardcontroller studentProjectListController,
             LecturerDashboardController projectListController,
             @Lazy AdminDashboardController adminProjectListController) {
 
@@ -44,6 +44,7 @@ public class LoginController {
 
     public void show() {
         // adminModel.load();
+
         view.setVisible(true);
     }
 

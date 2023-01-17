@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 // import com.example.ooad.OoadApplication;
 import com.example.ooad.entity.Project;
+import com.example.ooad.entity.Student;
 import com.example.ooad.entity.User;
 import com.example.ooad.repository.ProjectRepository;
 // import com.example.ooad.repository.StudentRepository;
@@ -43,18 +44,18 @@ public class ProjectModel extends Model<Project, ProjectModel> {
         setList(repository.findByLecturerId(id));
     }
 
-    // public Project getProject(int index) {
-    // return projects.get(index);
-    // }
+    public void loadLecturerData() {
+        setList(repository.findByLecturerId(authUser.getId()));
+    }
 
-    // public List<Project> getProjects() {
-    // return projects;
-    // }
+    public void loadAdminData() {
+        setList(repository.findAll());
+    }
 
-    // public void setProjects(List<Project> projects) {
-    // this.projects = projects;
-    // notifyObservers();
-    // }
+    public void loadStudentData() {
+        setList(repository.findBySpecializationAndStatus(((Student) authUser).getSpecialization(), "Active"));
+        current = ((Student) authUser).getProject();
+    }
 
     public Vector<Vector<String>> getLecturerData() {
         Vector<Vector<String>> data = new Vector<Vector<String>>();
