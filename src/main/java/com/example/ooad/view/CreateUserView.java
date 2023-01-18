@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.example.ooad.model.AdminModel;
 import com.example.ooad.model.LecturerModel;
-import com.example.ooad.model.ProjectModel;
 import com.example.ooad.model.StudentModel;
 import com.example.ooad.model.UserModel;
 

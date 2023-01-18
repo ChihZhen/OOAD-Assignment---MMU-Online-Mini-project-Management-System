@@ -2,7 +2,6 @@ package com.example.ooad.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,7 +20,6 @@ import com.example.ooad.model.ProjectListModel;
 import com.example.ooad.repository.LecturerRepository;
 import com.example.ooad.repository.ProjectRepository;
 import com.example.ooad.view.AdminProjectListView;
-import com.example.ooad.view.ProjectListView;
 import com.example.ooad.view.Component.ReportTab;
 import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
 
@@ -32,7 +30,6 @@ public class AdminProjectListController {
     private ProjectListModel projectTableModel;
     private ComboListModel comboListModel;
     private AdminProjectListView adminProjectListView;
-    private OoadApplication ooadApplication;
     private ProjectController projectController;
     private AdminAddProjectController adminAddProjectController;
     private AdminProjectDetailController adminProjectDetailController;
@@ -45,8 +42,8 @@ public class AdminProjectListController {
     private CommentController commentController;
 
     public AdminProjectListController(ProjectListModel projectTableModel, ComboListModel comboListModel,
-            AdminProjectListView adminProjectListView, OoadApplication ooadApplication,
-            ProjectController projectController, AdminAddProjectController adminAddProjectController,
+            AdminProjectListView adminProjectListView, ProjectController projectController,
+            AdminAddProjectController adminAddProjectController,
             CreateUserController createUserController, LoginController loginController,
             ProjectRepository projectRepository, LecturerRepository lecturerRepository,
             AdminProjectDetailController adminProjectDetailController,
@@ -54,7 +51,6 @@ public class AdminProjectListController {
         this.projectTableModel = projectTableModel;
         this.comboListModel = comboListModel;
         this.adminProjectListView = adminProjectListView;
-        this.ooadApplication = ooadApplication;
         this.projectController = projectController;
         this.adminAddProjectController = adminAddProjectController;
         this.createUserController = createUserController;
@@ -87,23 +83,6 @@ public class AdminProjectListController {
         List<ProjectModel> projects = projectRepository.findAll();
         projectTableModel.setProjects(projects);
     }
-
-    // public void init() {
-    // adminProjectListView.addClickRowListener(new ClickRowListener());
-    // adminProjectListView.addClickTableButtonListener(new
-    // ClickTableButtonListener());
-    // adminProjectListView.addClickButtonListener(new
-    // ClickAddProjectButtonListener());
-    // adminProjectListView.addClickCreateUserButtonListener(new
-    // ClickCreateUserButtonListener());
-    // adminProjectListView.addClickLogoutButtonListener(new
-    // ClickLogoutButtonListener());
-    // adminProjectListView.addSelectTabListener(new SelectTabListener());
-    // adminProjectListView.addClickGenerateListener(new
-    // addClickGenerateListener());
-    // adminProjectListView.setVisible(true);
-    // loadData();
-    // }
 
     private class addClickGenerateListener implements ActionListener {
         @Override
