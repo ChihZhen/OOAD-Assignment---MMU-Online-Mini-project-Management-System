@@ -13,8 +13,16 @@ import com.example.ooad.utils.Observer;
 import java.awt.*;
 import java.awt.event.*;
 
+// interface ProjectModelObserver extends Observer<ProjectModel> {
+//     public void update(Observable<ProjectModel> o);
+// }
+
+// interface LecturerModelObserver extends Observer<LecturerModel> {
+//     public void update(Observable<LecturerModel> o);
+// }
+
 @Component
-public class AdminAddProjectView extends JDialog implements Observer<LecturerModel> {
+public class AdminAddProjectView extends JDialog implements Observer<IModel> {
 
     private JButton submitButton;
     private JTextField titleInput;
@@ -26,15 +34,12 @@ public class AdminAddProjectView extends JDialog implements Observer<LecturerMod
     private Project projectModel;
     private LecturerModel lecturerModel;
 
+
     public AdminAddProjectView(LecturerModel lecturerModel) {
-        // public AdminAddProjectView() {
 
-        // this.projectModel = projectModel;
         this.lecturerModel = lecturerModel;
-        // projectModel.registerObserver(this);
 
-        // this.setModal(true);
-        // lecturerModel.registerObserver(this);
+        lecturerModel.registerObserver(this);
         this.setTitle("New Project");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLayout(new GridBagLayout());
@@ -42,8 +47,11 @@ public class AdminAddProjectView extends JDialog implements Observer<LecturerMod
         this.setResizable(false);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
-                // update();
-                // projectModel.reset();
+                titleInput.setText("");
+                specializationInput.setSelectedIndex(0);
+                statusInput.setSelectedIndex(0);
+                lecturerInput.setSelectedIndex(0);
+                descriptionInput.setText("");
             }
         });
 
@@ -182,35 +190,10 @@ public class AdminAddProjectView extends JDialog implements Observer<LecturerMod
         this.lecturerModel = lecturerListModel;
     }
 
-    // public static void main(String[] args) {
-    // new AdminAddProjectView();
-    // }
+    public void update(Observable<IModel> _observable, IModel model) {
+        if (model instanceof ProjectModel) {
 
-    // public void addClickSubmitListener(ActionListener Listener) {
-    // submitButton.addActionListener(Listener);
-    // }
-
-    // public void setProjectModel() {
-    // projectModel.setTitle(titleInput.getText());
-    // projectModel.setDescription(descriptionInput.getText());
-    // projectModel.setSpecialization(specializationInput.getSelectedItem().toString());
-    // projectModel.setStatus(statusInput.getSelectedItem().toString());
-    // projectModel.setLecturer(lecturerModel.getLecturer(lecturerInput.getSelectedIndex()));
-    // }
-
-    public void update(Observable<LecturerModel> observable) {
-        System.out.println("AdminAddProjectView.update: ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        lecturerInput.setModel(lecturerModel.getComboBox());
-        // titleInput.setText(projectModel.getTitle());
-        // descriptionInput.setText(projectModel.getDescription());
-        // specializationInput.setSelectedItem(projectModel.getSpecialization());
-        // statusInput.setSelectedItem(projectModel.getStatus());
-    }
-
-    public void setEditable(boolean editable) {
-        titleInput.setEditable(editable);
-        descriptionInput.setEditable(editable);
-        specializationInput.setEditable(editable);
-        statusInput.setEditable(editable);
+        }
+        lecturerInput.setModel(new DefaultComboBoxModel<>(lecturerModel.getNameAndId()));
     }
 }

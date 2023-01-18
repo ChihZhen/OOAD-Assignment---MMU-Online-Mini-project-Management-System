@@ -1,20 +1,12 @@
 package com.example.ooad.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
+import java.awt.event.*;
+
 import org.springframework.stereotype.Controller;
 
-import com.example.ooad.OoadApplication;
-import com.example.ooad.entity.Lecturer;
-import com.example.ooad.entity.Project;
-import com.example.ooad.entity.User;
-import com.example.ooad.model.ProjectModel;
-import com.example.ooad.repository.LecturerRepository;
-import com.example.ooad.repository.ProjectRepository;
-import com.example.ooad.view.LecturerAddProjectView;
-
-import java.awt.event.*;
-import java.util.List;
+import com.example.ooad.entity.*;
+import com.example.ooad.model.*;
+import com.example.ooad.view.*;
 
 @Controller
 public class LecturerAddProjectController {
@@ -24,7 +16,7 @@ public class LecturerAddProjectController {
     public LecturerAddProjectController(LecturerAddProjectView view, ProjectModel projectModel) {
         this.view = view;
         this.projectModel = projectModel;
-        view.addClickSubmitListener(new SubmitButtonListener());
+        view.getSubmitButton().addActionListener(new SubmitButtonListener());
     }
 
     public void show() {
@@ -35,7 +27,7 @@ public class LecturerAddProjectController {
         view.setVisible(false);
     }
 
-    class SubmitButtonListener implements ActionListener {
+    private class SubmitButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             String title = view.getTitleInput().getText();
@@ -46,8 +38,14 @@ public class LecturerAddProjectController {
             Project project = new Project(title, description, status, specialization,
                     (Lecturer) projectModel.getAuthUser());
             projectModel.create(project);
-            projectModel.load();
-            projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
+            // projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
+            projectModel.loadLecturerData();
+
+            view.getTitleInput().setText("");
+            view.getSpecializationInput().setSelectedIndex(0);
+            view.getStatusInput().setSelectedIndex(0);
+            view.getDescriptionInput().setText("");
+
             view.dispose();
         }
     }

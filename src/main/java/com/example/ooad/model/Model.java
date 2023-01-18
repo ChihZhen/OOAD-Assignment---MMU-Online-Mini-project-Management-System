@@ -10,11 +10,12 @@ import com.example.ooad.utils.Observable;
 
 // import org.springframework.data.jpa.repository.Repository;
 
-public abstract class Model<T, U> extends Observable<U> {
+public abstract class Model<T> extends Observable<IModel> implements IModel {
     public static User authUser;
 
     List<T> list = new ArrayList<T>();
     T current = null;
+    // U u;
     JpaRepository<T, Long> repository;
 
     public Model(JpaRepository<T, Long> repository) {
@@ -31,12 +32,12 @@ public abstract class Model<T, U> extends Observable<U> {
 
     public void setCurrent(int index) {
         current = list.get(index);
-        notifyObservers();
+        notifyObservers(this);
     }
 
     public void setCurrent(T t) {
         current = t;
-        notifyObservers();
+        notifyObservers(this);
     }
 
     public List<T> getList() {
@@ -46,7 +47,7 @@ public abstract class Model<T, U> extends Observable<U> {
     public void setList(List<T> list) {
         this.list.clear();
         this.list.addAll(list);
-        notifyObservers();
+        notifyObservers(this);
     }
 
     public void load() {

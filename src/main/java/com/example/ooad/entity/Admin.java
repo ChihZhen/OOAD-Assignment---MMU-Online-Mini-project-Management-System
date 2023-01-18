@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "Admin")
-@Component
 public class Admin extends User {
     @Id
     private Long id;

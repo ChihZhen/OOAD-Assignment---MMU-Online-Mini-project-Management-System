@@ -1,36 +1,27 @@
 package com.example.ooad.controller;
 
-import com.example.ooad.OoadApplication;
-import com.example.ooad.entity.Admin;
-import com.example.ooad.entity.Lecturer;
-import com.example.ooad.entity.Student;
-import com.example.ooad.entity.User;
-import com.example.ooad.model.*;
-import com.example.ooad.repository.StudentRepository;
-import com.example.ooad.repository.UserRepository;
-import com.example.ooad.view.LoginView;
-import com.example.ooad.view.StudentDashboardView;
+import javax.swing.*;
 
 import java.awt.event.*;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import org.springframework.context.annotation.*;
+import org.springframework.stereotype.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Controller;
+import com.example.ooad.entity.*;
+import com.example.ooad.model.*;
+import com.example.ooad.view.*;
 
 @Controller
-public class LoginController {
+public class LoginController implements IController {
 
     private LoginView view;
     private UserModel userModel;
-    private StudentDashboardcontroller studentProjectListController;
+    private StudentDashboardController studentProjectListController;
     private LecturerDashboardController projectListController;
     private AdminDashboardController adminProjectListController;
 
     public LoginController(LoginView view, UserModel userModel,
-            StudentDashboardcontroller studentProjectListController,
+            StudentDashboardController studentProjectListController,
             LecturerDashboardController projectListController,
             @Lazy AdminDashboardController adminProjectListController) {
 
@@ -77,13 +68,16 @@ public class LoginController {
                 } else if (user instanceof Student) {
                     studentProjectListController.show();
                 }
+
+                view.getIdInput().setText("");
+                view.getPasswordInput().setText("");
+
                 view.setVisible(false);
             } else {
                 JFrame jf = new JFrame();
                 JOptionPane.showMessageDialog(jf, "Password incorrect", "Login Failed", 2, null);
                 // System.out.println("password not correct");
             }
-
         }
 
     }

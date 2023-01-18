@@ -7,12 +7,11 @@ import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "Lecturer")
-@Component
 public class Lecturer extends User {
     @Id
     private Long id;
 
-    @OneToMany(mappedBy = "lecturer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "lecturer", fetch = FetchType.LAZY)
     private List<Project> projects = new ArrayList<Project>();
 
     public Lecturer() {
@@ -23,7 +22,7 @@ public class Lecturer extends User {
     }
 
     public Lecturer(String fullName, String role, String accountId, String password) {
-        super(password, fullName, role, accountId);
+        super(fullName, role, accountId, password);
     }
 
     public List<Project> getProjects() {

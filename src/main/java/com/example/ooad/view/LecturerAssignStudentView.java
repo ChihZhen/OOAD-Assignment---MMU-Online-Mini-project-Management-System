@@ -1,22 +1,31 @@
 package com.example.ooad.view;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import org.springframework.stereotype.Component;
 
+import com.example.ooad.model.IModel;
 import com.example.ooad.model.StudentModel;
 import com.example.ooad.utils.Observable;
 import com.example.ooad.utils.Observer;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Vector;
 
 @Component
-public class LecturerAssignStudentView extends JDialog implements Observer<StudentModel> {
+public class LecturerAssignStudentView extends JDialog implements Observer<IModel> {
 
     private StudentModel studentModel;
     private JButton selectButton;
     private JTable studentTable;
+    private Vector<String> header = new Vector<String>() {
+        {
+            add("Student Id");
+            add("Student Name");
+        }
+    };
 
     public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height) {
         GridBagConstraints constr = new GridBagConstraints();
@@ -79,7 +88,7 @@ public class LecturerAssignStudentView extends JDialog implements Observer<Stude
         this.setResizable(false);
 
 
-        // studentTable = new JTable(this.studentListModel.getTableModel());
+        studentTable = new JTable();
 
         JScrollPane tableContainer = new JScrollPane(studentTable);
         tableContainer.setPreferredSize(new Dimension(400, 432));
@@ -91,14 +100,6 @@ public class LecturerAssignStudentView extends JDialog implements Observer<Stude
         selectButton = new JButton("Select");
         add(this, selectButton, 1, 2, 1, 1, 15, 0, 0, 0, GridBagConstraints.BASELINE_TRAILING);
     }
-
-    // public StudentModel getStudentListModel() {
-    // return this.studentListModel;
-    // }
-
-    // public void setStudentListModel(StudentModel studentListModel) {
-    // this.studentListModel = studentListModel;
-    // }
 
     public JButton getSelectButton() {
         return this.selectButton;
@@ -120,15 +121,10 @@ public class LecturerAssignStudentView extends JDialog implements Observer<Stude
     // new AssignStudentView();
     // }
 
-    public void update(Observable<StudentModel> observable) {
+    public void update(Observable<IModel> _observable, IModel model) {
+        System.out.println("lecturerassignstudent.update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println(studentModel.getIdAndName());
 
+        studentTable.setModel(new DefaultTableModel(studentModel.getIdAndName(), header));
     };
-
-    public void addClickSelectButtonListener(ActionListener listener) {
-        selectButton.addActionListener(listener);
-    }
-
-    public int getSelectedRow() {
-        return studentTable.getSelectedRow();
-    }
 }

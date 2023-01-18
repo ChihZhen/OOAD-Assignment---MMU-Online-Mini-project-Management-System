@@ -1,15 +1,15 @@
 package com.example.ooad.controller;
 
-import org.springframework.stereotype.Controller;
-
-import com.example.ooad.entity.Project;
-import com.example.ooad.model.ProjectModel;
-
-import com.example.ooad.view.LecturerEditProjectView;
 import java.awt.event.*;
 
+import org.springframework.stereotype.*;
+
+import com.example.ooad.entity.*;
+import com.example.ooad.model.*;
+import com.example.ooad.view.*;
+
 @Controller
-public class LecturerEditProjectController {
+public class LecturerEditProjectController implements IController {
     private LecturerEditProjectView view;
     private ProjectModel projectModel;
 
@@ -36,12 +36,16 @@ public class LecturerEditProjectController {
             String specialization = view.getSpecializationInput().getSelectedItem().toString();
             String status = view.getStatusInput().getSelectedItem().toString();
             String description = view.getDescriptionInput().getText();
+
             project.setTitle(title);
             project.setSpecialization(specialization);
             project.setStatus(status);
             project.setDescription(description);
+
             projectModel.update(project);
-            projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
+            // projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
+            projectModel.loadLecturerData();
+
             view.dispose();
         }
     }

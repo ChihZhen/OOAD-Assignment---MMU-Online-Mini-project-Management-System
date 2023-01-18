@@ -1,55 +1,23 @@
 package com.example.ooad.controller;
 
-import com.example.ooad.OoadApplication;
-import com.example.ooad.entity.Project;
-import com.example.ooad.entity.Student;
-import com.example.ooad.entity.User;
-import com.example.ooad.model.ProjectModel;
-import com.example.ooad.repository.ProjectRepository;
-import com.example.ooad.view.LecturerDashboardView;
-import com.example.ooad.view.LecturerAddProjectView;
-import com.example.ooad.view.StudentDashboardView;
-
 import java.awt.event.*;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.*;
+
+import com.example.ooad.model.*;
+import com.example.ooad.view.*;
 
 @Controller
-public class StudentDashboardcontroller {
+public class StudentDashboardController implements IController {
   private StudentDashboardView view;
   private ProjectModel projectModel;
 
-  public StudentDashboardcontroller(StudentDashboardView view, ProjectModel projectModel) {
+  public StudentDashboardController(StudentDashboardView view, ProjectModel projectModel) {
     this.view = view;
     this.projectModel = projectModel;
 
     view.addClickRowListener(new ClickRowListener());
   }
-
-  // public void loadData() {
-  // // this.student = (Student) OoadApplication.getLoginUser();
-
-  // // List<Project> projects =
-  // //
-  // projectRepository.findBySpecializationAndStatus(student.getSpecialization(),
-  // // "Active");
-  // // if (student != null) {
-  // // System.out.println("special-------------------------->" +
-  // // student.getId());
-  // // }
-
-  // // Project project = projectRepository.findByStudentId(student.getId());
-
-  // // projectTableModel.setProjects(projects);
-  // // projectModel.set(project);
-  // }
-
-  // public void init() {
-  // studentProjectListView.addClickRowListener(new ClickRowListener());
-  // ;
-  // // loadData();az
-  // // studentProjectListView.setVisible(true);
-  // }
 
   public void show() {
     projectModel.loadStudentData();

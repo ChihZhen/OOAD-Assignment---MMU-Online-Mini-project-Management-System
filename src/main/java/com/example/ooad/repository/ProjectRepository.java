@@ -19,17 +19,19 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
   public List<Project> findByStatus(String status);
 
-  public List<Project> findByStudent(Student student);
+  public List<Project> findByStudentIsNull();
 
-  public List<Project> findByStudentNot(Student student);
+  public List<Project> findByStudentIsNotNull();
 
-  public List<Project> findByStudent(Lecturer lecturer);
+  // public List<Project> findByLecturer(Lecturer lecturer);
 
-  public List<Project> findByCommentsId(Long id);
+  public List<Project> findByCommentsIsNull();
 
-  public List<Project> findByCommentsIdNot(Long id);
+  public List<Project> findByCommentsIsNotNull();
 
   public List<Project> findByLecturerId(Long id);
+
+  public List<Project> findByLecturerAccountId(String id);
 
   // public List<ProjectModel> findByCreator();
 

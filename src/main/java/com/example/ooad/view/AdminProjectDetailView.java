@@ -50,7 +50,7 @@ public class AdminProjectDetailView extends JDialog {
     this.addWindowListener(new WindowAdapter() {
       public void windowClosed(WindowEvent e) {
         // update();
-        projectModel.reset();
+        // projectModel.reset();
       }
     });
 

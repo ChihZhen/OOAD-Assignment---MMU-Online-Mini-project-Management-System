@@ -83,12 +83,14 @@ public class AdminCreateUserView extends JDialog {
         this.setLayout(new GridBagLayout());
         this.setSize(432, 600);
         this.setResizable(false);
-        // this.addWindowListener(new WindowAdapter() {
-        // public void windowClosed(WindowEvent e) {
-        // // update();
-        // // projectModel.reset();
-        // }
-        // });
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosed(WindowEvent e) {
+                usernameInput.setText("");
+                idInput.setText("");
+                roleInput.setSelectedIndex(0);
+                specializationInput.setSelectedIndex(0);
+            }
+        });
 
         JLabel usernameLabel = new JLabel("Username");
         add(this, usernameLabel, 0, 0, 1, 1, 0, 20, 0, 0, GridBagConstraints.BASELINE);
@@ -130,49 +132,14 @@ public class AdminCreateUserView extends JDialog {
         // this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new AdminCreateUserView();
-    }
-
-    public void addClickSubmitListener(ActionListener Listener) {
-        submitButton.addActionListener(Listener);
-    }
-
-    public void addSelectRoleListener(ActionListener listener) {
-        roleInput.addActionListener(listener);
-    }
-
-    public User getUserModel() {
-        User userModel;
-        if (roleInput.getSelectedItem().toString().equals("Lecturer")) {
-            userModel = new Lecturer(usernameInput.getText(),
-                    roleInput.getSelectedItem().toString(),
-                    idInput.getText());
-        } else if (roleInput.getSelectedItem().toString().equals("Admin")) {
-            userModel = new Admin(usernameInput.getText(),
-                    roleInput.getSelectedItem().toString(),
-                    idInput.getText());
-        } else {
-            userModel = new Student(usernameInput.getText(),
-                    roleInput.getSelectedItem().toString(),
-                    idInput.getText(), specializationInput.getSelectedItem().toString());
-        }
-        // userModel.setAccountId(idInput.getText());
-        // userModel.setFullName(usernameInput.getText());
-        // userModel.setRole(roleInput.getSelectedItem().toString());
-        // studentModel.setStatus(statusInput.getSelectedItem().toString());
-
-        return userModel;
-    }
-
-    // public void update() {
-    // idInput.setText(studentModel.getAccountId());
-    // usernameInput.setText(studentModel.getFullName());
-    // roleInput.setSelectedItem(new String());
+    // public void addClickSubmitListener(ActionListener Listener) {
+    // submitButton.addActionListener(Listener);
     // }
 
-    // public void setEditable(boolean editable) {
-    // titleInput.setEditable(editable);
+
+    // public void addSelectRoleListener(ActionListener listener) {
+    // roleInput.addActionListener(listener);
+    // }
 
     public JTextField getUsernameInput() {
         return this.usernameInput;
@@ -221,8 +188,4 @@ public class AdminCreateUserView extends JDialog {
     public void setSpecializationLabel(JLabel specializationLabel) {
         this.specializationLabel = specializationLabel;
     }
-    // descriptionInput.setEditable(editable);
-    // specializationInput.setEditable(editable);
-    // statusInput.setEditable(editable);
-    // }
 }

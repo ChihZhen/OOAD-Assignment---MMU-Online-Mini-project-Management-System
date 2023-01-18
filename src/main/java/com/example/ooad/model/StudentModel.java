@@ -12,7 +12,7 @@ import com.example.ooad.entity.Student;
 import com.example.ooad.repository.StudentRepository;
 
 @Component
-public class StudentModel extends Model<Student, StudentModel> {
+public class StudentModel extends Model<Student> {
     // private List<Student> students = new ArrayList<Student>();
     // private static DefaultTableModel tableModel = new DefaultTableModel();
     private StudentRepository repository;
@@ -35,19 +35,33 @@ public class StudentModel extends Model<Student, StudentModel> {
     // }
 
     public void loadBySpecialization(String specialization) {
-        repository.findBySpecialization(specialization);
+        setList(repository.findBySpecialization(specialization));
+        notifyObservers(this);
+    }
+
+    public Vector<Vector<String>> getIdAndName() {
+        Vector<Vector<String>> data = new Vector<Vector<String>>();
+        for (Student student : list) {
+            data.add(new Vector<String>() {
+                {
+                    add(student.getAccountId());
+                    add(student.getFullName());
+                }
+            });
+        }
+        return data;
     }
     // public void setStudents(List<StudentModel> Students) {
     // this.students = students;
     // }
 
-    Vector<String> header = new Vector<String>() {
-        {
-            add("Id");
-            add("Student Id");
-            add("Student Name");
-        }
-    };
+    // Vector<String> header = new Vector<String>() {
+    // {
+    // add("Id");
+    // add("Student Id");
+    // add("Student Name");
+    // }
+    // };
 
     // public DefaultTableModel getTableModel() {
     // return this.tableModel;

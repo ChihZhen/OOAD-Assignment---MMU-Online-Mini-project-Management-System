@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Student")
-@Component
 public class Student extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

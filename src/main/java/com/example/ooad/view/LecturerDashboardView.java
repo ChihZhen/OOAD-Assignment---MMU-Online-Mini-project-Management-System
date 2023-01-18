@@ -1,24 +1,22 @@
 package com.example.ooad.view;
 
 import javax.swing.*;
-import javax.swing.table.*;
-
-import org.springframework.stereotype.Component;
-
-import com.example.ooad.model.LecturerModel;
-import com.example.ooad.model.ProjectModel;
-import com.example.ooad.utils.GridBagAdder;
-import com.example.ooad.utils.Observable;
-import com.example.ooad.utils.Observer;
-import com.example.ooad.view.Component.TableButton;
-import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
 
+import org.springframework.stereotype.Component;
+
+import com.example.ooad.model.*;
+import com.example.ooad.utils.*;
+import com.example.ooad.view.Component.TableButton;
+import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
+
 @Component
-public class LecturerDashboardView extends JFrame implements Observer<ProjectModel> {
+public class LecturerDashboardView extends JFrame implements Observer<IModel> {
     private ProjectModel projectListModel;
     private JButton logoutButton;
     private JTable projectTable;
@@ -119,7 +117,7 @@ public class LecturerDashboardView extends JFrame implements Observer<ProjectMod
 
     // }
 
-    public void update(Observable<ProjectModel> _observable) {
+    public void update(Observable<IModel> _observable, IModel model) {
         projectTable.setModel(new DefaultTableModel(projectListModel.getLecturerData(), header));
         // System.out.println(projectListModel.getTableModel().getRowCount());
         System.out.println("lecturer dashboard update");

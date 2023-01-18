@@ -7,7 +7,7 @@ import com.example.ooad.entity.User;
 import com.example.ooad.repository.UserRepository;
 
 @Component
-public class UserModel extends Model<User, UserModel> {
+public class UserModel extends Model<User> {
     private UserRepository repository;
 
     public UserModel(UserRepository repository) {

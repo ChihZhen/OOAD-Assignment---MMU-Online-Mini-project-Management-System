@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "\"User\"")
-public class User extends Observable {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -32,10 +32,10 @@ public class User extends Observable {
     }
 
     protected User(String fullName, String role, String accountId, String password) {
-        this.password = password;
         this.fullName = fullName;
         this.role = role;
         this.accountId = accountId;
+        this.password = password;
     }
 
     public Long getId() {
@@ -112,17 +112,6 @@ public class User extends Observable {
 
         this.password = new String(password);
         // return password;
-    }
-
-    public boolean isValid() {
-        // if (!role.isBlank() | this.role.equals("Student")) {
-        // return !(role.isBlank() | fullName.isBlank() | accountId.isBlank()
-        // | ((StudentModel) this).getSpecialization().isBlank());
-        // } else {
-        // return !(role.isBlank() | fullName.isBlank() | accountId.isBlank());
-        // }
-
-        return !(accountId.isBlank() | fullName.isBlank());
     }
 
 }

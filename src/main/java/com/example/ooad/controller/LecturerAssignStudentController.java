@@ -1,30 +1,20 @@
 package com.example.ooad.controller;
 
-import java.util.List;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Controller;
-
-import com.example.ooad.entity.Project;
-import com.example.ooad.entity.Student;
-import com.example.ooad.model.ProjectModel;
-import com.example.ooad.model.StudentModel;
-import com.example.ooad.view.LecturerAssignStudentView;
-import com.example.ooad.view.LecturerAddProjectView;
+import javax.swing.*;
 
 import java.awt.event.*;
 
+import org.springframework.stereotype.*;
+
+import com.example.ooad.entity.*;
+import com.example.ooad.model.*;
+import com.example.ooad.view.*;
+
 @Controller
-public class LecturerAssignStudentController {
-    // private StudentRepository studentRepository;
+public class LecturerAssignStudentController implements IController {
     private LecturerAssignStudentView view;
-    private StudentModel studentModel;
-    // private LecturerDashboardController projectListController;
-    // private Project project;
     private ProjectModel projectModel;
+    private StudentModel studentModel;
 
     // private ProjectRepository projectRepository;
 
@@ -33,37 +23,24 @@ public class LecturerAssignStudentController {
         this.view = view;
         this.projectModel = projectModel;
         this.studentModel = studentModel;
-        // this.studentRepository = studentRepository;
-        // this.projectListController = projectListController;
-        // this.projectRepository = projectRepository;
-        // init();
 
         view.getSelectButton().addActionListener(new SelectButtonListener());
-        // assignStudentView.addClickSelectButtonListener(new
-        // ClickSelectButtonListener());
-
     }
 
-    // public void init() {
-    // assignStudentView.addClickSelectButtonListener(new
-    // ClickSelectButtonListener());
-    // }
 
     public void show() {
+        view.setVisible(true);
         Project project = projectModel.getCurrent();
         studentModel.loadBySpecialization(project.getSpecialization());
-        view.setVisible(true);
     }
 
     public void hide() {
         view.setVisible(false);
     }
 
-
     class SelectButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // int row = view.getSelectedRow();
             int row = view.getStudentTable().getSelectedRow();
 
             if (row == -1) {
@@ -75,10 +52,9 @@ public class LecturerAssignStudentController {
                 Student student = studentModel.get(row);
                 projectModel.getCurrent().setStudent(student);
                 projectModel.save();
-                projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
-                // project.setStudent(student);
-                // projectRepository.save(project);
-                // projectListController.loadData();
+                // projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
+                projectModel.loadLecturerData();
+
                 view.dispose();
             }
         }

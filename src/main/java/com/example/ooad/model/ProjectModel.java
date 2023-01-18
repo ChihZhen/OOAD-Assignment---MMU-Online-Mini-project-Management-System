@@ -18,18 +18,10 @@ import com.example.ooad.repository.ProjectRepository;
 // import com.example.ooad.repository.StudentRepository;
 
 @Component
-public class ProjectModel extends Model<Project, ProjectModel> {
-
-    // private List<Project> projects = new ArrayList<Project>();
-    // private static DefaultTableModel lecturertableModel = new
-    // DefaultTableModel();
-    // private static DefaultTableModel studentTableModel = new DefaultTableModel();
-    // private OoadApplication ooadApplication;
-    // private User authUser;
-
-    private String reportData;
+public class ProjectModel extends Model<Project> {
 
     private ProjectRepository repository;
+    private String reportData;
 
     public ProjectModel(ProjectRepository repository) {
         super(repository);
@@ -38,10 +30,41 @@ public class ProjectModel extends Model<Project, ProjectModel> {
 
     public void loadBySpecialization(String specialization) {
         setList(repository.findBySpecialization(specialization));
+        notifyObservers(this);
+
     }
 
-    public void loadByLecturerId(Long id) {
-        setList(repository.findByLecturerId(id));
+    public void loadByStatus(String status) {
+        setList(repository.findByStatus(status));
+        notifyObservers(this);
+
+    }
+
+    public void loadByComment(Boolean commented) {
+        if (commented) {
+            setList(repository.findByCommentsIsNotNull());
+        } else {
+            setList(repository.findByCommentsIsNull());
+        }
+        notifyObservers(this);
+
+    }
+
+    public void loadByAssign(Boolean assigned) {
+        if (assigned) {
+            setList(repository.findByStudentIsNotNull());
+        } else {
+            setList(repository.findByStudentIsNull());
+        }
+        notifyObservers(this);
+
+    }
+
+    public void loadByLecturerId(String id) {
+        System.out.println(id);
+        setList(repository.findByLecturerAccountId(id));
+        System.out.println(list);
+        notifyObservers(this);
     }
 
     public void loadLecturerData() {
@@ -82,13 +105,12 @@ public class ProjectModel extends Model<Project, ProjectModel> {
     }
 
     public String getReportData() {
-        // String data = new String();
-        // for (ProjectModel project : projects) {
-        // data += project.toReportStr();
-        // data += "\n";
-        // }
-        return reportData;
-
+        String data = new String();
+        for (Project project : list) {
+            data += project.toReportStr();
+            data += "\n";
+        }
+        return data;
     }
 
     public void setReportByStatus(String status) {
@@ -100,7 +122,7 @@ public class ProjectModel extends Model<Project, ProjectModel> {
             }
         }
         reportData = data;
-        notifyObservers();
+        notifyObservers(this);
 
         // return data;
     }
@@ -114,7 +136,7 @@ public class ProjectModel extends Model<Project, ProjectModel> {
             }
         }
         reportData = data;
-        notifyObservers();
+        notifyObservers(this);
 
     }
 
@@ -130,7 +152,7 @@ public class ProjectModel extends Model<Project, ProjectModel> {
             }
         }
         reportData = data;
-        notifyObservers();
+        notifyObservers(this);
 
     }
 
@@ -151,7 +173,7 @@ public class ProjectModel extends Model<Project, ProjectModel> {
             }
         }
         reportData = data;
-        notifyObservers();
+        notifyObservers(this);
     }
 
     public void setReportByComment(String comment) {
@@ -170,7 +192,7 @@ public class ProjectModel extends Model<Project, ProjectModel> {
             }
         }
         reportData = data;
-        notifyObservers();
+        notifyObservers(this);
     }
 
     public void setAllReport() {
@@ -180,12 +202,18 @@ public class ProjectModel extends Model<Project, ProjectModel> {
             data += "\n";
         }
         reportData = data;
-        notifyObservers();
+        notifyObservers(this);
     }
 
     public void resetReport() {
         reportData = "";
-        notifyObservers();
+        notifyObservers(this);
+    }
+
+    public void clear() {
+        list.clear();
+        current = null;
+        notifyObservers(this);
     }
 
 }

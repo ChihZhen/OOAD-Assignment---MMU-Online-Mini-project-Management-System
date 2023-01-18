@@ -13,7 +13,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "Project")
 @Component
-public class Project extends Observable {
+public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -169,49 +169,57 @@ public class Project extends Observable {
         data += "SPECIALIZATION: " + this.getSpecialization() + "\n";
         data += "DESCRIPTION: " + this.getDescription() + "\n";
         data += "STATUS: " + this.getStatus() + "\n";
-        // data += "LECTURER: " + this.getCreator().getFullName() + " (" +
-        // this.getCreator().getAccountId() + ")\n";
-        // data += "STUDENT: " + this.getStudent().getFullName() + " (" +
-        // this.getCreator().getAccountId() + ")\n";
 
-        // if (comments.size() == 0) {
-        // data += "COMMENT: - \n";
+        if (this.getLecturer() != null) {
+            data += "LECTURER: " + this.getLecturer().getFullName() + " (" +
+                    this.getLecturer().getAccountId() + ")\n";
+        } else {
+            data += "LECTURER: -\n";
+        }
+        if (this.getStudent() != null) {
+            data += "STUDENT: " + this.getStudent().getFullName() + " (" +
+                    this.getStudent().getAccountId() + ")\n";
+        } else {
+            data += "STUDENT: -\n";
+        }
+        if (comments.size() == 0) {
+            data += "COMMENT: - \n";
 
-        // } else {
-        // data += "COMMENT:\n";
-        // for (CommentModel comment : comments) {
-        // data += "\t" + comment.getAdmin().getFullName() + " (" +
-        // comment.getAdmin().getAccountId() + "): "
-        // + comment.getComment() + ")\n";
-        // }
-        // }
+        } else {
+            data += "COMMENT:\n";
+            for (Comment comment : comments) {
+                data += "\t" + comment.getAdmin().getFullName() + " (" +
+                        comment.getAdmin().getAccountId() + "): "
+                        + comment.getComment() + ")\n";
+            }
+        }
         return data;
     }
 
-    public void set(Project project) {
-        if (project != null) {
-            this.id = project.getId();
-            this.title = project.getTitle();
-            this.description = project.getDescription();
-            this.status = project.getStatus();
-            this.specialization = project.getSpecialization();
-            this.student = project.getStudent();
-            this.lecturer = project.getLecturer();
-            this.comments = project.getComments();
-        }
-        notifyObservers();
-    }
+    // public void set(Project project) {
+    // if (project != null) {
+    // this.id = project.getId();
+    // this.title = project.getTitle();
+    // this.description = project.getDescription();
+    // this.status = project.getStatus();
+    // this.specialization = project.getSpecialization();
+    // this.student = project.getStudent();
+    // this.lecturer = project.getLecturer();
+    // this.comments = project.getComments();
+    // }
+    // notifyObservers();
+    // }
 
-    public void reset() {
-        this.id = null;
-        this.title = null;
-        this.description = null;
-        this.specialization = "Computer Science";
-        this.status = "Active";
-        this.student = null;
-        this.lecturer = null;
-        this.comments = new ArrayList<Comment>();
-        notifyObservers();
-    }
+    // public void reset() {
+    // this.id = null;
+    // this.title = null;
+    // this.description = null;
+    // this.specialization = "Computer Science";
+    // this.status = "Active";
+    // this.student = null;
+    // this.lecturer = null;
+    // this.comments = new ArrayList<Comment>();
+    // notifyObservers();
+    // }
 
 }

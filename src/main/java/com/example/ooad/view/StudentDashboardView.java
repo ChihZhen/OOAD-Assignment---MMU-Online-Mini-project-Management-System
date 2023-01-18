@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.ooad.entity.Project;
 import com.example.ooad.entity.Student;
+import com.example.ooad.model.IModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.utils.GridBagAdder;
 import com.example.ooad.utils.Observable;
@@ -18,7 +19,7 @@ import java.awt.event.*;
 import java.util.Vector;
 
 @Component
-public class StudentDashboardView extends JFrame implements Observer<ProjectModel> {
+public class StudentDashboardView extends JFrame implements Observer<IModel> {
   private JTable projectTable;
   private ProjectModel projectModel;
   // private Project projectModel;
@@ -80,7 +81,7 @@ public class StudentDashboardView extends JFrame implements Observer<ProjectMode
     projectTable.addMouseListener(listener);
   }
 
-  public void update(Observable<ProjectModel> _observable) {
+  public void update(Observable<IModel> _observable, IModel model) {
     // System.out.println("Project-------------->" + projectModel.getId());
     projectTable.setModel(new DefaultTableModel(projectModel.getStudentData(), header));
 

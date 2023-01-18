@@ -1,37 +1,22 @@
 package com.example.ooad.controller;
 
-import java.util.List;
-import java.util.Vector;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Controller;
-
-import com.example.ooad.OoadApplication;
-import com.example.ooad.entity.Project;
-import com.example.ooad.entity.User;
-import com.example.ooad.model.ProjectModel;
-import com.example.ooad.repository.LecturerRepository;
-import com.example.ooad.repository.ProjectRepository;
-import com.example.ooad.view.LecturerDashboardView;
-import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
+import javax.swing.*;
 
 import java.awt.event.*;
 
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.annotation.*;
+import org.springframework.stereotype.*;
+
+import com.example.ooad.model.*;
+import com.example.ooad.view.*;
+import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
+
 @Controller
-public class LecturerDashboardController {
+public class LecturerDashboardController implements IController {
     private LecturerDashboardView view;
     private ProjectModel projectModel;
 
-    // @Autowired
-    // private ProjectRepository projectRepository;
-
-    // @Autowired
-    // private LecturerRepository lecturerRepository;
-    // private OoadApplication ooadApplication;
     @Autowired
     private LecturerAddProjectController addProjectController;
 
@@ -49,44 +34,19 @@ public class LecturerDashboardController {
         this.view = view;
         this.projectModel = projectModel;
 
-        // this.projectController = projectController;
-        // this.assignStudentController = assignStudentController;
-        // this.ooadApplication = ooadApplication;
-
-        view.addClickRowListener(new ClickRowListener());
-        view.addClickTableButtonListener(new ClickTableButtonListener());
-        view.addClickButtonListener(new ClickAddProjectButtonListener());
-        view.addClickLogoutButtonListener(new ClickLogoutButtonListener());
+        view.addClickRowListener(new TableRowListener());
+        view.addClickTableButtonListener(new TableButtonListener());
+        view.addClickButtonListener(new AddProjectButtonListener());
+        view.addClickLogoutButtonListener(new LogoutButtonListener());
         // init();
         // projectListView.setVisible(true);
     }
 
-    // public void loadData() {
-    // // List<ProjectModel> projects = projectRepository.findAll();
-    // User user = OoadApplication.getLoginUser();
-    // // List<Project> projects = lecturerRepository
-    // // .findOneById(user.getId()).getProjects();
-    // // projectTableModel.setProjects(projects);
-
-    // // projectView.addClickButtonListener(new ClickAddProjectButtonListener());
-    // }
-
-    // public void init() {
-    // System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    // loadData();
-    // projectListView.addClickRowListener(new ClickRowListener());
-    // projectListView.addClickTableButtonListener(new ClickTableButtonListener());
-    // projectListView.addClickButtonListener(new ClickAddProjectButtonListener());
-    // // loadData();
-
-    // // loadData();
-    // // projectListView.setVisible(true);
-    // // projectView.setVisible(true);
-    // }
-
     public void show() {
         // User user = OoadApplication.getLoginUser();
-        projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
+        // projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
+        projectModel.loadLecturerData();
+
         // System.out.println(projectModel.getList());
         view.setVisible(true);
     }
@@ -95,7 +55,7 @@ public class LecturerDashboardController {
         view.setVisible(false);
     }
 
-    private class ClickRowListener implements MouseListener {
+    private class TableRowListener implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -125,7 +85,7 @@ public class LecturerDashboardController {
         }
     }
 
-    private class ClickTableButtonListener implements TableButtonPressedHandler {
+    private class TableButtonListener implements TableButtonPressedHandler {
         @Override
         public void onButtonPress(int row, int column) {
             // TODO Auto-generated method stub
@@ -146,14 +106,16 @@ public class LecturerDashboardController {
                         JOptionPane.QUESTION_MESSAGE);
                 if (result == JOptionPane.YES_OPTION) {
                     projectModel.delete(projectModel.getCurrent());
-                    projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
+                    // projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
+                    projectModel.loadLecturerData();
+
                 }
             }
 
         }
     }
 
-    private class ClickAddProjectButtonListener implements ActionListener {
+    private class AddProjectButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -163,7 +125,7 @@ public class LecturerDashboardController {
         }
     }
 
-    private class ClickLogoutButtonListener implements ActionListener {
+    private class LogoutButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {

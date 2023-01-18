@@ -7,11 +7,14 @@ import javax.swing.table.*;
 import org.springframework.stereotype.Component;
 
 import com.example.ooad.entity.Project;
-import com.example.ooad.model.ComboListModel;
+import com.example.ooad.model.IModel;
+// import com.example.ooad.model.ComboListModel;
+import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.utils.GridBagAdder;
 import com.example.ooad.utils.Observable;
 import com.example.ooad.utils.Observer;
+// import com.example.ooad.view.Component.LecturerReportTab;
 import com.example.ooad.view.Component.Report;
 import com.example.ooad.view.Component.ReportTab;
 import com.example.ooad.view.Component.TableButton;
@@ -23,14 +26,16 @@ import java.util.*;
 import java.util.List;
 
 @Component
-public class AdminDashboardView extends JFrame implements Observer<ProjectModel> {
+public class AdminDashboardView extends JFrame implements Observer<IModel> {
     private ProjectModel projectModel;
-    private ComboListModel comboListModel;
+
+    // private ComboListModel comboListModel;
+    private LecturerModel lecturerModel;
     private JButton logoutButton;
     private JTable projectTable;
     private JButton createUserButton;
     private JButton addProjectButton;
-    private Report allProjectReport;
+    private ReportTab allProjectTab;
     private ReportTab specializationTab;
     private ReportTab lecturerTab;
     private ReportTab statusTab;
@@ -56,13 +61,15 @@ public class AdminDashboardView extends JFrame implements Observer<ProjectModel>
     };
     private DefaultTableModel tableModel = new DefaultTableModel(null, header);
 
-    public AdminDashboardView(ProjectModel projectModel, ComboListModel comboListModel) {
+    public AdminDashboardView(ProjectModel projectModel, LecturerModel lecturerModel) {
         // public AdminProjectListView() {
         GridBagAdder gridCtr;
         this.projectModel = projectModel;
+        this.lecturerModel = lecturerModel;
         this.projectModel.registerObserver(this);
-        this.comboListModel = comboListModel;
-        this.comboListModel.registerObserver(this);
+        this.lecturerModel.registerObserver(this);
+        // this.comboListModel = comboListModel;
+        // this.comboListModel.registerObserver(this);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new GridBagLayout());
@@ -95,12 +102,7 @@ public class AdminDashboardView extends JFrame implements Observer<ProjectModel>
                 .anchor(GridBagConstraints.BASELINE_TRAILING).build();
         this.add(addProjectButton, gridCtr_3.getConstraint());
 
-        // JTable projectTable = new JTable(data, header);
-        // projectTable = new JTable(this.projectListModel.getTableModel());
-
         projectTable = new JTable(tableModel);
-        // // projectTable.setEnabled(false);
-        // projectTable.getTableHeader().setReorderingAllowed(false);
 
         JScrollPane tableContainer = new JScrollPane(
                 projectTable);
@@ -111,18 +113,31 @@ public class AdminDashboardView extends JFrame implements Observer<ProjectModel>
         GridBagAdder gridCtr_4 = new GridBagAdder.GridBagAdderBuilder().setY(3).width(2)
                 .build();
 
-        allProjectReport = new Report();
+        // allProjectReport = new Report();
 
         reportTp = new JTabbedPane();
-        reportTp.add("All Projects", allProjectReport);
-        specializationTab = new ReportTab();
-        lecturerTab = new ReportTab();
-        statusTab = new ReportTab();
-        assignTab = new ReportTab();
-        commentTab = new ReportTab();
+
+        allProjectTab = new ReportTab(null);
+        reportTp.add("All Projects", allProjectTab);
+        specializationTab = new ReportTab(
+                new String[] { "Software Engineer", "Data Science", "Game Development", "Cyber Security" });
+        reportTp.add("By Specialization", specializationTab);
+
+        lecturerTab = new ReportTab(new String[] {});
+        reportTp.add("By Lecturer", lecturerTab);
+
+        statusTab = new ReportTab(new String[] { "Active", "Inactive" });
+        reportTp.add("By Status", statusTab);
+
+        assignTab = new ReportTab(new String[] { "Assigned", "Unassigned" });
+        reportTp.add("By Assign", assignTab);
+
+        commentTab = new ReportTab(new String[] { "Commented", "Uncommented" });
+        reportTp.add("By Comment", commentTab);
 
         reportTabs = new ArrayList<ReportTab>() {
             {
+                add(allProjectTab);
                 add(specializationTab);
                 add(lecturerTab);
                 add(statusTab);
@@ -130,12 +145,6 @@ public class AdminDashboardView extends JFrame implements Observer<ProjectModel>
                 add(commentTab);
             }
         };
-
-        reportTp.add("By Specialization", specializationTab);
-        reportTp.add("By Lecturer", lecturerTab);
-        reportTp.add("By Status", statusTab);
-        reportTp.add("By Assign", assignTab);
-        reportTp.add("By Comment", commentTab);
 
         mainTp = new JTabbedPane();
         mainTp.add("Project", tableContainer);
@@ -145,8 +154,42 @@ public class AdminDashboardView extends JFrame implements Observer<ProjectModel>
 
         this.add(mainTp, gridCtr_4.getConstraint());
         // this.setVisible(true);
+    }
 
-        // projectModel.registerObserver(this);
+    public ProjectModel getProjectModel() {
+        return this.projectModel;
+    }
+
+    public void setProjectModel(ProjectModel projectModel) {
+        this.projectModel = projectModel;
+    }
+
+    public LecturerModel getLecturerModel() {
+        return this.lecturerModel;
+    }
+
+    public void setLecturerModel(LecturerModel lecturerModel) {
+        this.lecturerModel = lecturerModel;
+    }
+
+    public ReportTab getAllProjectTab() {
+        return this.allProjectTab;
+    }
+
+    public void setAllProjectTab(ReportTab allProjectTab) {
+        this.allProjectTab = allProjectTab;
+    }
+
+    // public void setLecturerTab(LecturerReportTab lecturerTab) {
+    // this.lecturerTab = lecturerTab;
+    // }
+
+    public DefaultTableModel getTableModel() {
+        return this.tableModel;
+    }
+
+    public void setTableModel(DefaultTableModel tableModel) {
+        this.tableModel = tableModel;
     }
 
     public ProjectModel getProjectListModel() {
@@ -155,14 +198,6 @@ public class AdminDashboardView extends JFrame implements Observer<ProjectModel>
 
     public void setProjectListModel(ProjectModel projectModel) {
         this.projectModel = projectModel;
-    }
-
-    public ComboListModel getComboListModel() {
-        return this.comboListModel;
-    }
-
-    public void setComboListModel(ComboListModel comboListModel) {
-        this.comboListModel = comboListModel;
     }
 
     public JButton getLogoutButton() {
@@ -197,13 +232,13 @@ public class AdminDashboardView extends JFrame implements Observer<ProjectModel>
         this.addProjectButton = addProjectButton;
     }
 
-    public Report getAllProjectReport() {
-        return this.allProjectReport;
-    }
+    // public Report getAllProjectReport() {
+    // return this.allProjectReport;
+    // }
 
-    public void setAllProjectReport(Report allProjectReport) {
-        this.allProjectReport = allProjectReport;
-    }
+    // public void setAllProjectReport(Report allProjectReport) {
+    // this.allProjectReport = allProjectReport;
+    // }
 
     public ReportTab getSpecializationTab() {
         return this.specializationTab;
@@ -217,9 +252,9 @@ public class AdminDashboardView extends JFrame implements Observer<ProjectModel>
         return this.lecturerTab;
     }
 
-    public void setLecturerTab(ReportTab lecturerTab) {
-        this.lecturerTab = lecturerTab;
-    }
+    // public void setLecturerTab(ReportTab lecturerTab) {
+    // this.lecturerTab = lecturerTab;
+    // }
 
     public ReportTab getStatusTab() {
         return this.statusTab;
@@ -293,16 +328,16 @@ public class AdminDashboardView extends JFrame implements Observer<ProjectModel>
         this.header = header;
     }
 
-    public void addSelectTabListener(ChangeListener listener) {
-        mainTp.addChangeListener(listener);
-        reportTp.addChangeListener(listener);
-    }
+    // public void addSelectTabListener(ChangeListener listener) {
+    // mainTp.addChangeListener(listener);
+    // reportTp.addChangeListener(listener);
+    // }
 
-    public void addClickGenerateListener(ActionListener listener) {
-        for (ReportTab reportTab : reportTabs) {
-            reportTab.getGenerateButton().addActionListener(listener);
-        }
-    }
+    // public void addClickGenerateListener(ActionListener listener) {
+    // for (ReportTab reportTab : reportTabs) {
+    // reportTab.getGenerateButton().addActionListener(listener);
+    // }
+    // }
 
     public String getSelection(int index) {
         // System.out.println("getselection:" + index);
@@ -347,61 +382,71 @@ public class AdminDashboardView extends JFrame implements Observer<ProjectModel>
         // return commentTab.getSelection().getSelectedItem().toString();
     }
 
-    public void addClickRowListener(MouseListener listener) {
-        projectTable.addMouseListener(listener);
-    }
+    // public void addClickRowListener(MouseListener listener) {
+    // projectTable.addMouseListener(listener);
+    // }
 
-    public void addClickTableButtonListener(TableButtonPressedHandler listener) {
-        commentButtons.addHandler(listener);
-        deleteButtons.addHandler(listener);
-    }
+    // public void addClickTableButtonListener(TableButtonPressedHandler listener) {
+    // commentButtons.addHandler(listener);
+    // deleteButtons.addHandler(listener);
+    // }
 
-    public void addClickButtonListener(ActionListener listener) {
-        addProjectButton.addActionListener(listener);
-    }
+    // public void addClickButtonListener(ActionListener listener) {
+    // addProjectButton.addActionListener(listener);
+    // }
 
-    public void addClickCreateUserButtonListener(ActionListener listener) {
-        createUserButton.addActionListener(listener);
-    }
+    // public void addClickCreateUserButtonListener(ActionListener listener) {
+    // createUserButton.addActionListener(listener);
+    // }
 
-    public void addClickLogoutButtonListener(ActionListener listener) {
-        logoutButton.addActionListener(listener);
-    }
+    // public void addClickLogoutButtonListener(ActionListener listener) {
+    // logoutButton.addActionListener(listener);
+    // }
 
-    public void update() {
-        // projectTable.setModel(new
-        // header));
+    // public void update(Observable<IModel> observable, IModel model) {
+    // // projectTable.setModel(new
+    // // header));
 
-        for (ReportTab reportTab : reportTabs) {
-            reportTab.setData(projectModel.getReportData());
-            reportTab.setCombo(comboListModel.getComboBox());
-        }
+    // // for (ReportTab reportTab : reportTabs) {
+    // // reportTab.setData(projectModel.getReportData());
+    // // reportTab.setCombo(comboListModel.getComboBox());
+    // // }
 
-        projectTable.setModel(new DefaultTableModel(projectModel.getAdminData(),
-                header));
+    // // projectTable.setModel(new DefaultTableModel(projectModel.getAdminData(),
+    // // header));
 
-        allProjectReport.setData(projectModel.getReportData());
-        // specializationTab.setData(projectListModel.getReportData());
-        // specializationTab.setCombo(comboListModel.getComboBox());
+    // // allProjectReport.setData(projectModel.getReportData());
+    // // specializationTab.setData(projectListModel.getReportData());
+    // // specializationTab.setCombo(comboListModel.getComboBox());
 
-    }
+    // }
 
-    public void update(Observable<ProjectModel> Observable) {
+    public void update(Observable<IModel> Observable, IModel model) {
         // projectTable.setModel(new
         // DefaultTableModel(projectModel.getAdminData(),header)
         // header));
-        tableModel.setDataVector(projectModel.getAdminData(), header);
 
-        // DefaultTableModel = projectTable.getModel().g
+        if (model instanceof ProjectModel) {
+            tableModel.setDataVector(projectModel.getAdminData(), header);
 
-        if (projectModel.getList().size() > 0) {
-            TableColumn commentColumn = projectTable.getColumnModel().getColumn(6);
-            commentColumn.setCellRenderer(commentButtons);
-            commentColumn.setCellEditor(commentButtons);
+            if (projectModel.getList().size() > 0) {
+                TableColumn commentColumn = projectTable.getColumnModel().getColumn(6);
+                commentColumn.setCellRenderer(commentButtons);
+                commentColumn.setCellEditor(commentButtons);
 
-            TableColumn deleteColumn = projectTable.getColumnModel().getColumn(7);
-            deleteColumn.setCellRenderer(deleteButtons);
-            deleteColumn.setCellEditor(deleteButtons);
+                TableColumn deleteColumn = projectTable.getColumnModel().getColumn(7);
+                deleteColumn.setCellRenderer(deleteButtons);
+                deleteColumn.setCellEditor(deleteButtons);
+            }
+
+            for (ReportTab rt : reportTabs) {
+                rt.getReportTextArea().setText(projectModel.getReportData());
+            }
+        } else if (model instanceof LecturerModel) {
+            // lecturerTab.getSelection().set
+            // lecturerTab.getSelection().setSelectedItem(lecturerModel.getNameAndId());
+            lecturerTab.getSelectionInput().setModel(new DefaultComboBoxModel<String>(lecturerModel.getNameAndId()));
+
         }
     }
 }

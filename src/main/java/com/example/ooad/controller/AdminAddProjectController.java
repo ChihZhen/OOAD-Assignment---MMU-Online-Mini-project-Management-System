@@ -14,56 +14,53 @@ import java.awt.event.*;
 import java.util.List;
 
 @Controller
-public class AdminAddProjectController {
+public class AdminAddProjectController
+        implements IController {
+    private AdminAddProjectView view;
     private ProjectModel projectModel;
     private LecturerModel lecturerModel;
-    private AdminAddProjectView adminAddProjectView;
 
-    public AdminAddProjectController(AdminAddProjectView adminAddProjectView,
+    public AdminAddProjectController(AdminAddProjectView view,
             ProjectModel projectModel, LecturerModel lecturerModel) {
-        this.adminAddProjectView = adminAddProjectView;
+        this.view = view;
         this.projectModel = projectModel;
-        // this.projectTableModel = projectTableModel;
-        // this.projectRepository = projectRepository;
         this.lecturerModel = lecturerModel;
-        // this.lecturerRepository = lecturerRepository;
-        adminAddProjectView.getSubmitButton().addActionListener(new SubmitButtonListener());
-        // adminAddProjectView.addClickSubmitListener(new ClickSubmitButtonListener());
+
+        view.getSubmitButton().addActionListener(new SubmitButtonListener());
     }
 
     public void show() {
         lecturerModel.load();
-        adminAddProjectView.setVisible(true);
+        view.setVisible(true);
     }
 
     public void hide() {
-        adminAddProjectView.setVisible(false);
+        view.setVisible(false);
     }
 
-    // public void loadData() {
-    // List<Lecturer> lecturers = lecturerRepository.findAll();
-    // lecturerListModel.setLecturers(lecturers);
-    // }
 
-    class SubmitButtonListener implements ActionListener {
+    private class SubmitButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String title = adminAddProjectView.getTitleInput().getText();
-            String specialization = adminAddProjectView.getSpecializationInput().getSelectedItem().toString();
-            String status = adminAddProjectView.getStatusInput().getSelectedItem().toString();
-            String description = adminAddProjectView.getDescriptionInput().getText();
-            int lecturerIndex = adminAddProjectView.getLecturerInput().getSelectedIndex();
+            String title = view.getTitleInput().getText();
+            String specialization = view.getSpecializationInput().getSelectedItem().toString();
+            String status = view.getStatusInput().getSelectedItem().toString();
+            String description = view.getDescriptionInput().getText();
+            int lecturerIndex = view.getLecturerInput().getSelectedIndex();
 
-            // adminAddProjectView.setProjectModel();
             Lecturer lecturer = lecturerModel.get(lecturerIndex);
             Project project = new Project(title, description, status, specialization, lecturer);
-            // projectRepository.save(projectModel);
+
             projectModel.create(project);
-            // List<Project> projects = projectRepository.findAll();
-            // projectTableModel.setProjects(projects);
-            // projectModel.reset();
-            // System.out.println("clickbuttonlistener");
-            adminAddProjectView.dispose();
+            projectModel.loadAdminData();
+
+            // view.getTitleInput().setText("");
+            // view.getSpecializationInput().setSelectedIndex(0);
+            // view.getStatusInput().setSelectedIndex(0);
+            // view.getDescriptionInput().setText("");
+            // view.getLecturerInput().setSelectedIndex(0);
+
+            view.dispose();
         }
     }
 }

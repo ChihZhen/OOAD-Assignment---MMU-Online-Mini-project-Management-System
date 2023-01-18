@@ -11,10 +11,7 @@ import javax.swing.event.ChangeListener;
 
 import org.springframework.stereotype.Controller;
 
-import com.example.ooad.OoadApplication;
-import com.example.ooad.entity.Lecturer;
-import com.example.ooad.entity.Project;
-import com.example.ooad.model.ComboListModel;
+import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.repository.LecturerRepository;
 import com.example.ooad.repository.ProjectRepository;
@@ -26,163 +23,186 @@ import java.awt.event.*;
 
 @Controller
 public class AdminDashboardController {
+    private AdminDashboardView view;
     private ProjectModel projectModel;
-    private ComboListModel comboListModel;
-    private AdminDashboardView adminProjectListView;
-    private LecturerAddProjectController projectController;
-    private AdminAddProjectController adminAddProjectController;
-    private AdminCreateUserController createUserController;
+    private LecturerModel lecturerModel;
+    // private ComboListModel comboListModel;
     private LoginController loginController;
+    private AdminAddProjectController addProjectController;
+    // private AdminAddProjectController adminAddProjectController;
+    private AdminCreateUserController createUserController;
     // private ProjectRepository projectRepository;
     // private LecturerRepository lecturerRepository;
-    private int tabIndex;
+    // private int tabIndex;
 
-    public AdminDashboardController(ProjectModel projectTableModel, ComboListModel comboListModel,
-            AdminDashboardView adminProjectListView, LecturerAddProjectController projectController,
-            AdminAddProjectController adminAddProjectController,
-            AdminCreateUserController createUserController, LoginController loginController,
-            ProjectRepository projectRepository, LecturerRepository lecturerRepository) {
-        this.projectModel = projectTableModel;
-        this.comboListModel = comboListModel;
-        this.adminProjectListView = adminProjectListView;
-        this.projectController = projectController;
-        this.adminAddProjectController = adminAddProjectController;
+    public AdminDashboardController(AdminDashboardView view, ProjectModel projectModel, LecturerModel lecturerModel,
+            AdminAddProjectController addProjectController, AdminCreateUserController createUserController,
+            LoginController loginController) {
+        this.view = view;
+        this.projectModel = projectModel;
+        this.lecturerModel = lecturerModel;
+        this.addProjectController = addProjectController;
         this.createUserController = createUserController;
         this.loginController = loginController;
-        // this.projectRepository = projectRepository;
-        // this.lecturerRepository = lecturerRepository;
 
-        // adminProjectListView.addClickRowListener(new ClickRowListener());
-        adminProjectListView.getProjectTable().addMouseListener(new TableListener());
+        view.getProjectTable().addMouseListener(new TableListener());
 
         // adminProjectListView.addClickTableButtonListener(new
         // ClickTableButtonListener());
-        adminProjectListView.getCommentButtons().addHandler(new TableButtonListener());
-        adminProjectListView.getDeleteButtons().addHandler(new TableButtonListener());
+        view.getCommentButtons().addHandler(new TableButtonListener());
+        view.getDeleteButtons().addHandler(new TableButtonListener());
 
-        // adminProjectListView.addClickButtonListener(new
-        // ClickAddProjectButtonListener);
-        adminProjectListView.getAddProjectButton().addActionListener(new AddProjectButtonListener());
+        view.getAddProjectButton().addActionListener(new AddProjectButtonListener());
+        view.getCreateUserButton().addActionListener(new CreateUserButtonListener());
 
-        // adminProjectListView.addClickCreateUserButtonListener(new
-        // ClickCreateUserButtonListener());
-        adminProjectListView.getCreateUserButton().addActionListener(new CreateUserButtonListener());
-
-        // adminProjectListView.addClickLogoutButtonListener(new
-        // ClickLogoutButtonListener());
-        adminProjectListView.addClickLogoutButtonListener(new LogoutButtonListener());
+        view.getLogoutButton().addActionListener(new LogoutButtonListener());
 
         // adminProjectListView.addSelectTabListener(new SelectTabListener());
-        adminProjectListView.getMainTp().addChangeListener(new SelectTabListener());
-        adminProjectListView.getReportTp().addChangeListener(new SelectTabListener());
+        view.getMainTp().addChangeListener(new MainTpListener());
+        view.getReportTp().addChangeListener(new ReportTpListener());
 
         // adminProjectListView.addClickGenerateListener(new
         // addClickGenerateListener());
-        for (ReportTab t : adminProjectListView.getReportTabs()) {
-            t.getGenerateButton().addActionListener(new GenerateButtonListener());
-        }
+        // for (ReportTab t : view.getReportTabs()) {
+        // t.getGenerateButton().addActionListener(new GenerateButtonListener());
+        // }
+        view.getAllProjectTab().getGenerateButton().addActionListener(new AllProjectGenerateButton());
+        view.getSpecializationTab().getGenerateButton().addActionListener(new SpecializationGenerateButton());
+        view.getLecturerTab().getGenerateButton().addActionListener(new LecturerGenerateButton());
+        view.getStatusTab().getGenerateButton().addActionListener(new StatusGenerateButton());
+        view.getAssignTab().getGenerateButton().addActionListener(new AssignGenerateButton());
+        view.getCommentTab().getGenerateButton().addActionListener(new CommentGenerateButton());
         // adminProjectListView.
         // adminProjectListView.setVisible(true);
     }
 
     public void show() {
         projectModel.load();
-        adminProjectListView.setVisible(true);
+        view.setVisible(true);
     }
 
     public void hide() {
-        adminProjectListView.setVisible(false);
+        view.setVisible(false);
     }
 
-    // public void loadData() {
-    // List<Project> projects = projectRepository.findAll();
-    // projectTableModel.setProjects(projects);
+    // private class GenerateButtonListener implements ActionListener {
+    // @Override
+    // public void actionPerformed(ActionEvent e) {
+
+    // // int index = view.getReportTp().getSelectedIndex();
+
+    // int reportTpIndex = view.getReportTp().getSelectedIndex();
+    // int selectionIndex =
+    // view.getReportTabs().get(reportTpIndex).getSelection().getSelectedIndex();
+    // // String selection = view.getSelection(tabIndex);
+    // if (reportTpIndex == 0) {
+    // projectModel.load();
+    // // } else if (selection.equals("")) {
+    // // JFrame jf = new JFrame();
+    // // JOptionPane.showMessageDialog(jf,
+    // // "Please select a field",
+    // // "No Selection", 2, null);
+    // } else if (reportTpIndex == 1) {
+    // projectModel.load();
+    // // projectModel.setReportBySpecialization(selection);
+    // } else if (reportTpIndex == 2) {
+
+    // // projectModel.setReportByLecturer(selection);
+    // } else if (reportTpIndex == 3) {
+    // // projectModel.setReportByStatus(selection);
+    // } else if (reportTpIndex == 4) {
+    // // projectModel.setReportByAssign(selection);
+    // } else if (reportTpIndex == 5) {
+    // // projectModel.setReportByComment(selection);
+    // }
     // }
 
-    private class GenerateButtonListener implements ActionListener {
+    // }
+
+    private class AllProjectGenerateButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String selection = adminProjectListView.getSelection(tabIndex);
-            System.out.println(selection);
-            System.out.println(selection == null);
-            System.out.println(selection.equals(""));
-            // if (tabIndex == 0) {
-            // projectTableModel.setAllReport();
-            // } else if (selection.equals("")) {
-            // JFrame jf = new JFrame();
-            // JOptionPane.showMessageDialog(jf,
-            // "Please select a field",
-            // "No Selection", 2, null);
-            // } else if (tabIndex == 1) {
-            // projectTableModel.setReportBySpecialization(selection);
-            // } else if (tabIndex == 2) {
-            // projectTableModel.setReportByLecturer(selection);
-            // } else if (tabIndex == 3) {
-            // projectTableModel.setReportByStatus(selection);
-            // } else if (tabIndex == 4) {
-            // projectTableModel.setReportByAssign(selection);
-            // } else if (tabIndex == 5) {
-            // projectTableModel.setReportByComment(selection);
-            // }
+            // TODO Auto-generated method stub
+            // view.getAllProjectTab().getSelection().getSelectedIndex();
+            projectModel.load();
         }
-
     }
 
-    private class SelectTabListener implements ChangeListener {
+    private class SpecializationGenerateButton implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO Auto-generated method stub
+            String specialization = view.getSpecializationTab().getSelection().getSelectedItem().toString();
+            projectModel.loadBySpecialization(specialization);
+        }
+    }
+
+    private class LecturerGenerateButton implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = view.getLecturerTab().getSelection().getSelectedIndex();
+            // System.out.println(index);
+            // System.out.println(index);
+            System.out.println(lecturerModel.get(index).getId());
+            System.out.println(lecturerModel.get(index).getAccountId());
+            System.out.println(lecturerModel.get(index).getFullName());
+            System.out.println(lecturerModel.get(index).getPassword());
+            projectModel.loadByLecturerId(lecturerModel.get(index).getAccountId());
+        }
+    }
+
+    private class StatusGenerateButton implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String status = view.getStatusTab().getSelection().getSelectedItem().toString();
+            projectModel.loadByStatus(status);
+            ;
+        }
+    }
+
+    private class AssignGenerateButton implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String assign = view.getAssignTab().getSelection().getSelectedItem().toString();
+            projectModel.loadByAssign(assign.equals("Assigned"));
+
+        }
+    }
+
+    private class CommentGenerateButton implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String comment = view.getCommentTab().getSelection().getSelectedItem().toString();
+            projectModel.loadByComment(comment.equals("Commented"));
+        }
+    }
+
+    private class MainTpListener implements ChangeListener {
         @Override
         public void stateChanged(ChangeEvent e) {
             // TODO Auto-generated method stub
-            // tabIndex = ((JTabbedPane) e.getSource()).getSelectedIndex();
-            // String name = ((JTabbedPane) e.getSource()).getTitleAt(tabIndex);
-            // // System.out.println(index);
-            // System.out.println(name);
-            // projectTableModel.resetReport();
-            // if (name.equals("All Projects")) {
-            // projectTableModel.setAllReport();
-            // // projectTableModel.setProjects(projectRepository.findAll());
+            int tabIndex = ((JTabbedPane) e.getSource()).getSelectedIndex();
 
-            // } else if (name.equals("By Specialization")) {
-            // comboListModel.setComboList(new ArrayList<>() {
-            // {
-            // add("Software Engineer");
-            // add("Data Science");
-            // add("Game Development");
-            // add("Cyber Security");
-            // }
-            // });
-            // } else if (name.equals("By Lecturer")) {
-            // List<Lecturer> lecturers = lecturerRepository.findAll();
-            // List<String> names = new ArrayList<String>();
-            // for (Lecturer lecturer : lecturers) {
-            // names.add(lecturer.getFullName());
-            // }
-            // comboListModel.setComboList(names);
+            // projectModel.resetReport();\
+            if (tabIndex == 0) {
+                // lecturerModel.load();
+                projectModel.load();
+            } else if (tabIndex == 1) {
+                // lecturerModel.load();
+                projectModel.clear();
+            }
+        }
+    }
 
-            // } else if (name.equals("By Status")) {
-            // comboListModel.setComboList(new ArrayList<>() {
-            // {
-            // add("Active");
-            // add("Inactive");
-            // }
-            // });
-            // } else if (name.equals("By Assign"))
-
-            // {
-            // comboListModel.setComboList(new ArrayList<>() {
-            // {
-            // add("Assigned");
-            // add("Unassigned");
-            // }
-            // });
-            // } else if (name.equals("By Comment")) {
-            // comboListModel.setComboList(new ArrayList<>() {
-            // {
-            // add("With Comment");
-            // add("No Comment");
-            // }
-            // });
-
-            // }
+    private class ReportTpListener implements ChangeListener {
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            int tabIndex = ((JTabbedPane) e.getSource()).getSelectedIndex();
+            projectModel.clear();
+            // projectModel.resetReport();
+            if (tabIndex == 2) {
+                lecturerModel.load();
+            }
         }
     }
 
@@ -226,9 +246,8 @@ public class AdminDashboardController {
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (result == JOptionPane.YES_OPTION) {
-                    // projectRepository.delete(projectTableModel.getProject(row));
                     projectModel.delete(projectModel.get(row));
-                    // loadData();
+                    projectModel.loadAdminData();
                 }
             }
         }
@@ -237,7 +256,8 @@ public class AdminDashboardController {
     private class AddProjectButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            adminAddProjectController.show();
+            System.out.println("addProjectButton");
+            addProjectController.show();
         }
     }
 
@@ -252,8 +272,7 @@ public class AdminDashboardController {
         @Override
         public void actionPerformed(ActionEvent e) {
             loginController.show();
-            adminProjectListView.setVisible(false);
-            // OoadApplication.setLoginUser(null);
+            view.setVisible(false);
             projectModel.setAuthUser(null);
         }
     }

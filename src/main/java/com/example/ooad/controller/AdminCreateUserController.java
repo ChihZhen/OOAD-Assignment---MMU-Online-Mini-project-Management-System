@@ -6,107 +6,111 @@ import com.example.ooad.entity.Admin;
 import com.example.ooad.entity.Lecturer;
 import com.example.ooad.entity.Student;
 import com.example.ooad.entity.User;
-import com.example.ooad.repository.StudentRepository;
-import com.example.ooad.repository.UserRepository;
+import com.example.ooad.model.UserModel;
+
 import com.example.ooad.view.AdminCreateUserView;
 
 import java.awt.event.*;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 @Controller
-public class AdminCreateUserController {
-    private AdminCreateUserView createUserView;
-    // private ProjectRepository projectRepository;
-    // private ProjectListModel projectTableModel;
-    // private UserModel userModel;
-    private Admin adminModel;
-    private Student studentModel;
-    private Lecturer lecturerModel;
-    private UserRepository userRepository;
-    private StudentRepository studentRepository;
-
-    // public void showAddProject() {
-    // createUserView.setTitle("New Project");
-    // createUserView.setVisible(true);
-    // }
-
-    // public void showEditProject(int index) {
-    // createUserView.setTitle("Edit Project");
-    // // userModel.set(userModel.getProject(index));
-    // createUserView.setVisible(true);
-    // }
+public class AdminCreateUserController implements IController {
+    private AdminCreateUserView view;
+    private UserModel userModel;
 
     public void show() {
-        createUserView.setVisible(true);
+        view.setVisible(true);
     }
 
-    public AdminCreateUserController(AdminCreateUserView createUserView, Admin adminModel, Student studentModel,
-            Lecturer lecturerModel, UserRepository userRepository, StudentRepository studentRepository) {
-        this.createUserView = createUserView;
-        this.lecturerModel = lecturerModel;
-        this.adminModel = adminModel;
-        this.studentModel = studentModel;
-        this.userRepository = userRepository;
-        this.studentRepository = studentRepository;
-        // this.projectModel = projectModel;
-        // this.projectTableModel = projectTableModel;
-        // this.projectRepository = projectRepository;
-
-        createUserView.addClickSubmitListener(new ClickSubmitButtonListener());
-        createUserView.addSelectRoleListener(new SelectRoleListener());
-        // init();
+    public void hide() {
+        view.setVisible(false);
     }
 
-    // private void init() {
-    // createUserView.addClickSubmitListener(new ClickSubmitButtonListener());
-    // createUserView.addSelectRoleListener(new SelectRoleListener());
-    // // show();
-    // // createUserView.setVisible(true);
-    // // createUserView.setModal(true);
-    // }
+    public String generateRandomPassword() {
 
-    private class ClickSubmitButtonListener implements ActionListener {
+        String numbers = "0123456789";
+
+        Random rndm_method = new Random();
+
+        char[] password = new char[6];
+        System.out.println(password.toString());
+
+        for (int i = 0; i < 6; i++) {
+            System.out.println(password.toString());
+
+            password[i] = numbers.charAt(rndm_method.nextInt(numbers.length()));
+
+        }
+        System.out.println(password.toString());
+
+        return new String(password);
+        // return password;
+    }
+
+    public AdminCreateUserController(AdminCreateUserView view, UserModel userModel) {
+        this.view = view;
+        this.userModel = userModel;
+
+        // view.addClickSubmitListener(new ClickSubmitButtonListener());
+        view.getSubmitButton().addActionListener(new SubmitButtonListener());
+        // view.addSelectRoleListener(new SelectRoleListener());
+        view.getRoleInput().addActionListener(new SelectRoleListener());
+    }
+
+    private class SubmitButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // createUserView.setProjectModel();
-            // System.out.println("createUserView.actionPerformed");
-            User userModel = createUserView.getUserModel();
-            userModel.generateRandomPassword();
-            if (userModel.isValid()) {
-                if (userRepository.findByAccountId(userModel.getAccountId()) == null) {
-                    userRepository.save(userModel);
-                    JFrame jf = new JFrame();
-                    JOptionPane.showMessageDialog(jf,
-                            "Id: " + userModel.getAccountId() + ", Password: " + userModel.getPassword(),
-                            "Account Created Successfully", 1, null);
-
-                } else {
-                    JFrame jf = new JFrame();
-                    JOptionPane.showMessageDialog(jf,
-                            "Id already created",
-                            "Account Created Failed", 2, null);
-                }
-            } else {
+            String username = view.getUsernameInput().getText();
+            String role = view.getRoleInput().getSelectedItem().toString();
+            String accountId = view.getIdInput().getText();
+            System.out.println(userModel.findByAccountId(accountId));
+            if (username.isBlank() | accountId.isBlank()) {
                 JFrame jf = new JFrame();
                 JOptionPane.showMessageDialog(jf,
                         "Please enter all fields",
                         "Invalid Input", 2, null);
-            }
+            } else if (userModel.findByAccountId(accountId) == null) {
+                User user;
+                String password = generateRandomPassword();
+                if (role.equals("Lecturer")) {
+                    user = new Lecturer(username, role, accountId, password);
+                } else if (role.equals("Admin")) {
+                    user = new Admin(username, role, accountId, password);
+                } else {
+                    String specialization = view.getSpecializationInput().getSelectedItem().toString();
+                    user = new Student(username, role, accountId, specialization, password);
+                }
+                userModel.create(user);
+                JFrame jf = new JFrame();
+                JOptionPane.showMessageDialog(jf,
+                        "Id: " + accountId + ", Password: " + password,
+                        "Account Created Successfully", 1, null);
+                // view.getUsernameInput().setText("");
+                // view.getRoleInput().setSelectedIndex(0);
+                // view.getIdInput().setText("");
 
+                view.dispose();
+            } else {
+                JFrame jf = new JFrame();
+                JOptionPane.showMessageDialog(jf,
+                        "Id already created",
+                        "Account Created Failed", 2, null);
+            }
         }
     }
 
     private class SelectRoleListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (createUserView.getRoleInput().getSelectedItem().toString().equals("Student")) {
-                createUserView.getSpecializationLabel().setVisible(true);
-                createUserView.getSpecializationInput().setVisible(true);
+            if (view.getRoleInput().getSelectedItem().toString().equals("Student")) {
+                view.getSpecializationLabel().setVisible(true);
+                view.getSpecializationInput().setVisible(true);
             } else {
-                createUserView.getSpecializationLabel().setVisible(false);
-                createUserView.getSpecializationInput().setVisible(false);
+                view.getSpecializationLabel().setVisible(false);
+                view.getSpecializationInput().setVisible(false);
             }
         }
     }

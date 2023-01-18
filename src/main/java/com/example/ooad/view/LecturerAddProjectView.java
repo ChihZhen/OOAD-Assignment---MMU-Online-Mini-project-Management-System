@@ -2,15 +2,15 @@ package com.example.ooad.view;
 
 import javax.swing.*;
 
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
-
-import com.example.ooad.entity.Project;
-import com.example.ooad.model.ProjectModel;
-import com.example.ooad.utils.GridBagAdder;
-
 import java.awt.*;
 import java.awt.event.*;
+
+import org.springframework.context.annotation.*;
+import org.springframework.stereotype.Component;
+
+import com.example.ooad.model.*;
+import com.example.ooad.utils.*;
+
 
 @Component
 @Primary
@@ -152,29 +152,4 @@ public class LecturerAddProjectView extends JDialog {
     public void setProjectModel(ProjectModel projectModel) {
         this.projectModel = projectModel;
     }
-
-    public void addClickSubmitListener(ActionListener Listener) {
-        submitButton.addActionListener(Listener);
-    }
-
-    // public void setProjectModel() {
-    // projectModel.setTitle(titleInput.getText());
-    // projectModel.setDescription(descriptionInput.getText());
-    // projectModel.setSpecialization(specializationInput.getSelectedItem().toString());
-    // projectModel.setStatus(statusInput.getSelectedItem().toString());
-    // }
-
-    // public void update() {
-    // titleInput.setText(projectModel.getTitle());
-    // descriptionInput.setText(projectModel.getDescription());
-    // specializationInput.setSelectedItem(projectModel.getSpecialization());
-    // statusInput.setSelectedItem(projectModel.getStatus());
-    // }
-
-    // public void setEditable(boolean editable) {
-    // titleInput.setEditable(editable);
-    // descriptionInput.setEditable(editable);
-    // specializationInput.setEditable(editable);
-    // statusInput.setEditable(editable);
-    // }
 }

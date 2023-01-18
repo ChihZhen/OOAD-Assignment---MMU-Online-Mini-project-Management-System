@@ -13,38 +13,11 @@ import com.example.ooad.entity.Lecturer;
 import com.example.ooad.repository.LecturerRepository;
 
 @Component
-public class LecturerModel extends Model<Lecturer, LecturerModel> {
-    private List<Lecturer> lecturers = new ArrayList<Lecturer>();
-    // private static DefaultComboBoxModel<String> comboBoxModel = new
-    // DefaultComboBoxModel<String>();
+public class LecturerModel extends Model<Lecturer> {
 
     public LecturerModel(LecturerRepository lecturerRepository) {
         super(lecturerRepository);
     }
-
-    public Lecturer getLecturer(int index) {
-        return lecturers.get(index);
-    }
-
-    public void addLecturer(Lecturer lecturer) {
-        lecturers.add(lecturer);
-    }
-
-    public List<Lecturer> getLecturer() {
-        return lecturers;
-    }
-
-    // public void setLecturers(List<Lecturer> lecturers) {
-    // this.lecturers = lecturers;
-    // ArrayList<String> data = new ArrayList<String>();
-    // comboBoxModel.removeAllElements();
-    // for (Lecturer lecturer : lecturers) {
-    // data.add(lecturer.getFullName());
-    // }
-    // comboBoxModel.removeAllElements();
-    // comboBoxModel.addAll(data);
-    // notifyObservers();
-    // }
 
     public DefaultComboBoxModel<String> getComboBox() {
         Vector<String> name = new Vector<String>();
@@ -52,6 +25,14 @@ public class LecturerModel extends Model<Lecturer, LecturerModel> {
             name.addElement(l.getFullName());
         }
         return new DefaultComboBoxModel<String>(name);
+    }
+
+    public Vector<String> getNameAndId() {
+        Vector<String> data = new Vector<String>();
+        for (Lecturer l : list) {
+            data.addElement(l.getFullName() + " - " + l.getAccountId());
+        }
+        return data;
     }
 
 }
