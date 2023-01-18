@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -34,18 +35,22 @@ public class AdminProjectListController {
     private OoadApplication ooadApplication;
     private ProjectController projectController;
     private AdminAddProjectController adminAddProjectController;
+    private AdminProjectDetailController adminProjectDetailController;
     private CreateUserController createUserController;
     private LoginController loginController;
     private ProjectRepository projectRepository;
     private LecturerRepository lecturerRepository;
     private int tabIndex;
     private ReportTab tab;
+    private CommentController commentController;
 
     public AdminProjectListController(ProjectListModel projectTableModel, ComboListModel comboListModel,
             AdminProjectListView adminProjectListView, OoadApplication ooadApplication,
             ProjectController projectController, AdminAddProjectController adminAddProjectController,
             CreateUserController createUserController, LoginController loginController,
-            ProjectRepository projectRepository, LecturerRepository lecturerRepository) {
+            ProjectRepository projectRepository, LecturerRepository lecturerRepository,
+            AdminProjectDetailController adminProjectDetailController,
+            CommentController commentController) {
         this.projectTableModel = projectTableModel;
         this.comboListModel = comboListModel;
         this.adminProjectListView = adminProjectListView;
@@ -56,6 +61,8 @@ public class AdminProjectListController {
         this.loginController = loginController;
         this.projectRepository = projectRepository;
         this.lecturerRepository = lecturerRepository;
+        this.adminProjectDetailController = adminProjectDetailController;
+        this.commentController = commentController;
 
         adminProjectListView.addClickRowListener(new ClickRowListener());
         adminProjectListView.addClickTableButtonListener(new ClickTableButtonListener());
@@ -191,7 +198,10 @@ public class AdminProjectListController {
             // TableModel tableModel = projectView.getTableModel();
             // TableModel tableModel = projectView.getTableModel();
             // System.out.println(projectTableModel.getRowCount());
-            System.out.println("hi table");
+            // System.out.println("hi table ----------------->" + ((JTable)
+            // e.getSource()).getSelectedRow());
+            adminProjectDetailController.show(projectTableModel.getProject(((JTable) e.getSource()).getSelectedRow()));
+
             // projectTableModel.setValueAt("hi", 0, 0);
 
             // l.setText("Mouse Clicked");
@@ -218,6 +228,7 @@ public class AdminProjectListController {
         @Override
         public void onButtonPress(int row, int column) {
             if (column == 6) {
+                commentController.show(projectTableModel.getProject(row));
                 // projectController.showEditProject(row);
             } else if (column == 7) {
                 JFrame jf = new JFrame();

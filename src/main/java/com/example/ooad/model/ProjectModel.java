@@ -186,6 +186,7 @@ public class ProjectModel extends Observable {
     }
 
     public void set(ProjectModel project) {
+
         if (project != null) {
             this.id = project.getId();
             this.title = project.getTitle();
@@ -207,7 +208,7 @@ public class ProjectModel extends Observable {
         this.status = "Active";
         this.student = null;
         this.lecturer = null;
-        this.comments = new ArrayList<CommentModel>();
+        this.comments = null;
         notifyObservers();
     }
 

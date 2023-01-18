@@ -81,7 +81,6 @@ public class StudentProjectListView extends JFrame implements Observer {
   }
 
   public void update() {
-    System.out.println("Project-------------->" + projectModel.getId());
     projectTable.setModel(new DefaultTableModel(projectListModel.getStudentData(), header));
     if (projectModel.getId() == null) {
       panel.add(l);

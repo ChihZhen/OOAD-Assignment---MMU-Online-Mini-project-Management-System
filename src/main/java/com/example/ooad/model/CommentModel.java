@@ -2,12 +2,16 @@ package com.example.ooad.model;
 
 import java.sql.Date;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Comment")
-public class CommentModel {
+@Component
+public class CommentModel extends Observable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String date;
 
@@ -63,7 +67,7 @@ public class CommentModel {
         this.message = message;
     }
 
-    public UserModel getAuthor() {
+    public AdminModel getAuthor() {
         return this.author;
     }
 
@@ -71,4 +75,23 @@ public class CommentModel {
         this.author = author;
     }
 
+    public void set(CommentModel comment) {
+        if (comment != null) {
+            this.id = comment.getId();
+            this.message = comment.getMessage();
+            this.date = comment.getDate();
+            this.author = comment.getAuthor();
+            this.project = comment.getProject();
+        }
+        notifyObservers();
+    }
+
+    public void reset() {
+        this.id = null;
+        this.message = null;
+        this.date = null;
+        this.author = null;
+        this.project = null;
+        notifyObservers();
+    }
 }
