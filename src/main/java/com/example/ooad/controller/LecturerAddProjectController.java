@@ -4,37 +4,28 @@ import java.awt.event.*;
 
 import org.springframework.stereotype.Controller;
 
-import com.example.ooad.entity.Lecturer;
-import com.example.ooad.entity.Project;
-import com.example.ooad.model.LecturerModel;
-import com.example.ooad.model.ProjectModel;
-import com.example.ooad.view.AdminAddProjectView;
+import com.example.ooad.entity.*;
+import com.example.ooad.model.*;
+import com.example.ooad.view.*;
 
 @Controller
-public class AdminAddProjectController
-        implements IController {
-    private AdminAddProjectView view;
-    private ProjectModel projectModel;
-    private LecturerModel lecturerModel;
+public class LecturerAddProjectController implements IController {
+    protected LecturerAddProjectView view;
+    protected ProjectModel projectModel;
 
-    public AdminAddProjectController(AdminAddProjectView view,
-            ProjectModel projectModel, LecturerModel lecturerModel) {
+    public LecturerAddProjectController(LecturerAddProjectView view, ProjectModel projectModel) {
         this.view = view;
         this.projectModel = projectModel;
-        this.lecturerModel = lecturerModel;
-
         view.getSubmitButton().addActionListener(new SubmitButtonListener());
     }
 
     public void show() {
-        lecturerModel.load();
         view.setVisible(true);
     }
 
     public void hide() {
         view.setVisible(false);
     }
-
 
     private class SubmitButtonListener implements ActionListener {
         @Override
@@ -43,13 +34,17 @@ public class AdminAddProjectController
             String specialization = view.getSpecializationInput().getSelectedItem().toString();
             String status = view.getStatusInput().getSelectedItem().toString();
             String description = view.getDescriptionInput().getText();
-            int lecturerIndex = view.getLecturerInput().getSelectedIndex();
 
-            Lecturer lecturer = lecturerModel.get(lecturerIndex);
-            Project project = new Project(title, description, status, specialization, lecturer);
-
+            Project project = new Project(title, description, status, specialization,
+                    (Lecturer) projectModel.getAuthUser());
             projectModel.create(project);
-            projectModel.loadAdminData();
+            // projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
+            projectModel.loadLecturerData();
+
+            view.getTitleInput().setText("");
+            view.getSpecializationInput().setSelectedIndex(0);
+            view.getStatusInput().setSelectedIndex(0);
+            view.getDescriptionInput().setText("");
 
             view.dispose();
         }

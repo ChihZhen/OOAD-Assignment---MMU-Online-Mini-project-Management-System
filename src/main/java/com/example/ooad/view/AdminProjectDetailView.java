@@ -10,15 +10,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneLayout;
+// import javax.swing.ScrollPaneLayout;
+import com.example.ooad.entity.Comment;
 
 import org.springframework.stereotype.Component;
 
 import com.example.ooad.OoadApplication;
 import com.example.ooad.model.CommentModel;
+import com.example.ooad.model.IModel;
 import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.utils.GridBagAdder;
+import com.example.ooad.utils.Observable;
+import com.example.ooad.utils.Observer;
+import com.example.ooad.entity.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -27,7 +32,7 @@ import java.util.*;
 import java.util.List;
 
 @Component
-public class AdminProjectDetailView extends JDialog implements Observer {
+public class AdminProjectDetailView extends JDialog implements Observer<IModel> {
 
   private JTextField titleInput;
   private JTextField specializationInput;
@@ -180,17 +185,20 @@ public class AdminProjectDetailView extends JDialog implements Observer {
     commentSection.setLayout(new GridBagLayout());
   }
 
-  public void update() {
-    idInput.setText(projectModel.getId().toString());
-    titleInput.setText(projectModel.getTitle());
-    descriptionInput.setText(projectModel.getDescription());
-    specializationInput.setText(projectModel.getSpecialization());
-    statusInput.setText(projectModel.getStatus());
+  public void update(Observable<IModel> _observable, IModel model) {
+    // if (model instanceof ProjectModel) {
+    Project project = projectModel.getCurrent();
+    idInput.setText(project.getId().toString());
+    titleInput.setText(project.getTitle());
+    descriptionInput.setText(project.getDescription());
+    specializationInput.setText(project.getSpecialization());
+    statusInput.setText(project.getStatus());
+    // }
 
-    List<CommentModel> comments = projectModel.getComments();
+    List<Comment> comments = projectModel.getCurrent().getComments();
     studentInput.setText(
-        projectModel.getStudent() != null ? projectModel.getStudent().getFullName() : "No assignee yet");
-    lecturerInput.setText(projectModel.getLecturer().getFullName());
+        project.getStudent() != null ? project.getStudent().getFullName() : "No assignee yet");
+    lecturerInput.setText(project.getLecturer().getFullName());
 
     JPanel j = new JPanel(new GridBagLayout());
     JPanel p = new JPanel(new GridBagLayout());
@@ -198,12 +206,10 @@ public class AdminProjectDetailView extends JDialog implements Observer {
 
     if (comments.size() != 0) {
       int inc = 9;
-      for (int i = 0; i < comments.size(); i++) {
-
-        CommentModel comment = comments.get(i);
+      for (Comment comment : comments) {
 
         message = new JTextField(comment.getMessage());
-        name = new JLabel(comment.getAuthor().getFullName());
+        name = new JLabel(comment.getAdmin().getFullName());
         time = new JTextField(comment.getDate());
         time.setPreferredSize(new Dimension(200, 22));
         time.setEditable(false);
@@ -221,10 +227,12 @@ public class AdminProjectDetailView extends JDialog implements Observer {
             .anchor(GridBagConstraints.BASELINE_LEADING).build();
         inc++;
 
-        GridBagAdder gridCtr_com_3 = new GridBagAdder.GridBagAdderBuilder().setY(inc).marginB(4).marginL(3).build();
+        GridBagAdder gridCtr_com_3 = new GridBagAdder.GridBagAdderBuilder().setY(inc).marginB(4).marginL(3)
+            .build();
         inc++;
 
-        GridBagAdder gridCtr_com = new GridBagAdder.GridBagAdderBuilder().setY(inc).marginB(12).marginL(3).build();
+        GridBagAdder gridCtr_com = new GridBagAdder.GridBagAdderBuilder().setY(inc).marginB(12).marginL(3)
+            .build();
 
         j.add(name, gridCtr_com_2.getConstraint());
         j.add(message, gridCtr_com.getConstraint());

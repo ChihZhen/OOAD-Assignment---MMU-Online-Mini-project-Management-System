@@ -1,70 +1,40 @@
 package com.example.ooad.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
+
+import javax.swing.table.DefaultTableModel;
 
 import org.springframework.stereotype.Component;
 
-import jakarta.persistence.*;
+import com.example.ooad.entity.Student;
+import com.example.ooad.repository.StudentRepository;
 
-@Entity
-@Table(name = "Student")
 @Component
-public class StudentModel extends UserModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class StudentModel extends Model<Student> {
+    private StudentRepository repository;
 
-    private String specialization;
-
-    @OneToOne(mappedBy = "student")
-    // @JoinColumn(name = "project_id")
-    private ProjectModel project;
-
-    public StudentModel() {
-        // super();
+    public StudentModel(StudentRepository repository) {
+        super(repository);
+        this.repository = repository;
     }
 
-    public StudentModel(String fullName, String role, String accountId, String specialization) {
-        super(fullName, role, accountId);
-        this.specialization = specialization;
+    public void loadBySpecializationAndProjectIsNull(String specialization) {
+        setList(repository.findBySpecializationAndProjectIsNull(specialization));
+        notifyObservers(this);
     }
 
-    public StudentModel(String fullName, String role, String accountId, String specialization, String password) {
-        super(fullName, role, accountId, password);
-        this.specialization = specialization;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public String getSpecialization() {
-        return this.specialization;
-    }
-
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
-    }
-
-    public ProjectModel getProject() {
-        return this.project;
-    }
-
-    public void setProject(ProjectModel project) {
-        this.project = project;
-    }
-
-    public Vector<String> toVector() {
-        Vector<String> data = new Vector<>();
-        data.add(Long.toString(id));
-        data.add(super.getAccountId());
-        data.add(super.getFullName());
+    public Vector<Vector<String>> getIdAndName() {
+        Vector<Vector<String>> data = new Vector<Vector<String>>();
+        for (Student student : list) {
+            data.add(new Vector<String>() {
+                {
+                    add(student.getAccountId());
+                    add(student.getFullName());
+                }
+            });
+        }
         return data;
-    }
-
-    public void reset() {
-        setAccountId(null);
-        setFullName(null);
-        setRole(null);
     }
 }
