@@ -22,7 +22,6 @@ public class CreateUserView extends JDialog {
     private JComboBox<String> specializationInput;
     private JButton submitButton;
 
-
     // private StudentModel studentModel;
 
     public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height) {
@@ -158,14 +157,13 @@ public class CreateUserView extends JDialog {
                     roleInput.getSelectedItem().toString(),
                     idInput.getText(), specializationInput.getSelectedItem().toString());
         }
-        // userModel.setAccountId(idInput.getText());
-        // userModel.setFullName(usernameInput.getText());
-        // userModel.setRole(roleInput.getSelectedItem().toString());
-        // studentModel.setStatus(statusInput.getSelectedItem().toString());
 
         return userModel;
     }
-
+    // userModel.setAccountId(idInput.getText());
+    // userModel.setFullName(usernameInput.getText());
+    // userModel.setRole(roleInput.getSelectedItem().toString());
+    // studentModel.setStatus(statusInput.getSelectedItem().toString());
 
     // public void update() {
     // idInput.setText(studentModel.getAccountId());
