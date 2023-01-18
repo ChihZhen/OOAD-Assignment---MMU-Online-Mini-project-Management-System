@@ -1,86 +1,59 @@
 package com.example.ooad.view;
 
+import java.awt.*;
+
 import javax.swing.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
-import java.awt.*;
-import java.awt.event.*;
+import com.example.ooad.utils.GridBagAdder;
 
 @Component
 public class LoginView extends JFrame {
-
-    private JButton loginButton;
     private JTextField idInput;
     private JTextField passwordInput;
-    // private LoginModel loginModel;
-
-    public static void add(JPanel panel, JComponent comp, int x, int y, int width, int height) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        constr.insets = new Insets(2, 2, 2, 2);
-        constr.anchor = GridBagConstraints.CENTER;
-        panel.add(comp, constr);
-    }
-
-    public static void add(JPanel panel, JComponent comp, int x, int y, int width, int height, int marginT, int marginR,
-            int marginB, int marginL) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        constr.insets = new Insets(marginT, marginL, marginB, marginR);
-        constr.anchor = GridBagConstraints.CENTER;
-        panel.add(comp, constr);
-    }
-
-    public static void add(JPanel panel, JComponent comp, int x, int y, int width, int height, int marginT, int marginR,
-            int marginB, int marginL, int anchor) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        constr.insets = new Insets(marginT, marginL, marginB, marginR);
-        constr.anchor = anchor;
-        panel.add(comp, constr);
-    }
+    private JButton loginButton;
 
     public LoginView() {
-        // this.loginModel = loginModel;
-        JLabel systemLabel1 = new JLabel("MMU Online");
-        systemLabel1.setForeground(Color.white);
-        systemLabel1.setFont(new Font("Source Code Pro", 1, 18));
-
-        JLabel systemLabel2 = new JLabel("Mini Project");
-        systemLabel2.setForeground(Color.white);
-        systemLabel2.setFont(new Font("Source Code Pro", 1, 18));
-
-        JLabel systemLabel3 = new JLabel("Management System");
-        systemLabel3.setForeground(Color.white);
-        systemLabel3.setFont(new Font("Source Code Pro", 1, 18));
+        GridBagAdder gridBagAdder;
 
         JPanel leftPanel = new JPanel(new GridBagLayout());
         leftPanel.setBackground(new Color(87, 148, 195));
         leftPanel.setForeground(Color.WHITE);
-        add(leftPanel, systemLabel1, 0, 0, 1, 1);
-        add(leftPanel, systemLabel2, 0, 1, 1, 1);
-        add(leftPanel, systemLabel3, 0, 2, 1, 1);
+
+        Font font = new Font("Source Code Pro", 1, 18);
+
+        JLabel systemLabel1 = new JLabel("MMU Online");
+        systemLabel1.setForeground(Color.white);
+        systemLabel1.setFont(font);
+
+        JLabel systemLabel2 = new JLabel("Mini Project");
+        systemLabel2.setForeground(Color.white);
+        systemLabel2.setFont(font);
+
+        JLabel systemLabel3 = new JLabel("Management System");
+        systemLabel3.setForeground(Color.white);
+        systemLabel3.setFont(font);
+
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().build();
+        leftPanel.add(systemLabel1, gridBagAdder.getConstraint());
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setY(1).build();
+        leftPanel.add(systemLabel2, gridBagAdder.getConstraint());
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setY(2).build();
+        leftPanel.add(systemLabel3, gridBagAdder.getConstraint());
+
+        JPanel rightPanel = new JPanel(new GridBagLayout());
 
         JLabel formTitle = new JLabel("User Login");
         formTitle.setFont(new java.awt.Font("Arial", 1, 24));
 
         JLabel idLabel = new JLabel("ID");
+
         idInput = new JTextField();
         idInput.setPreferredSize(new Dimension(140, 22));
 
         JLabel passwordLabel = new JLabel("Password");
+
         passwordInput = new JTextField();
         passwordInput.setPreferredSize(new Dimension(140, 22));
 
@@ -88,13 +61,25 @@ public class LoginView extends JFrame {
         loginButton.setBackground(new Color(7, 80, 164));
         loginButton.setForeground(Color.white);
 
-        JPanel rightPanel = new JPanel(new GridBagLayout());
-        add(rightPanel, formTitle, 0, 0, 1, 1);
-        add(rightPanel, idLabel, 0, 1, 1, 1, 75, 0, 0, 0, GridBagConstraints.LINE_START);
-        add(rightPanel, idInput, 0, 2, 1, 1);
-        add(rightPanel, passwordLabel, 0, 3, 1, 1, 15, 0, 0, 0, GridBagConstraints.LINE_START);
-        add(rightPanel, passwordInput, 0, 4, 1, 1);
-        add(rightPanel, loginButton, 0, 5, 1, 1, 50, 0, 0, 0);
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().build();
+        rightPanel.add(formTitle, gridBagAdder.getConstraint());
+
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setY(1).marginT(75).anchor(GridBagConstraints.LINE_START)
+                .build();
+        rightPanel.add(idLabel, gridBagAdder.getConstraint());
+
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setY(2).build();
+        rightPanel.add(idInput, gridBagAdder.getConstraint());
+
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setY(3).marginT(15).anchor(GridBagConstraints.LINE_START)
+                .build();
+        rightPanel.add(passwordLabel, gridBagAdder.getConstraint());
+
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setY(4).build();
+        rightPanel.add(passwordInput, gridBagAdder.getConstraint());
+
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setY(5).marginT(50).build();
+        rightPanel.add(loginButton, gridBagAdder.getConstraint());
 
         JSplitPane container = new JSplitPane();
         container.setPreferredSize(new Dimension(768, 432));
@@ -111,15 +96,6 @@ public class LoginView extends JFrame {
         this.setMinimumSize(new Dimension(1440, 900));
 
         this.add(container);
-        // this.setVisible(true);
-    }
-
-    // public static void main(String[] args) {
-    // new LoginView();
-    // }
-
-    public void addSubmitEventListener(ActionListener listener) {
-        loginButton.addActionListener(listener);
     }
 
     public JButton getLoginButton() {
@@ -145,21 +121,4 @@ public class LoginView extends JFrame {
     public void setPasswordInput(JTextField passwordInput) {
         this.passwordInput = passwordInput;
     }
-
-    // public LoginModel getLoginModel() {
-    // loginModel.setId(idInput.getText());
-    // loginModel.setPassword(passwordInput.getText());
-    // return loginModel;
-    // }
-
-    // public Hashtable<String, String> getLoginForm() {
-    // Hashtable<String, String> loginForm = new Hashtable<String, String>();
-    // loginForm.put("id", idInput.getText());
-    // loginForm.put("password", passwordInput.getText());
-    // return loginForm;
-    // }
-
-    // public LoginModel getLoginModel() {
-    // return loginModel;
-    // }
 }

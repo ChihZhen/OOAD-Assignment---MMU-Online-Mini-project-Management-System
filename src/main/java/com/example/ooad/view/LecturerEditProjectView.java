@@ -20,7 +20,6 @@ public class LecturerEditProjectView extends LecturerAddProjectView implements O
     public void update(Observable<IModel> _observable, IModel model) {
         Project project = projectModel.getCurrent();
         if (project != null) {
-            System.out.println("-------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             titleInput.setText(project.getTitle());
             descriptionInput.setText(project.getDescription());
             specializationInput.setSelectedItem(project.getSpecialization());

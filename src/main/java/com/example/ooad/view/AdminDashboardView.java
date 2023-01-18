@@ -1,29 +1,23 @@
 package com.example.ooad.view;
 
+import java.awt.*;
+// import java.awt.event.*;
+import java.util.*;
+import java.util.List;
+
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.table.*;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.entity.Project;
 import com.example.ooad.model.IModel;
-// import com.example.ooad.model.ComboListModel;
 import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.utils.GridBagAdder;
 import com.example.ooad.utils.Observable;
 import com.example.ooad.utils.Observer;
-// import com.example.ooad.view.Component.LecturerReportTab;
-import com.example.ooad.view.Component.Report;
 import com.example.ooad.view.Component.ReportTab;
 import com.example.ooad.view.Component.TableButton;
-import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.List;
 
 @Component
 public class AdminDashboardView extends JFrame implements Observer<IModel> {
@@ -441,6 +435,9 @@ public class AdminDashboardView extends JFrame implements Observer<IModel> {
 
             for (ReportTab rt : reportTabs) {
                 rt.getReportTextArea().setText(projectModel.getReportData());
+                rt.getReportTextArea().setCaretPosition(0);
+
+                // rt.getScrollPane().getVerticalScrollBar().setValue(0);
             }
         } else if (model instanceof LecturerModel) {
             // lecturerTab.getSelection().set

@@ -1,17 +1,14 @@
 package com.example.ooad.controller;
 
+import java.awt.event.*;
+
 import org.springframework.stereotype.Controller;
 
 import com.example.ooad.entity.Lecturer;
 import com.example.ooad.entity.Project;
 import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectModel;
-import com.example.ooad.repository.LecturerRepository;
-import com.example.ooad.repository.ProjectRepository;
 import com.example.ooad.view.AdminAddProjectView;
-
-import java.awt.event.*;
-import java.util.List;
 
 @Controller
 public class AdminAddProjectController
@@ -53,12 +50,6 @@ public class AdminAddProjectController
 
             projectModel.create(project);
             projectModel.loadAdminData();
-
-            // view.getTitleInput().setText("");
-            // view.getSpecializationInput().setSelectedIndex(0);
-            // view.getStatusInput().setSelectedIndex(0);
-            // view.getDescriptionInput().setText("");
-            // view.getLecturerInput().setSelectedIndex(0);
 
             view.dispose();
         }

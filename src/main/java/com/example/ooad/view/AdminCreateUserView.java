@@ -1,83 +1,27 @@
 package com.example.ooad.view;
 
+import java.awt.*;
+import java.awt.event.*;
+
 import javax.swing.*;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.entity.Admin;
-import com.example.ooad.entity.Lecturer;
-import com.example.ooad.entity.Student;
-import com.example.ooad.entity.User;
-
-import java.awt.*;
-import java.awt.event.*;
+import com.example.ooad.utils.GridBagAdder;
 
 @Component
 public class AdminCreateUserView extends JDialog {
 
     private JTextField usernameInput;
     private JTextField idInput;
-    private JComboBox<String> roleInput;
     private JLabel specializationLabel;
+    private JComboBox<String> roleInput;
     private JComboBox<String> specializationInput;
     private JButton submitButton;
 
-    // private StudentModel studentModel;
-
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        constr.insets = new Insets(2, 2, 2, 2);
-        constr.anchor = GridBagConstraints.CENTER;
-        dialog.add(comp, constr);
-    }
-
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height, int marginT,
-            int marginR,
-            int marginB, int marginL) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        constr.insets = new Insets(marginT, marginL, marginB, marginR);
-        constr.anchor = GridBagConstraints.CENTER;
-        dialog.add(comp, constr);
-    }
-
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height, int marginT,
-            int marginR,
-            int marginB, int marginL, int anchor) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        constr.insets = new Insets(marginT, marginL, marginB, marginR);
-        constr.anchor = anchor;
-        dialog.add(comp, constr);
-    }
-
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height, int anchor) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        // constr.insets = new Insets(marginT, marginL, marginB, marginR);
-        constr.anchor = anchor;
-        dialog.add(comp, constr);
-    }
-
-    // public CreateUserView(ProjectModel projectModel) {
     public AdminCreateUserView() {
 
-        // this.studentModel = studentModel;
-
-        // this.setModal(true);
+        this.setModal(true);
         this.setTitle("Create User");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLayout(new GridBagLayout());
@@ -92,55 +36,60 @@ public class AdminCreateUserView extends JDialog {
             }
         });
 
+        GridBagAdder gridBagAdder;
+
         JLabel usernameLabel = new JLabel("Username");
-        add(this, usernameLabel, 0, 0, 1, 1, 0, 20, 0, 0, GridBagConstraints.BASELINE);
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().marginR(20).anchor(GridBagConstraints.BASELINE).build();
+        this.add(usernameLabel, gridBagAdder.getConstraint());
 
         usernameInput = new JTextField();
         usernameInput.setPreferredSize(new Dimension(200, 22));
         usernameInput.setMinimumSize(new Dimension(200, 22));
-        add(this, usernameInput, 1, 0, 1, 1);
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setX(1).build();
+        this.add(usernameInput, gridBagAdder.getConstraint());
 
         JLabel idLabel = new JLabel("Id");
-        add(this, idLabel, 0, 1, 1, 1, GridBagConstraints.BASELINE);
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setY(1).build();
+        this.add(idLabel, gridBagAdder.getConstraint());
 
         idInput = new JTextField();
         idInput.setPreferredSize(new Dimension(200, 22));
         idInput.setMinimumSize(new Dimension(200, 22));
-        add(this, idInput, 1, 1, 1, 1, 20, 0, 20, 0, GridBagConstraints.BASELINE);
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setX(1).setY(1).marginT(20).marginB(20)
+                .anchor(GridBagConstraints.BASELINE).build();
+        this.add(idInput, gridBagAdder.getConstraint());
 
         JLabel roleLabel = new JLabel("Role");
-        add(this, roleLabel, 0, 2, 1, 1, GridBagConstraints.BASELINE);
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setY(2).anchor(GridBagConstraints.BASELINE).build();
+        this.add(roleLabel, gridBagAdder.getConstraint());
 
         roleInput = new JComboBox<String>(
                 new String[] { "Lecturer", "Admin", "Student" });
         roleInput.setPreferredSize(new Dimension(200, 22));
         roleInput.setMinimumSize(new Dimension(200, 22));
-        add(this, roleInput, 1, 2, 1, 1, 0, 0, 20, 0);
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setX(1).setY(2).marginB(20).build();
+        this.add(roleInput, gridBagAdder.getConstraint());
 
         specializationLabel = new JLabel("Specialization");
         specializationLabel.setVisible(false);
-        add(this, specializationLabel, 0, 3, 1, 1, 0, 15, 20, 0);
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setY(3).marginR(15).marginB(20).build();
+        this.add(specializationLabel, gridBagAdder.getConstraint());
+
         specializationInput = new JComboBox<String>(
                 new String[] { "Software Engineer", "Data Science", "Game Development", "Cyber Security" });
         specializationInput.setPreferredSize(new Dimension(200, 22));
         specializationInput.setMinimumSize(new Dimension(200, 22));
         specializationInput.setVisible(false);
-        add(this, specializationInput, 1, 3, 1, 1, 0, 0, 20, 0);
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setX(1).setY(3).marginB(20).build();
+        this.add(specializationInput, gridBagAdder.getConstraint());
 
         submitButton = new JButton("Submit");
-        add(this, submitButton, 1, 4, 1, 1, 30, 0, 0, 0, GridBagConstraints.LINE_END);
-        // this.setVisible(true);
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setX(1).setY(4).marginT(30)
+                .anchor(GridBagConstraints.LINE_END).build();
+        this.add(submitButton, gridBagAdder.getConstraint());
     }
 
-    // public void addClickSubmitListener(ActionListener Listener) {
-    // submitButton.addActionListener(Listener);
-    // }
-
-
-    // public void addSelectRoleListener(ActionListener listener) {
-    // roleInput.addActionListener(listener);
-    // }
-
+    // Getter and Setter
     public JTextField getUsernameInput() {
         return this.usernameInput;
     }
@@ -155,6 +104,14 @@ public class AdminCreateUserView extends JDialog {
 
     public void setIdInput(JTextField idInput) {
         this.idInput = idInput;
+    }
+
+    public JLabel getSpecializationLabel() {
+        return this.specializationLabel;
+    }
+
+    public void setSpecializationLabel(JLabel specializationLabel) {
+        this.specializationLabel = specializationLabel;
     }
 
     public JComboBox<String> getRoleInput() {
@@ -179,13 +136,5 @@ public class AdminCreateUserView extends JDialog {
 
     public void setSubmitButton(JButton submitButton) {
         this.submitButton = submitButton;
-    }
-
-    public JLabel getSpecializationLabel() {
-        return this.specializationLabel;
-    }
-
-    public void setSpecializationLabel(JLabel specializationLabel) {
-        this.specializationLabel = specializationLabel;
     }
 }

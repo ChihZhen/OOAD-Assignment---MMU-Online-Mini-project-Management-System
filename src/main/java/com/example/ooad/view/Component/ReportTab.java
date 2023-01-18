@@ -1,20 +1,32 @@
 package com.example.ooad.view.Component;
 
-import javax.swing.*;
 import java.awt.*;
+// import java.awt.event.*;
+// import java.util.*;
+// import java.util.List;
 
-import com.example.ooad.model.IModel;
+import javax.swing.*;
+// import javax.swing.table.*;
+
+// import org.springframework.stereotype.Component;
+
+// import com.example.ooad.model.IModel;
+// import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.utils.GridBagAdder;
-import com.example.ooad.utils.Observable;
-import com.example.ooad.utils.Observer;
+// import com.example.ooad.utils.Observable;
+// import com.example.ooad.utils.Observer;
+import com.example.ooad.view.Component.ReportTab;
+// import com.example.ooad.view.Component.TableButton;
 
 public class ReportTab extends JPanel {
-    protected ProjectModel projectModel;
-    protected JPanel report;
-    protected JComboBox<String> selectionInput;
-    protected JButton generateButton;
-    protected JTextArea reportTextArea;
+    private ProjectModel projectModel;
+    private JPanel report;
+    private JComboBox<String> selectionInput;
+    private JButton generateButton;
+    private JTextArea reportTextArea;
+
+    private JScrollPane scrollPane;
 
     // public ReportTab(ProjectModel projectModel) {
     // this.projectModel = projectModel;
@@ -52,8 +64,9 @@ public class ReportTab extends JPanel {
         reportTextArea.setFont(f);
         reportTextArea.setLineWrap(true);
         reportTextArea.setWrapStyleWord(true);
+        reportTextArea.setEditable(false);
 
-        JScrollPane scrollPane = new JScrollPane(reportTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        scrollPane = new JScrollPane(reportTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setPreferredSize(new Dimension(672, 300));
 
@@ -117,17 +130,14 @@ public class ReportTab extends JPanel {
         this.reportTextArea = reportTextArea;
     }
 
-    // public void update(Observable<IModel> _observable, IModel model) {
-    // System.out.print("reportabl.update");
-    // if (model instanceof ProjectModel) {
-    // System.out.print("reporttab.update.if");
-    // reportTextArea.setText(projectModel.getReportData());
-    // }
-    // }
+    public JScrollPane getScrollPane() {
+        return this.scrollPane;
+    }
 
-    // public static void main(String[] args) {
+    public void setScrollPane(JScrollPane scrollPane) {
+        this.scrollPane = scrollPane;
+    }
 
-    // // new ReportTab(new String[] { "report", "hahaa" });
-    // }
+
 
 }

@@ -1,22 +1,24 @@
 package com.example.ooad.view;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+// import java.util.List;
+
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 
 import org.springframework.stereotype.Component;
 
 import com.example.ooad.entity.Project;
-import com.example.ooad.entity.Student;
 import com.example.ooad.model.IModel;
+// import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.utils.GridBagAdder;
 import com.example.ooad.utils.Observable;
 import com.example.ooad.utils.Observer;
-
-import java.awt.*;
-import java.awt.event.*;
-// import java.util.*;
-import java.util.Vector;
+// import com.example.ooad.view.Component.ReportTab;
+// import com.example.ooad.view.Component.TableButton;
 
 @Component
 public class StudentDashboardView extends JFrame implements Observer<IModel> {

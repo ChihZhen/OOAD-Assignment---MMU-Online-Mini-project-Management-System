@@ -30,33 +30,21 @@ public class AdminCreateUserController implements IController {
     }
 
     public String generateRandomPassword() {
-
         String numbers = "0123456789";
-
-        Random rndm_method = new Random();
-
+        Random random = new Random();
         char[] password = new char[6];
-        System.out.println(password.toString());
 
         for (int i = 0; i < 6; i++) {
-            System.out.println(password.toString());
-
-            password[i] = numbers.charAt(rndm_method.nextInt(numbers.length()));
-
+            password[i] = numbers.charAt(random.nextInt(numbers.length()));
         }
-        System.out.println(password.toString());
-
         return new String(password);
-        // return password;
     }
 
     public AdminCreateUserController(AdminCreateUserView view, UserModel userModel) {
         this.view = view;
         this.userModel = userModel;
 
-        // view.addClickSubmitListener(new ClickSubmitButtonListener());
         view.getSubmitButton().addActionListener(new SubmitButtonListener());
-        // view.addSelectRoleListener(new SelectRoleListener());
         view.getRoleInput().addActionListener(new SelectRoleListener());
     }
 
@@ -88,9 +76,6 @@ public class AdminCreateUserController implements IController {
                 JOptionPane.showMessageDialog(jf,
                         "Id: " + accountId + ", Password: " + password,
                         "Account Created Successfully", 1, null);
-                // view.getUsernameInput().setText("");
-                // view.getRoleInput().setSelectedIndex(0);
-                // view.getIdInput().setText("");
 
                 view.dispose();
             } else {

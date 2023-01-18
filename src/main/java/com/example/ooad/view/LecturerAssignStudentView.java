@@ -1,18 +1,18 @@
 package com.example.ooad.view;
 
+import java.awt.*;
+import java.util.*;
+
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 
 import org.springframework.stereotype.Component;
 
 import com.example.ooad.model.IModel;
 import com.example.ooad.model.StudentModel;
+import com.example.ooad.utils.GridBagAdder;
 import com.example.ooad.utils.Observable;
 import com.example.ooad.utils.Observer;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Vector;
 
 @Component
 public class LecturerAssignStudentView extends JDialog implements Observer<IModel> {
@@ -22,59 +22,63 @@ public class LecturerAssignStudentView extends JDialog implements Observer<IMode
     private JTable studentTable;
     private Vector<String> header = new Vector<String>() {
         {
-            add("Student Id");
+            add("Student ID");
             add("Student Name");
         }
     };
 
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        constr.insets = new Insets(2, 2, 2, 2);
-        constr.anchor = GridBagConstraints.CENTER;
-        dialog.add(comp, constr);
-    }
+    // public static void add(JDialog dialog, JComponent comp, int x, int y, int
+    // width, int height) {
+    // GridBagConstraints constr = new GridBagConstraints();
+    // constr.gridx = x;
+    // constr.gridy = y;
+    // constr.gridheight = height;
+    // constr.gridwidth = width;
+    // constr.insets = new Insets(2, 2, 2, 2);
+    // constr.anchor = GridBagConstraints.CENTER;
+    // dialog.add(comp, constr);
+    // }
 
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width,
-            int height, int marginT,
-            int marginR,
-            int marginB, int marginL) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        constr.insets = new Insets(marginT, marginL, marginB, marginR);
-        constr.anchor = GridBagConstraints.CENTER;
-        dialog.add(comp, constr);
-    }
+    // public static void add(JDialog dialog, JComponent comp, int x, int y, int
+    // width,
+    // int height, int marginT,
+    // int marginR,
+    // int marginB, int marginL) {
+    // GridBagConstraints constr = new GridBagConstraints();
+    // constr.gridx = x;
+    // constr.gridy = y;
+    // constr.gridheight = height;
+    // constr.gridwidth = width;
+    // constr.insets = new Insets(marginT, marginL, marginB, marginR);
+    // constr.anchor = GridBagConstraints.CENTER;
+    // dialog.add(comp, constr);
+    // }
 
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height, int marginT,
-            int marginR,
-            int marginB, int marginL, int anchor) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        constr.insets = new Insets(marginT, marginL, marginB, marginR);
-        constr.anchor = anchor;
-        dialog.add(comp, constr);
-    }
+    // public static void add(JDialog dialog, JComponent comp, int x, int y, int
+    // width, int height, int marginT,
+    // int marginR,
+    // int marginB, int marginL, int anchor) {
+    // GridBagConstraints constr = new GridBagConstraints();
+    // constr.gridx = x;
+    // constr.gridy = y;
+    // constr.gridheight = height;
+    // constr.gridwidth = width;
+    // constr.insets = new Insets(marginT, marginL, marginB, marginR);
+    // constr.anchor = anchor;
+    // dialog.add(comp, constr);
+    // }
 
-    public static void add(JDialog dialog, JComponent comp, int x, int y, int width, int height, int anchor) {
-        GridBagConstraints constr = new GridBagConstraints();
-        constr.gridx = x;
-        constr.gridy = y;
-        constr.gridheight = height;
-        constr.gridwidth = width;
-        // constr.insets = new Insets(marginT, marginL, marginB, marginR);
-        constr.anchor = anchor;
-        dialog.add(comp, constr);
-    }
+    // public static void add(JDialog dialog, JComponent comp, int x, int y, int
+    // width, int height, int anchor) {
+    // GridBagConstraints constr = new GridBagConstraints();
+    // constr.gridx = x;
+    // constr.gridy = y;
+    // constr.gridheight = height;
+    // constr.gridwidth = width;
+    // // constr.insets = new Insets(marginT, marginL, marginB, marginR);
+    // constr.anchor = anchor;
+    // dialog.add(comp, constr);
+    // }
 
     public LecturerAssignStudentView(StudentModel studentModel) {
         this.studentModel = studentModel;
@@ -87,6 +91,7 @@ public class LecturerAssignStudentView extends JDialog implements Observer<IMode
         this.setSize(432, 600);
         this.setResizable(false);
 
+        GridBagAdder gridBagAdder;
 
         studentTable = new JTable();
 
@@ -94,11 +99,30 @@ public class LecturerAssignStudentView extends JDialog implements Observer<IMode
         tableContainer.setPreferredSize(new Dimension(400, 432));
         tableContainer.setMinimumSize(new Dimension(400, 432));
         tableContainer.setMaximumSize(new Dimension(400, 432));
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().width(2).build();
 
-        add(this, tableContainer, 0, 1, 2, 1);
+        this.add(tableContainer, gridBagAdder.getConstraint());
 
         selectButton = new JButton("Select");
-        add(this, selectButton, 1, 2, 1, 1, 15, 0, 0, 0, GridBagConstraints.BASELINE_TRAILING);
+        gridBagAdder = new GridBagAdder.GridBagAdderBuilder().setX(1).setY(1).marginT(15)
+                .anchor(GridBagConstraints.BASELINE_TRAILING).build();
+
+        this.add(selectButton, gridBagAdder.getConstraint());
+    }
+
+    public void update(Observable<IModel> _observable, IModel model) {
+        if (model instanceof StudentModel) {
+            studentTable.setModel(new DefaultTableModel(studentModel.getIdAndName(), header));
+        }
+    };
+
+    // Getter and Setter
+    public StudentModel getStudentModel() {
+        return this.studentModel;
+    }
+
+    public void setStudentModel(StudentModel studentModel) {
+        this.studentModel = studentModel;
     }
 
     public JButton getSelectButton() {
@@ -117,14 +141,12 @@ public class LecturerAssignStudentView extends JDialog implements Observer<IMode
         this.studentTable = studentTable;
     }
 
-    // public static void main(String[] args) {
-    // new AssignStudentView();
-    // }
+    public Vector<String> getHeader() {
+        return this.header;
+    }
 
-    public void update(Observable<IModel> _observable, IModel model) {
-        System.out.println("lecturerassignstudent.update >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        System.out.println(studentModel.getIdAndName());
+    public void setHeader(Vector<String> header) {
+        this.header = header;
+    }
 
-        studentTable.setModel(new DefaultTableModel(studentModel.getIdAndName(), header));
-    };
 }

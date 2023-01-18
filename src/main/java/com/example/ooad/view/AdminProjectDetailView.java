@@ -1,18 +1,18 @@
 package com.example.ooad.view;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
+// import javax.swing.JButton;
+// import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneLayout;
+// import javax.swing.ScrollPaneLayout;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.entity.Comment;
+// import com.example.ooad.entity.Comment;
 import com.example.ooad.entity.Project;
 import com.example.ooad.utils.GridBagAdder;
 

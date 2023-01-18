@@ -1,17 +1,22 @@
 package com.example.ooad.view;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Vector;
+import java.util.*;
+// import java.util.List;
+
+import javax.swing.*;
+import javax.swing.table.*;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.model.*;
-import com.example.ooad.utils.*;
+import com.example.ooad.model.IModel;
+// import com.example.ooad.model.LecturerModel;
+import com.example.ooad.model.ProjectModel;
+import com.example.ooad.utils.GridBagAdder;
+import com.example.ooad.utils.Observable;
+import com.example.ooad.utils.Observer;
+// import com.example.ooad.view.Component.ReportTab;
 import com.example.ooad.view.Component.TableButton;
 import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
 

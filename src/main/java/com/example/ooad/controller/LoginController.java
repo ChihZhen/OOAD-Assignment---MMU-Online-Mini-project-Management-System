@@ -30,12 +30,11 @@ public class LoginController implements IController {
         this.studentProjectListController = studentProjectListController;
         this.projectListController = projectListController;
         this.adminProjectListController = adminProjectListController;
-        this.view.addSubmitEventListener(new SubmitListener());
+
+        this.view.getLoginButton().addActionListener(new SubmitListener());
     }
 
     public void show() {
-        // adminModel.load();
-
         view.setVisible(true);
     }
 
@@ -49,16 +48,11 @@ public class LoginController implements IController {
 
             String accountId = view.getIdInput().getText();
             String password = view.getPasswordInput().getText();
-            // Student student = new Student("123", "lcz", "student", "1201101263",
-            // "data-science");
-            // studentRepository.save(student);
-            // loginModel = view.getLoginModel();
 
             User user = userModel.findByAccountId(accountId);
             if (user == null) {
                 JFrame jf = new JFrame();
                 JOptionPane.showMessageDialog(jf, "Account not found", "Login Failed", 2, null);
-                // System.out.println("Account not found");
             } else if (user.checkPassword(password)) {
                 userModel.setAuthUser(user);
                 if (user instanceof Admin) {
@@ -76,7 +70,6 @@ public class LoginController implements IController {
             } else {
                 JFrame jf = new JFrame();
                 JOptionPane.showMessageDialog(jf, "Password incorrect", "Login Failed", 2, null);
-                // System.out.println("password not correct");
             }
         }
 

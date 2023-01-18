@@ -16,8 +16,6 @@ public class LecturerAssignStudentController implements IController {
     private ProjectModel projectModel;
     private StudentModel studentModel;
 
-    // private ProjectRepository projectRepository;
-
     public LecturerAssignStudentController(LecturerAssignStudentView view, ProjectModel projectModel,
             StudentModel studentModel) {
         this.view = view;
@@ -27,11 +25,10 @@ public class LecturerAssignStudentController implements IController {
         view.getSelectButton().addActionListener(new SelectButtonListener());
     }
 
-
     public void show() {
-        view.setVisible(true);
         Project project = projectModel.getCurrent();
-        studentModel.loadBySpecialization(project.getSpecialization());
+        studentModel.loadBySpecializationAndProjectIsNull(project.getSpecialization());
+        view.setVisible(true);
     }
 
     public void hide() {
@@ -52,7 +49,6 @@ public class LecturerAssignStudentController implements IController {
                 Student student = studentModel.get(row);
                 projectModel.getCurrent().setStudent(student);
                 projectModel.save();
-                // projectModel.loadByLecturerId(projectModel.getAuthUser().getId());
                 projectModel.loadLecturerData();
 
                 view.dispose();

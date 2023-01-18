@@ -9,7 +9,7 @@ import com.example.ooad.model.*;
 import com.example.ooad.view.*;
 
 @Controller
-public class LecturerAddProjectController {
+public class LecturerAddProjectController implements IController {
     protected LecturerAddProjectView view;
     protected ProjectModel projectModel;
 
