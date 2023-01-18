@@ -17,23 +17,9 @@ public class UserModel extends Model<User> {
         initDB();
     }
 
-    // public String findByUserAccountId(String id) {
-
-    // }
-
-    // public boolean isUserExists(String accountId) {
-    // User user = repository.findByAccountId(accountId);
-    // setCurrent(user);
-    // return (user == null);
-    // }
-
     public User findByAccountId(String accountId) {
         return repository.findByAccountId(accountId);
     }
-
-    // public boolean samePassword(String password) {
-    // return current.getPassword().equals(password);
-    // }
 
     private void initDB() {
         User user = repository.findByAccountId("root");

@@ -1,13 +1,11 @@
 package com.example.ooad.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.ooad.entity.Lecturer;
 import com.example.ooad.entity.Project;
-import com.example.ooad.entity.Student;
-
-import java.util.*;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
@@ -23,16 +21,9 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
   public List<Project> findByStudentIsNotNull();
 
-  // public List<Project> findByLecturer(Lecturer lecturer);
-
   public List<Project> findByCommentsIsNull();
 
   public List<Project> findByCommentsIsNotNull();
 
-  public List<Project> findByLecturerId(Long id);
-
   public List<Project> findByLecturerAccountId(String id);
-
-  // public List<ProjectModel> findByCreator();
-
 }

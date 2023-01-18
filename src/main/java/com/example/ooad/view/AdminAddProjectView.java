@@ -28,6 +28,7 @@ public class AdminAddProjectView extends JDialog implements Observer<IModel> {
         this.lecturerModel = lecturerModel;
         lecturerModel.registerObserver(this);
 
+        this.setModal(true);
         this.setTitle("New Project");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLayout(new GridBagLayout());

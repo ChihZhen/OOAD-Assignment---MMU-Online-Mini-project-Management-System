@@ -15,7 +15,7 @@ public abstract class Model<T> extends Observable<IModel> implements IModel {
 
     List<T> list = new ArrayList<T>();
     T current = null;
-    // U u;
+
     JpaRepository<T, Long> repository;
 
     public Model(JpaRepository<T, Long> repository) {
@@ -45,8 +45,9 @@ public abstract class Model<T> extends Observable<IModel> implements IModel {
     }
 
     public void setList(List<T> list) {
-        this.list.clear();
-        this.list.addAll(list);
+        this.list = list;
+        // this.list.clear();
+        // this.list.addAll(list);
         notifyObservers(this);
     }
 
@@ -59,29 +60,26 @@ public abstract class Model<T> extends Observable<IModel> implements IModel {
         repository.save(current);
     }
 
-    // public void save(T t) {
-    // repository.save(t);
-    // load();
-    // }
-
     public void create(T t) {
         repository.save(t);
-
     }
 
     public void update(T t) {
         repository.save(t);
-
     }
 
     public void delete(T t) {
         repository.delete(t);
-
     }
 
     public void delete(int i) {
         repository.delete(list.get(i));
+    }
 
+    public void clear() {
+        list.clear();
+        current = null;
+        notifyObservers(this);
     }
 
     public User getAuthUser() {
