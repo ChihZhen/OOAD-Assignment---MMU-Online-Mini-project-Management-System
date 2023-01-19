@@ -1,51 +1,37 @@
 package com.example.ooad.controller;
 
-import com.example.ooad.model.ProjectModel;
-import com.example.ooad.repository.ProjectRepository;
-import com.example.ooad.view.AdminProjectDetailView;
-import java.awt.event.*;
-import java.util.List;
-
+// ============= CONTROLLER
 import org.springframework.stereotype.Controller;
+// ============= VIEW
+import com.example.ooad.view.AdminProjectDetailView;
 
 @Controller
 public class AdminProjectDetailController {
+  // ========================= Variables
   private AdminProjectDetailView view;
-  private ProjectModel projectModel;
 
-  public AdminProjectDetailController(AdminProjectDetailView view, ProjectModel projectModel) {
+  // ========================= Constructor
+  public AdminProjectDetailController(AdminProjectDetailView view) {
     this.view = view;
-    this.projectModel = projectModel;
+
   }
 
-  // public void init() {
-
-  // loadData();az
-  // studentProjectListView.setVisible(true);
-  // }
-
-  // public void loadData(long id) {
-  // ProjectModel newProject = projectRepository.findById(id).orElse(null);
-  // projectModel.set(newProject);
-  // }
-
-  // public void show(ProjectModel project) {
-  // loadData(project.getId());
-  // adminProjectDetailView.setVisible(true);
-  // }
-
+  // Reset the view by removing the content of the content panel,
+  // Revalidate and repaint it
+  // finally call the displayComponent() to render the component out
   public void resetView() {
     view.getContentPane().removeAll();
     view.getContentPane().revalidate();
     view.getContentPane().repaint();
-    view.comp();
+    view.displayComponent();
   }
 
+  // Set the admin project detail view to visible
   public void show() {
-    // loadData(project.getId());
     view.setVisible(true);
   }
 
+  // Set the admin project detail view to non-visible
   public void hide() {
     view.setVisible(false);
   }
