@@ -1,22 +1,28 @@
 package com.example.ooad.view;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+// import java.util.List;
+
 import javax.swing.*;
 import javax.swing.table.*;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.model.ProjectListModel;
+import com.example.ooad.model.IModel;
+// import com.example.ooad.model.LecturerModel;
+import com.example.ooad.model.ProjectModel;
 import com.example.ooad.utils.GridBagAdder;
+import com.example.ooad.utils.Observable;
+import com.example.ooad.utils.Observer;
+// import com.example.ooad.view.Component.ReportTab;
 import com.example.ooad.view.Component.TableButton;
 import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Vector;
-
 @Component
-public class ProjectListView extends JFrame implements Observer {
-    private ProjectListModel projectListModel;
+public class LecturerDashboardView extends JFrame implements Observer<IModel> {
+    private ProjectModel projectListModel;
     private JButton logoutButton;
     private JTable projectTable;
     private JButton addProjectButton;
@@ -37,11 +43,9 @@ public class ProjectListView extends JFrame implements Observer {
         }
     };
 
-
-    public ProjectListView(ProjectListModel projectListModel) {
+    public LecturerDashboardView(ProjectModel projectListModel) {
         this.projectListModel = projectListModel;
         this.projectListModel.registerObserver(this);
-
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new GridBagLayout());
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -114,13 +118,17 @@ public class ProjectListView extends JFrame implements Observer {
         logoutButton.addActionListener(listener);
     }
 
-    public void update() {
+    // public <LecturerModel> void update() {
+
+    // }
+
+    public void update(Observable<IModel> _observable, IModel model) {
         projectTable.setModel(new DefaultTableModel(projectListModel.getLecturerData(), header));
         // System.out.println(projectListModel.getTableModel().getRowCount());
-        System.out.println("update");
+        System.out.println("lecturer dashboard update");
 
-        if (projectListModel.getProjects().size() > 0) {
-            for (int i = 0; i < projectListModel.getProjects().size(); i++) {
+        if (projectListModel.getList().size() > 0) {
+            for (int i = 0; i < projectListModel.getList().size(); i++) {
                 assignButtons.setButtonText(i, projectTable.getModel().getValueAt(i,
                         4).toString());
             }

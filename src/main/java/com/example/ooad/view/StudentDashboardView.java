@@ -1,24 +1,30 @@
 package com.example.ooad.view;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
-import org.springframework.stereotype.Component;
-
-import com.example.ooad.model.ProjectListModel;
-import com.example.ooad.model.ProjectModel;
-import com.example.ooad.model.StudentModel;
-import com.example.ooad.utils.GridBagAdder;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+// import java.util.List;
+
+import javax.swing.*;
+import javax.swing.table.*;
+
+import org.springframework.stereotype.Component;
+
+import com.example.ooad.entity.Project;
+import com.example.ooad.model.IModel;
+// import com.example.ooad.model.LecturerModel;
+import com.example.ooad.model.ProjectModel;
+import com.example.ooad.utils.GridBagAdder;
+import com.example.ooad.utils.Observable;
+import com.example.ooad.utils.Observer;
+// import com.example.ooad.view.Component.ReportTab;
+// import com.example.ooad.view.Component.TableButton;
 
 @Component
-public class StudentProjectListView extends JFrame implements Observer {
+public class StudentDashboardView extends JFrame implements Observer<IModel> {
   private JTable projectTable;
-  private ProjectListModel projectListModel;
   private ProjectModel projectModel;
+  // private Project projectModel;
   JPanel panel = new JPanel();
   JLabel l = new JLabel("You are not assigned with any project yet.");
 
@@ -33,11 +39,10 @@ public class StudentProjectListView extends JFrame implements Observer {
     }
   };
 
-  public StudentProjectListView(ProjectListModel projectListModel, ProjectModel projectModel, StudentModel student) {
-    this.projectListModel = projectListModel;
+  public StudentDashboardView(ProjectModel projectModel) {
     this.projectModel = projectModel;
     this.projectModel.registerObserver(this);
-    this.projectListModel.registerObserver(this);
+    // this.projectListModel.registerObserver(this);
 
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     this.setLayout(new GridBagLayout());
@@ -78,10 +83,12 @@ public class StudentProjectListView extends JFrame implements Observer {
     projectTable.addMouseListener(listener);
   }
 
-  public void update() {
-    System.out.println("Project-------------->" + projectModel.getId());
-    projectTable.setModel(new DefaultTableModel(projectListModel.getStudentData(), header));
-    if (projectModel.getId() == null) {
+  public void update(Observable<IModel> _observable, IModel model) {
+    // System.out.println("Project-------------->" + projectModel.getId());
+    projectTable.setModel(new DefaultTableModel(projectModel.getStudentData(), header));
+
+    Project project = projectModel.getCurrent();
+    if (project == null) {
       panel.add(l);
       return;
     }
@@ -95,7 +102,7 @@ public class StudentProjectListView extends JFrame implements Observer {
     panel.add(projectIdLabel, gridCtr_id.getConstraint());
 
     // ===== Project Input
-    JTextField projectInput = new JTextField(projectModel.getId().toString());
+    JTextField projectInput = new JTextField(project.getId().toString());
     projectInput.setPreferredSize(new Dimension(200, 22));
     projectInput.setMinimumSize(new Dimension(200, 22));
     projectInput.setEditable(false);
@@ -109,7 +116,7 @@ public class StudentProjectListView extends JFrame implements Observer {
     panel.add(titleLabel, gridCtr.getConstraint());
 
     // ===== Title Input
-    JTextField titleInput = new JTextField(projectModel.getTitle());
+    JTextField titleInput = new JTextField(project.getTitle());
     titleInput.setPreferredSize(new Dimension(200, 22));
     titleInput.setMinimumSize(new Dimension(200, 22));
     titleInput.setEditable(false);
@@ -123,7 +130,7 @@ public class StudentProjectListView extends JFrame implements Observer {
     panel.add(specializationTitle, gridCtr_3.getConstraint());
 
     // ===== Specialization Input
-    JTextField specializationInput = new JTextField(projectModel.getSpecialization());
+    JTextField specializationInput = new JTextField(project.getSpecialization());
     specializationInput.setPreferredSize(new Dimension(200, 22));
     specializationInput.setMinimumSize(new Dimension(200, 22));
     specializationInput.setEditable(false);
@@ -137,7 +144,7 @@ public class StudentProjectListView extends JFrame implements Observer {
     panel.add(descriptionTitle, gridCtr_7.getConstraint());
 
     // ===== Description Input
-    JTextArea descriptionInput = new JTextArea(projectModel.getDescription());
+    JTextArea descriptionInput = new JTextArea(project.getDescription());
     descriptionInput.setPreferredSize(new Dimension(200, 84));
     descriptionInput.setMinimumSize(new Dimension(200, 84));
     descriptionInput.setEditable(false);
@@ -151,7 +158,7 @@ public class StudentProjectListView extends JFrame implements Observer {
     panel.add(assignorLabel, gridCtr_9.getConstraint());
 
     // ===== Assignor Input
-    JTextField assignorInput = new JTextField(projectModel.getLecturer().getFullName());
+    JTextField assignorInput = new JTextField(project.getLecturer().getFullName());
     assignorInput.setPreferredSize(new Dimension(200, 22));
     assignorInput.setMinimumSize(new Dimension(200, 22));
     assignorInput.setEditable(false);

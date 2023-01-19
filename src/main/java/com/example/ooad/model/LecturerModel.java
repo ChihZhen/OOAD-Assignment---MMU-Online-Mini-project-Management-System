@@ -1,36 +1,25 @@
 package com.example.ooad.model;
 
-import jakarta.persistence.*;
-import java.util.*;
+import java.util.Vector;
 
 import org.springframework.stereotype.Component;
 
-@Entity
-@Table(name = "Lecturer")
+import com.example.ooad.entity.Lecturer;
+import com.example.ooad.repository.LecturerRepository;
+
 @Component
-public class LecturerModel extends UserModel {
-    @Id
-    private Long id;
+public class LecturerModel extends Model<Lecturer> {
 
-    @OneToMany(mappedBy = "lecturer", fetch = FetchType.EAGER)
-    private List<ProjectModel> projects = new ArrayList<ProjectModel>();
-
-    public LecturerModel() {
-    };
-
-    public LecturerModel(String fullName, String role, String accountId) {
-        super(fullName, role, accountId);
+    public LecturerModel(LecturerRepository lecturerRepository) {
+        super(lecturerRepository);
     }
 
-    public LecturerModel(String fullName, String role, String accountId, String password) {
-        super(password, fullName, role, accountId);
+    public Vector<String> getNameAndId() {
+        Vector<String> data = new Vector<String>();
+        for (Lecturer l : list) {
+            data.addElement(l.getFullName() + " (" + l.getAccountId() + ")");
+        }
+        return data;
     }
 
-    public List<ProjectModel> getProjects() {
-        return this.projects;
-    }
-
-    public void setProjects(List<ProjectModel> projects) {
-        this.projects = projects;
-    }
 }
