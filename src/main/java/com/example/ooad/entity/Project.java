@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.utils.Observable;
-
 import java.util.*;
 
 import jakarta.persistence.*;
@@ -190,7 +188,7 @@ public class Project {
             for (Comment comment : comments) {
                 data += "\t" + comment.getAdmin().getFullName() + " (" +
                         comment.getAdmin().getAccountId() + "): "
-                        + comment.getComment() + ")\n";
+                        + comment.getMessage() + ")\n";
             }
         }
         return data;

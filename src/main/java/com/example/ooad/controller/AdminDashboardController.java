@@ -1,10 +1,8 @@
 package com.example.ooad.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -13,10 +11,9 @@ import org.springframework.stereotype.Controller;
 
 import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectModel;
-import com.example.ooad.repository.LecturerRepository;
-import com.example.ooad.repository.ProjectRepository;
+
 import com.example.ooad.view.AdminDashboardView;
-import com.example.ooad.view.Component.ReportTab;
+
 import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
 
 import java.awt.event.*;
@@ -26,24 +23,26 @@ public class AdminDashboardController {
     private AdminDashboardView view;
     private ProjectModel projectModel;
     private LecturerModel lecturerModel;
-    // private ComboListModel comboListModel;
+
     private LoginController loginController;
     private AdminAddProjectController addProjectController;
-    // private AdminAddProjectController adminAddProjectController;
+
+    private AdminProjectDetailController adminProjectDetailController;
     private AdminCreateUserController createUserController;
-    // private ProjectRepository projectRepository;
-    // private LecturerRepository lecturerRepository;
-    // private int tabIndex;
+    private CommentController commentController;
 
     public AdminDashboardController(AdminDashboardView view, ProjectModel projectModel, LecturerModel lecturerModel,
             AdminAddProjectController addProjectController, AdminCreateUserController createUserController,
-            LoginController loginController) {
+            LoginController loginController, CommentController commentController,
+            AdminProjectDetailController adminProjectDetailController) {
         this.view = view;
         this.projectModel = projectModel;
         this.lecturerModel = lecturerModel;
         this.addProjectController = addProjectController;
         this.createUserController = createUserController;
+        this.commentController = commentController;
         this.loginController = loginController;
+        this.adminProjectDetailController = adminProjectDetailController;
 
         view.getProjectTable().addMouseListener(new TableListener());
 
@@ -212,7 +211,13 @@ public class AdminDashboardController {
             // TableModel tableModel = projectView.getTableModel();
             // TableModel tableModel = projectView.getTableModel();
             // System.out.println(projectTableModel.getRowCount());
-            System.out.println("hi table");
+            // admingetContentPane().removeAll();
+            // getContentPane().revalidate();
+            // getContentPane().repaint();
+            adminProjectDetailController.resetView();
+            projectModel.setCurrent(((JTable) e.getSource()).getSelectedRow());
+            adminProjectDetailController.show();
+            // System.out.println("hi table");
             // projectTableModel.setValueAt("hi", 0, 0);
 
             // l.setText("Mouse Clicked");
@@ -240,6 +245,9 @@ public class AdminDashboardController {
         public void onButtonPress(int row, int column) {
             if (column == 6) {
                 // projectController.showEditProject(row);
+                projectModel.setCurrent(row);
+                commentController.show();
+
             } else if (column == 7) {
                 JFrame jf = new JFrame();
                 int result = JOptionPane.showConfirmDialog(jf, "Are you want to delete project?", "Delete Project",

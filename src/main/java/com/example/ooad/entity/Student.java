@@ -2,8 +2,6 @@ package com.example.ooad.entity;
 
 import java.util.Vector;
 
-import org.springframework.stereotype.Component;
-
 import jakarta.persistence.*;
 
 @Entity
