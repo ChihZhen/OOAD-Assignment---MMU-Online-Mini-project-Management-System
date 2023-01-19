@@ -46,8 +46,6 @@ public abstract class Model<T> extends Observable<IModel> implements IModel {
 
     public void setList(List<T> list) {
         this.list = list;
-        // this.list.clear();
-        // this.list.addAll(list);
         notifyObservers(this);
     }
 

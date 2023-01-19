@@ -1,36 +1,37 @@
 package com.example.ooad.controller;
 
+import org.springframework.stereotype.Controller;
+
+import java.awt.event.*;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.springframework.stereotype.Controller;
-
+// ============= MODEL
 import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectModel;
-
+// ============= VIEW
 import com.example.ooad.view.AdminDashboardView;
-
+// ============= COMPONENT
 import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
-
-import java.awt.event.*;
 
 @Controller
 public class AdminDashboardController {
+
+    // ========================= Variables
     private AdminDashboardView view;
     private ProjectModel projectModel;
     private LecturerModel lecturerModel;
-
     private LoginController loginController;
-    private AdminAddProjectController addProjectController;
-
-    private AdminProjectDetailController adminProjectDetailController;
-    private AdminCreateUserController createUserController;
     private CommentController commentController;
+    private AdminAddProjectController addProjectController;
+    private AdminCreateUserController createUserController;
+    private AdminProjectDetailController adminProjectDetailController;
 
+    // ========================= Constructor
     public AdminDashboardController(AdminDashboardView view, ProjectModel projectModel, LecturerModel lecturerModel,
             AdminAddProjectController addProjectController, AdminCreateUserController createUserController,
             LoginController loginController, CommentController commentController,
@@ -44,112 +45,68 @@ public class AdminDashboardController {
         this.loginController = loginController;
         this.adminProjectDetailController = adminProjectDetailController;
 
+        // Initialize event listener to all the buttons inside the dashbaord view
         view.getProjectTable().addMouseListener(new TableListener());
-
-        // adminProjectListView.addClickTableButtonListener(new
-        // ClickTableButtonListener());
         view.getCommentButtons().addHandler(new TableButtonListener());
         view.getDeleteButtons().addHandler(new TableButtonListener());
-
         view.getAddProjectButton().addActionListener(new AddProjectButtonListener());
         view.getCreateUserButton().addActionListener(new CreateUserButtonListener());
-
         view.getLogoutButton().addActionListener(new LogoutButtonListener());
-
-        // adminProjectListView.addSelectTabListener(new SelectTabListener());
         view.getMainTp().addChangeListener(new MainTpListener());
         view.getReportTp().addChangeListener(new ReportTpListener());
-
-        // adminProjectListView.addClickGenerateListener(new
-        // addClickGenerateListener());
-        // for (ReportTab t : view.getReportTabs()) {
-        // t.getGenerateButton().addActionListener(new GenerateButtonListener());
-        // }
         view.getAllProjectTab().getGenerateButton().addActionListener(new AllProjectGenerateButton());
         view.getSpecializationTab().getGenerateButton().addActionListener(new SpecializationGenerateButton());
         view.getLecturerTab().getGenerateButton().addActionListener(new LecturerGenerateButton());
         view.getStatusTab().getGenerateButton().addActionListener(new StatusGenerateButton());
         view.getAssignTab().getGenerateButton().addActionListener(new AssignGenerateButton());
         view.getCommentTab().getGenerateButton().addActionListener(new CommentGenerateButton());
-        // adminProjectListView.
-        // adminProjectListView.setVisible(true);
+
     }
 
+    // It will get a list of projects and unhide the admin dashbord view
     public void show() {
+        // Call the .findAll method and returns a list of projects
         projectModel.load();
         view.setVisible(true);
     }
 
+    // Hide the admin dashboard project view
     public void hide() {
         view.setVisible(false);
     }
 
-    // private class GenerateButtonListener implements ActionListener {
-    // @Override
-    // public void actionPerformed(ActionEvent e) {
-
-    // // int index = view.getReportTp().getSelectedIndex();
-
-    // int reportTpIndex = view.getReportTp().getSelectedIndex();
-    // int selectionIndex =
-    // view.getReportTabs().get(reportTpIndex).getSelection().getSelectedIndex();
-    // // String selection = view.getSelection(tabIndex);
-    // if (reportTpIndex == 0) {
-    // projectModel.load();
-    // // } else if (selection.equals("")) {
-    // // JFrame jf = new JFrame();
-    // // JOptionPane.showMessageDialog(jf,
-    // // "Please select a field",
-    // // "No Selection", 2, null);
-    // } else if (reportTpIndex == 1) {
-    // projectModel.load();
-    // // projectModel.setReportBySpecialization(selection);
-    // } else if (reportTpIndex == 2) {
-
-    // // projectModel.setReportByLecturer(selection);
-    // } else if (reportTpIndex == 3) {
-    // // projectModel.setReportByStatus(selection);
-    // } else if (reportTpIndex == 4) {
-    // // projectModel.setReportByAssign(selection);
-    // } else if (reportTpIndex == 5) {
-    // // projectModel.setReportByComment(selection);
-    // }
-    // }
-
-    // }
-
+    // This will trigger when the generate all project report button is clicked
     private class AllProjectGenerateButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
-            // view.getAllProjectTab().getSelection().getSelectedIndex();
             projectModel.load();
         }
     }
 
+    // This will trigger when the generate by specialization report button is
+    // clicked
     private class SpecializationGenerateButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            // TODO Auto-generated method stub
+
             String specialization = view.getSpecializationTab().getSelection().getSelectedItem().toString();
             projectModel.loadBySpecialization(specialization);
         }
     }
 
+    // This will trigger when the generate by lecturer report button is
+    // clicked
     private class LecturerGenerateButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             int index = view.getLecturerTab().getSelection().getSelectedIndex();
-            // System.out.println(index);
-            // System.out.println(index);
-            System.out.println(lecturerModel.get(index).getId());
-            System.out.println(lecturerModel.get(index).getAccountId());
-            System.out.println(lecturerModel.get(index).getFullName());
-            System.out.println(lecturerModel.get(index).getPassword());
+
             projectModel.loadByLecturerId(lecturerModel.get(index).getAccountId());
         }
     }
 
+    // This will trigger when the generate by status report button is
+    // clicked
     private class StatusGenerateButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -159,6 +116,8 @@ public class AdminDashboardController {
         }
     }
 
+    // This will trigger when the generate by assign report button is
+    // clicked
     private class AssignGenerateButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -168,6 +127,8 @@ public class AdminDashboardController {
         }
     }
 
+    // This will trigger when the generate by comment report button is
+    // clicked
     private class CommentGenerateButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -176,79 +137,81 @@ public class AdminDashboardController {
         }
     }
 
+    // Main tab listener
     private class MainTpListener implements ChangeListener {
         @Override
         public void stateChanged(ChangeEvent e) {
-            // TODO Auto-generated method stub
+
             int tabIndex = ((JTabbedPane) e.getSource()).getSelectedIndex();
 
-            // projectModel.resetReport();\
             if (tabIndex == 0) {
-                // lecturerModel.load();
+
                 projectModel.load();
             } else if (tabIndex == 1) {
-                // lecturerModel.load();
+
                 projectModel.clear();
             }
         }
     }
 
+    // Report tab listener
     private class ReportTpListener implements ChangeListener {
         @Override
         public void stateChanged(ChangeEvent e) {
             int tabIndex = ((JTabbedPane) e.getSource()).getSelectedIndex();
             projectModel.clear();
-            // projectModel.resetReport();
+
             if (tabIndex == 2) {
                 lecturerModel.load();
             }
         }
     }
 
+    // Dashboard table listener
     private class TableListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
-            // TableModel tableModel = projectView.getTableModel();
-            // TableModel tableModel = projectView.getTableModel();
-            // System.out.println(projectTableModel.getRowCount());
-            // admingetContentPane().removeAll();
-            // getContentPane().revalidate();
-            // getContentPane().repaint();
+            // Reset the project detail view
             adminProjectDetailController.resetView();
+            // Set the current selected project
             projectModel.setCurrent(((JTable) e.getSource()).getSelectedRow());
+            // Show the project detail view dialog
             adminProjectDetailController.show();
-            // System.out.println("hi table");
-            // projectTableModel.setValueAt("hi", 0, 0);
 
-            // l.setText("Mouse Clicked");
         }
 
         public void mouseEntered(MouseEvent e) {
-            // l.setText("Mouse Entered");
+
         }
 
         public void mouseExited(MouseEvent e) {
-            // l.setText("Mouse Exited");
+
         }
 
         public void mousePressed(MouseEvent e) {
-            // l.setText("Mouse Pressed");
+
         }
 
         public void mouseReleased(MouseEvent e) {
-            // l.setText("Mouse Released");
+
         }
     }
 
+    // This will trigger when the button on the table is clicked
     private class TableButtonListener implements TableButtonPressedHandler {
         @Override
         public void onButtonPress(int row, int column) {
+            // When the COMMENT button is clicekd
             if (column == 6) {
-                // projectController.showEditProject(row);
+                // Set the current project
                 projectModel.setCurrent(row);
+                // Open the comment dialog
                 commentController.show();
 
+                // Delete the project
             } else if (column == 7) {
+                // Pop up a JFrame and confirm with user if they really want to delete the
+                // project
                 JFrame jf = new JFrame();
                 int result = JOptionPane.showConfirmDialog(jf, "Are you want to delete project?", "Delete Project",
                         JOptionPane.YES_NO_OPTION,
@@ -261,23 +224,32 @@ public class AdminDashboardController {
         }
     }
 
+    // This will trigger when the user click on the add project button
+    // on the admin dashboard
     private class AddProjectButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("addProjectButton");
+            // Show the add project view;
             addProjectController.show();
         }
     }
 
+    // This will trigger when the user click on the create user button
+    // on the admin dashboard
     private class CreateUserButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            // Show the create user view
             createUserController.show();
         }
     }
 
+    // This will trigger when the user click on the Logout button
+    // on the admin dashboard
     private class LogoutButtonListener implements ActionListener {
         @Override
+        // Show the login page and set the current page to non-visible
+        // Reset the current logged-in user to null
         public void actionPerformed(ActionEvent e) {
             loginController.show();
             view.setVisible(false);
