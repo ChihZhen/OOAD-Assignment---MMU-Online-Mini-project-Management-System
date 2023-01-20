@@ -8,11 +8,11 @@ import com.example.ooad.model.*;
 import com.example.ooad.view.*;
 
 @Controller
-public class StudentDashboardontroller implements IController {
+public class StudentDashboardController implements IController {
   private StudentDashboardView view;
   private ProjectModel projectModel;
 
-  public StudentDashboardontroller(StudentDashboardView view, ProjectModel projectModel) {
+  public StudentDashboardController(StudentDashboardView view, ProjectModel projectModel) {
     this.view = view;
     this.projectModel = projectModel;
 
