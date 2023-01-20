@@ -14,34 +14,12 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-/**
- * An implementation of an embeddable Button component that fits into a JTable
- * <p/>
- * Copyright (C) 2010 by Ilya Volodarsky
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 public class TableButton extends AbstractCellEditor implements TableCellEditor, TableCellRenderer {
     private static final long serialVersionUID = 5647725208335645741L;
     private Color color;
 
     public interface TableButtonPressedHandler {
-        /**
-         * Called when the button is pressed.
-         * 
-         * @param row    The row in which the button is in the table.
-         * @param column The column the button is in in the table.
-         */
+
         void onButtonPress(int row, int column);
     }
 
@@ -54,45 +32,24 @@ public class TableButton extends AbstractCellEditor implements TableCellEditor, 
         this.color = color;
     }
 
-    /**
-     * Add a slide callback handler
-     * 
-     * @param handler
-     */
     public void addHandler(TableButtonPressedHandler handler) {
         if (handlers != null) {
             handlers.add(handler);
         }
     }
 
-    /**
-     * Remove a slide callback handler
-     * 
-     * @param handler
-     */
     public void removeHandler(TableButtonPressedHandler handler) {
         if (handlers != null) {
             handlers.remove(handler);
         }
     }
 
-    /**
-     * Removes the component at that row index
-     * 
-     * @param row The row index which was just removed
-     */
     public void removeRow(int row) {
         if (buttons.containsKey(row)) {
             buttons.remove(row);
         }
     }
 
-    /**
-     * Moves the component at oldRow index to newRow index
-     * 
-     * @param oldRow The old row index
-     * @param newRow THe new row index
-     */
     public void moveRow(int oldRow, int newRow) {
         if (buttons.containsKey(oldRow)) {
             JButton button = buttons.remove(oldRow);

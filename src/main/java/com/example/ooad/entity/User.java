@@ -1,9 +1,5 @@
 package com.example.ooad.entity;
 
-import java.util.Random;
-
-import com.example.ooad.utils.Observable;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -14,7 +10,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String password = "123456";
+    private String password;
 
     private String fullName;
 
@@ -36,6 +32,10 @@ public class User {
         this.role = role;
         this.accountId = accountId;
         this.password = password;
+    }
+
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
     }
 
     public Long getId() {
@@ -77,41 +77,4 @@ public class User {
     public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
-
-    public boolean checkPassword(String password) {
-        return this.password.equals(password);
-    }
-
-    public void generateRandomPassword() {
-        // return "123456";
-        // String Capital_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        String Small_chars = "abcdefghijklmnopqrstuvwxyz";
-        String numbers = "0123456789";
-        // String symbols = "!@#$%^&*_=+-/.?<>)";
-
-        // String values = Capital_chars + Small_chars +
-        // numbers + symbols;
-
-        String values = Small_chars + numbers;
-
-        // Using random method
-        Random rndm_method = new Random();
-
-        char[] password = new char[6];
-        System.out.println(password.toString());
-
-        for (int i = 0; i < 6; i++) {
-            System.out.println(password.toString());
-
-            // Use of charAt() method : to get character value
-            // Use of nextInt() as it is scanning the value as int
-            password[i] = values.charAt(rndm_method.nextInt(values.length()));
-
-        }
-        System.out.println(password.toString());
-
-        this.password = new String(password);
-        // return password;
-    }
-
 }

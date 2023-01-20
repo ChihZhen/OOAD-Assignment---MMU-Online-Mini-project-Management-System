@@ -1,7 +1,7 @@
 package com.example.ooad.view;
 
 import java.awt.*;
-// import java.awt.event.*;
+
 import java.util.*;
 import java.util.List;
 
@@ -23,7 +23,6 @@ import com.example.ooad.view.Component.TableButton;
 public class AdminDashboardView extends JFrame implements Observer<IModel> {
     private ProjectModel projectModel;
 
-    // private ComboListModel comboListModel;
     private LecturerModel lecturerModel;
     private JButton logoutButton;
     private JTable projectTable;
@@ -56,14 +55,12 @@ public class AdminDashboardView extends JFrame implements Observer<IModel> {
     private DefaultTableModel tableModel = new DefaultTableModel(null, header);
 
     public AdminDashboardView(ProjectModel projectModel, LecturerModel lecturerModel) {
-        // public AdminProjectListView() {
+
         GridBagAdder gridCtr;
         this.projectModel = projectModel;
         this.lecturerModel = lecturerModel;
         this.projectModel.registerObserver(this);
         this.lecturerModel.registerObserver(this);
-        // this.comboListModel = comboListModel;
-        // this.comboListModel.registerObserver(this);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new GridBagLayout());
@@ -103,11 +100,9 @@ public class AdminDashboardView extends JFrame implements Observer<IModel> {
         tableContainer.setPreferredSize(new Dimension(896, 432));
         tableContainer.setMinimumSize(new Dimension(896, 432));
         tableContainer.setMaximumSize(new Dimension(896, 432));
-        // tableContainer.add(projectTable);
+
         GridBagAdder gridCtr_4 = new GridBagAdder.GridBagAdderBuilder().setY(3).width(2)
                 .build();
-
-        // allProjectReport = new Report();
 
         reportTp = new JTabbedPane();
 
@@ -174,10 +169,6 @@ public class AdminDashboardView extends JFrame implements Observer<IModel> {
         this.allProjectTab = allProjectTab;
     }
 
-    // public void setLecturerTab(LecturerReportTab lecturerTab) {
-    // this.lecturerTab = lecturerTab;
-    // }
-
     public DefaultTableModel getTableModel() {
         return this.tableModel;
     }
@@ -226,14 +217,6 @@ public class AdminDashboardView extends JFrame implements Observer<IModel> {
         this.addProjectButton = addProjectButton;
     }
 
-    // public Report getAllProjectReport() {
-    // return this.allProjectReport;
-    // }
-
-    // public void setAllProjectReport(Report allProjectReport) {
-    // this.allProjectReport = allProjectReport;
-    // }
-
     public ReportTab getSpecializationTab() {
         return this.specializationTab;
     }
@@ -245,10 +228,6 @@ public class AdminDashboardView extends JFrame implements Observer<IModel> {
     public ReportTab getLecturerTab() {
         return this.lecturerTab;
     }
-
-    // public void setLecturerTab(ReportTab lecturerTab) {
-    // this.lecturerTab = lecturerTab;
-    // }
 
     public ReportTab getStatusTab() {
         return this.statusTab;
@@ -322,103 +301,7 @@ public class AdminDashboardView extends JFrame implements Observer<IModel> {
         this.header = header;
     }
 
-    // public void addSelectTabListener(ChangeListener listener) {
-    // mainTp.addChangeListener(listener);
-    // reportTp.addChangeListener(listener);
-    // }
-
-    // public void addClickGenerateListener(ActionListener listener) {
-    // for (ReportTab reportTab : reportTabs) {
-    // reportTab.getGenerateButton().addActionListener(listener);
-    // }
-    // }
-
-    public String getSelection(int index) {
-        // System.out.println("getselection:" + index);
-        index = index - 1;
-        reportTabs.get(index).getSelection().getSelectedItem();
-        if (reportTabs.get(index).getSelection().getSelectedItem() == null) {
-            return "";
-        }
-        return reportTabs.get(index).getSelection().getSelectedItem().toString();
-        // if (index == 1) {
-        // if (specializationTab.getSelection().getSelectedItem() == null) {
-        // return "";
-        // }
-        // return specializationTab.getSelection().getSelectedItem().toString();
-        // } else if (index == 2) {
-        // if (lecturerTab.getSelection().getSelectedItem() == null) {
-        // return "";
-        // }
-        // return lecturerTab.getSelection().getSelectedItem().toString();
-        // } else if (index == 3) {
-        // if (statusTab.getSelection().getSelectedItem() == null) {
-        // return "";
-        // }
-        // return statusTab.getSelection().getSelectedItem().toString();
-
-        // } else if (index == 4) {
-        // if (assignTab.getSelection().getSelectedItem() == null) {
-        // return "";
-        // }
-        // return assignTab.getSelection().getSelectedItem().toString();
-
-        // } else if (index == 5) {
-        // if (commentTab.getSelection().getSelectedItem() == null) {
-        // return "";
-        // }
-        // return commentTab.getSelection().getSelectedItem().toString();
-
-        // }
-        // if (commentTab.getSelection().getSelectedItem() == null) {
-        // return "";
-        // }
-        // return commentTab.getSelection().getSelectedItem().toString();
-    }
-
-    // public void addClickRowListener(MouseListener listener) {
-    // projectTable.addMouseListener(listener);
-    // }
-
-    // public void addClickTableButtonListener(TableButtonPressedHandler listener) {
-    // commentButtons.addHandler(listener);
-    // deleteButtons.addHandler(listener);
-    // }
-
-    // public void addClickButtonListener(ActionListener listener) {
-    // addProjectButton.addActionListener(listener);
-    // }
-
-    // public void addClickCreateUserButtonListener(ActionListener listener) {
-    // createUserButton.addActionListener(listener);
-    // }
-
-    // public void addClickLogoutButtonListener(ActionListener listener) {
-    // logoutButton.addActionListener(listener);
-    // }
-
-    // public void update(Observable<IModel> observable, IModel model) {
-    // // projectTable.setModel(new
-    // // header));
-
-    // // for (ReportTab reportTab : reportTabs) {
-    // // reportTab.setData(projectModel.getReportData());
-    // // reportTab.setCombo(comboListModel.getComboBox());
-    // // }
-
-    // // projectTable.setModel(new DefaultTableModel(projectModel.getAdminData(),
-    // // header));
-
-    // // allProjectReport.setData(projectModel.getReportData());
-    // // specializationTab.setData(projectListModel.getReportData());
-    // // specializationTab.setCombo(comboListModel.getComboBox());
-
-    // }
-
     public void update(Observable<IModel> Observable, IModel model) {
-        // projectTable.setModel(new
-        // DefaultTableModel(projectModel.getAdminData(),header)
-        // header));
 
         if (model instanceof ProjectModel) {
             tableModel.setDataVector(projectModel.getAdminData(), header);
@@ -437,11 +320,9 @@ public class AdminDashboardView extends JFrame implements Observer<IModel> {
                 rt.getReportTextArea().setText(projectModel.getReportData());
                 rt.getReportTextArea().setCaretPosition(0);
 
-                // rt.getScrollPane().getVerticalScrollBar().setValue(0);
             }
         } else if (model instanceof LecturerModel) {
-            // lecturerTab.getSelection().set
-            // lecturerTab.getSelection().setSelectedItem(lecturerModel.getNameAndId());
+
             lecturerTab.getSelectionInput().setModel(new DefaultComboBoxModel<String>(lecturerModel.getNameAndId()));
 
         }

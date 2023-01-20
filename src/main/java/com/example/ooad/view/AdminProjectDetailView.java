@@ -1,35 +1,25 @@
 package com.example.ooad.view;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
+import java.awt.*;
+
+import java.util.List;
+
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-// import javax.swing.ScrollPaneLayout;
-import com.example.ooad.entity.Comment;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.OoadApplication;
-import com.example.ooad.model.CommentModel;
+import com.example.ooad.entity.Comment;
 import com.example.ooad.model.IModel;
-import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.utils.GridBagAdder;
 import com.example.ooad.utils.Observable;
 import com.example.ooad.utils.Observer;
 import com.example.ooad.entity.*;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-
-import java.util.List;
 
 @Component
 public class AdminProjectDetailView extends JDialog implements Observer<IModel> {
@@ -51,24 +41,13 @@ public class AdminProjectDetailView extends JDialog implements Observer<IModel> 
         public AdminProjectDetailView(ProjectModel projectModel) {
                 this.projectModel = projectModel;
                 this.projectModel.registerObserver(this);
-                // this.setModal(true);
+
                 this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 this.setLayout(new GridBagLayout());
                 this.setSize(432, 600);
                 this.setResizable(false);
                 this.setTitle("View Project Detail");
                 displayComponent();
-                this.addWindowListener(new WindowAdapter() {
-
-                        public void windowClosed(WindowEvent e) {
-                                // removeScroll();
-                                System.out.println("message------------->" + message.getText());
-                                // getContentPane().removeAll();
-                                // getContentPane().revalidate();
-                                // getContentPane().repaint();
-                                // comp();
-                        }
-                });
 
         }
 
@@ -187,7 +166,7 @@ public class AdminProjectDetailView extends JDialog implements Observer<IModel> 
         }
 
         public void update(Observable<IModel> _observable, IModel model) {
-                // if (model instanceof ProjectModel) {
+
                 Project project = projectModel.getCurrent();
                 if (project != null) {
                         idInput.setText(project.getId().toString());
@@ -195,7 +174,6 @@ public class AdminProjectDetailView extends JDialog implements Observer<IModel> 
                         descriptionInput.setText(project.getDescription());
                         specializationInput.setText(project.getSpecialization());
                         statusInput.setText(project.getStatus());
-                        // }
 
                         List<Comment> comments = projectModel.getCurrent().getComments();
                         studentInput.setText(
@@ -205,7 +183,7 @@ public class AdminProjectDetailView extends JDialog implements Observer<IModel> 
 
                         JPanel j = new JPanel(new GridBagLayout());
                         JPanel p = new JPanel(new GridBagLayout());
-                        p.setPreferredSize(new Dimension(200, 100));
+                        p.setPreferredSize(new Dimension(300, 100));
 
                         if (comments.size() != 0) {
                                 int inc = 9;
@@ -228,18 +206,17 @@ public class AdminProjectDetailView extends JDialog implements Observer<IModel> 
                                                         time.getFont().getStyle(), 10);
                                         time.setFont(newTextFieldFont);
                                         GridBagAdder gridCtr_com_2 = new GridBagAdder.GridBagAdderBuilder().marginT(2)
-                                                        .marginL(3)
                                                         .setY((inc))
                                                         .anchor(GridBagConstraints.BASELINE_LEADING).build();
                                         inc++;
 
                                         GridBagAdder gridCtr_com_3 = new GridBagAdder.GridBagAdderBuilder().setY(inc)
-                                                        .marginB(4).marginL(3)
+                                                        .marginB(4)
                                                         .build();
                                         inc++;
 
                                         GridBagAdder gridCtr_com = new GridBagAdder.GridBagAdderBuilder().setY(inc)
-                                                        .marginB(12).marginL(3)
+                                                        .marginB(12)
                                                         .build();
 
                                         j.add(name, gridCtr_com_2.getConstraint());
@@ -247,11 +224,12 @@ public class AdminProjectDetailView extends JDialog implements Observer<IModel> 
                                         j.add(time, gridCtr_com_3.getConstraint());
                                         inc++;
                                 }
-                                GridBagAdder panelGrid = new GridBagAdder.GridBagAdderBuilder().setY(8).build();
+                                GridBagAdder panelGrid = new GridBagAdder.GridBagAdderBuilder().setY(8).width(3)
+                                                .build();
 
                                 JScrollPane scrollPane = new JScrollPane(j, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                                scrollPane.setPreferredSize(new Dimension(200, 100));
+                                scrollPane.setPreferredSize(new Dimension(300, 100));
                                 p.add(scrollPane);
 
                                 this.add(p, panelGrid.getConstraint());

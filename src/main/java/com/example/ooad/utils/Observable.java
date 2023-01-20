@@ -3,8 +3,6 @@ package com.example.ooad.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.ooad.model.IModel;
-
 public class Observable<T> {
 
     private List<Observer<T>> observers = new ArrayList<Observer<T>>();

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import com.example.ooad.view.AdminProjectDetailView;
 
 @Controller
-public class AdminProjectDetailController {
+public class AdminProjectDetailController implements IController {
   // ========================= Variables
   private AdminProjectDetailView view;
 
