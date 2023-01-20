@@ -2,6 +2,8 @@ package com.example.ooad.controller;
 
 import java.awt.event.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.*;
 
 import com.example.ooad.model.*;
@@ -12,11 +14,18 @@ public class StudentDashboardController implements IController {
   private StudentDashboardView view;
   private ProjectModel projectModel;
 
-  public StudentDashboardController(StudentDashboardView view, ProjectModel projectModel) {
+  @Lazy
+  @Autowired
+  private LoginController loginController;
+  private StudentModel studentModel;
+
+  public StudentDashboardController(StudentDashboardView view, ProjectModel projectModel,
+      StudentModel studentModel) {
     this.view = view;
     this.projectModel = projectModel;
+    this.studentModel = studentModel;
 
-    view.addClickRowListener(new ClickRowListener());
+    view.getLogoutButton().addActionListener(new LogoutButtonListener());
   }
 
   public void show() {
@@ -28,26 +37,16 @@ public class StudentDashboardController implements IController {
     view.setVisible(false);
   }
 
-  private class ClickRowListener implements MouseListener {
+  private class LogoutButtonListener implements ActionListener {
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    public void mouseReleased(MouseEvent e) {
+    // Show the login screen
+    // hide the current screen
+    // set the current authenticated user to null
+    public void actionPerformed(ActionEvent e) {
+      loginController.show();
+      hide();
+      studentModel.setAuthUser(null);
 
     }
   }

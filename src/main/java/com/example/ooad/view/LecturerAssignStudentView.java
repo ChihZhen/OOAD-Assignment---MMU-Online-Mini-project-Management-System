@@ -27,59 +27,6 @@ public class LecturerAssignStudentView extends JDialog implements Observer<IMode
         }
     };
 
-    // public static void add(JDialog dialog, JComponent comp, int x, int y, int
-    // width, int height) {
-    // GridBagConstraints constr = new GridBagConstraints();
-    // constr.gridx = x;
-    // constr.gridy = y;
-    // constr.gridheight = height;
-    // constr.gridwidth = width;
-    // constr.insets = new Insets(2, 2, 2, 2);
-    // constr.anchor = GridBagConstraints.CENTER;
-    // dialog.add(comp, constr);
-    // }
-
-    // public static void add(JDialog dialog, JComponent comp, int x, int y, int
-    // width,
-    // int height, int marginT,
-    // int marginR,
-    // int marginB, int marginL) {
-    // GridBagConstraints constr = new GridBagConstraints();
-    // constr.gridx = x;
-    // constr.gridy = y;
-    // constr.gridheight = height;
-    // constr.gridwidth = width;
-    // constr.insets = new Insets(marginT, marginL, marginB, marginR);
-    // constr.anchor = GridBagConstraints.CENTER;
-    // dialog.add(comp, constr);
-    // }
-
-    // public static void add(JDialog dialog, JComponent comp, int x, int y, int
-    // width, int height, int marginT,
-    // int marginR,
-    // int marginB, int marginL, int anchor) {
-    // GridBagConstraints constr = new GridBagConstraints();
-    // constr.gridx = x;
-    // constr.gridy = y;
-    // constr.gridheight = height;
-    // constr.gridwidth = width;
-    // constr.insets = new Insets(marginT, marginL, marginB, marginR);
-    // constr.anchor = anchor;
-    // dialog.add(comp, constr);
-    // }
-
-    // public static void add(JDialog dialog, JComponent comp, int x, int y, int
-    // width, int height, int anchor) {
-    // GridBagConstraints constr = new GridBagConstraints();
-    // constr.gridx = x;
-    // constr.gridy = y;
-    // constr.gridheight = height;
-    // constr.gridwidth = width;
-    // // constr.insets = new Insets(marginT, marginL, marginB, marginR);
-    // constr.anchor = anchor;
-    // dialog.add(comp, constr);
-    // }
-
     public LecturerAssignStudentView(StudentModel studentModel) {
         this.studentModel = studentModel;
         this.studentModel.registerObserver(this);

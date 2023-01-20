@@ -1,23 +1,13 @@
 package com.example.ooad.view.Component;
 
 import java.awt.*;
-// import java.awt.event.*;
-// import java.util.*;
-// import java.util.List;
 
 import javax.swing.*;
-// import javax.swing.table.*;
 
-// import org.springframework.stereotype.Component;
-
-// import com.example.ooad.model.IModel;
-// import com.example.ooad.model.LecturerModel;
 import com.example.ooad.model.ProjectModel;
 import com.example.ooad.utils.GridBagAdder;
-// import com.example.ooad.utils.Observable;
-// import com.example.ooad.utils.Observer;
+
 import com.example.ooad.view.Component.ReportTab;
-// import com.example.ooad.view.Component.TableButton;
 
 public class ReportTab extends JPanel {
     private ProjectModel projectModel;
@@ -28,15 +18,8 @@ public class ReportTab extends JPanel {
 
     private JScrollPane scrollPane;
 
-    // public ReportTab(ProjectModel projectModel) {
-    // this.projectModel = projectModel;
-    // this.projectModel.registerObserver(this);
-    // selectionInput = new JComboBox<String>();
-    // init();
-    // }
-
     public ReportTab(String[] selection) {
-        // this.projectModel.registerObserver(this);
+
         if (selection == null) {
             selectionInput = new JComboBox<String>();
             selectionInput.setVisible(false);
@@ -49,7 +32,7 @@ public class ReportTab extends JPanel {
 
     private void init() {
         this.setLayout(new GridBagLayout());
-        // selectionInput = new JComboBox<String>();
+
         generateButton = new JButton("Generate");
         GridBagAdder gridCtr;
 
@@ -75,23 +58,7 @@ public class ReportTab extends JPanel {
 
         gridCtr = new GridBagAdder.GridBagAdderBuilder().setY(1).width(7).build();
         this.add(report, gridCtr.getConstraint());
-        // this.setVisible(true);
-    }
 
-    // public void setData(String data) {
-    // report.setData(data);
-    // }
-
-    // public void setCombo(DefaultComboBoxModel<String> model) {
-    // selectionInput.setModel(model);
-    // }
-
-    public JButton getGenerateButton() {
-        return generateButton;
-    }
-
-    public JComboBox<String> getSelection() {
-        return selectionInput;
     }
 
     public ProjectModel getProjectModel() {
@@ -118,6 +85,10 @@ public class ReportTab extends JPanel {
         this.selectionInput = selectionInput;
     }
 
+    public JButton getGenerateButton() {
+        return this.generateButton;
+    }
+
     public void setGenerateButton(JButton generateButton) {
         this.generateButton = generateButton;
     }
@@ -137,7 +108,5 @@ public class ReportTab extends JPanel {
     public void setScrollPane(JScrollPane scrollPane) {
         this.scrollPane = scrollPane;
     }
-
-
 
 }

@@ -12,7 +12,6 @@ import com.example.ooad.repository.ProjectRepository;
 public class ProjectModel extends Model<Project> {
 
     private ProjectRepository repository;
-    // private String reportData;
 
     public ProjectModel(ProjectRepository repository) {
         super(repository);
@@ -21,12 +20,12 @@ public class ProjectModel extends Model<Project> {
 
     public void loadBySpecialization(String specialization) {
         setList(repository.findBySpecialization(specialization));
-        // notifyObservers(this);
+
     }
 
     public void loadByStatus(String status) {
         setList(repository.findByStatus(status));
-        // notifyObservers(this);
+
     }
 
     public void loadByComment(Boolean commented) {
@@ -35,7 +34,7 @@ public class ProjectModel extends Model<Project> {
         } else {
             setList(repository.findByCommentsIsNull());
         }
-        // notifyObservers(this);
+
     }
 
     public void loadByAssign(Boolean assigned) {
@@ -44,12 +43,12 @@ public class ProjectModel extends Model<Project> {
         } else {
             setList(repository.findByStudentIsNull());
         }
-        // notifyObservers(this);
+
     }
 
     public void loadByLecturerId(String id) {
         setList(repository.findByLecturerAccountId(id));
-        // notifyObservers(this);
+
     }
 
     public void loadLecturerData() {
@@ -97,37 +96,5 @@ public class ProjectModel extends Model<Project> {
         }
         return data;
     }
-
-    // public void set(ProjectModel project) {
-
-    // if (project != null) {
-    // this.id = project.getId();
-    // this.title = project.getTitle();
-    // this.description = project.getDescription();
-    // this.status = project.getStatus();
-    // this.specialization = project.getSpecialization();
-    // this.student = project.getStudent();
-    // this.lecturer = project.getLecturer();
-    // this.comments = project.getComments();
-    // }
-    // notifyObservers(this);
-    // }
-
-    // public void reset() {
-    // this.id = null;
-    // this.title = null;
-    // this.description = null;
-    // this.specialization = "Computer Science";
-    // this.status = "Active";
-    // this.student = null;
-    // this.lecturer = null;
-    // this.comments = null;
-    // notifyObservers(this);
-    // }
-    // public void clear() {
-    // list.clear();
-    // current = null;
-    // notifyObservers(this);
-    // }
 
 }

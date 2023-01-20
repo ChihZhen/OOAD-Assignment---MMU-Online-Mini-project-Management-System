@@ -4,39 +4,22 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import org.springframework.stereotype.Component;
 
-import com.example.ooad.OoadApplication;
-import com.example.ooad.entity.Admin;
-import com.example.ooad.model.AdminModel;
-import com.example.ooad.model.CommentModel;
-import com.example.ooad.model.ProjectModel;
-import com.example.ooad.model.IModel;
 import com.example.ooad.utils.GridBagAdder;
-import com.example.ooad.utils.Observer;
-import com.example.ooad.utils.Observable;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
 
 @Component
 public class CommentView extends JDialog {
   private JTextArea commentsInput;
 
-  // private ProjectModel projectModel;
-  // private CommentModel commentModel;
   private JButton submitButton;
 
   public CommentView() {
-    // this.projectModel = projectModel;
-    // this.commentModel = commentModel;
-    // projectModel.registerObserver(this);
-    // commentModel.registerObserver(this);
+
     this.setModal(true);
     this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     this.setLayout(new GridBagLayout());
@@ -68,30 +51,6 @@ public class CommentView extends JDialog {
 
   }
 
-  // public void addClickSubmitListener(ActionListener Listener) {
-  // submitButton.addActionListener(Listener);
-  // }
-
-  // public Comment getComment() {
-  // Admin admin = (Admin) projectModel.getAuthUser();
-  // DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-  // LocalDateTime now = LocalDateTime.now();
-  // Comment comment = new Comment(dtf.format(now), this.projectModel,
-  // commentsInput.getText(), admin);
-  // return comment;
-  // }
-
-  // public void setProject(ProjectModel project) {
-  // this.projectModel = project;
-  // }
-
-  // public void update(Observable<IModel> _observerable, IModel model) {
-  // if (model instanceof ProjectModel) {
-
-  // }
-  // this.commentsInput.setText("");
-  // }
-
   public JTextArea getCommentsInput() {
     return this.commentsInput;
   }
@@ -99,22 +58,6 @@ public class CommentView extends JDialog {
   public void setCommentsInput(JTextArea commentsInput) {
     this.commentsInput = commentsInput;
   }
-
-  // public ProjectModel getProjectModel() {
-  // return this.projectModel;
-  // }
-
-  // public void setProjectModel(ProjectModel projectModel) {
-  // this.projectModel = projectModel;
-  // }
-
-  // public CommentModel getCommentModel() {
-  // return this.commentModel;
-  // }
-
-  // public void setCommentModel(CommentModel commentModel) {
-  // this.commentModel = commentModel;
-  // }
 
   public JButton getSubmitButton() {
     return this.submitButton;

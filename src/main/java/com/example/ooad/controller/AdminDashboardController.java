@@ -19,7 +19,7 @@ import com.example.ooad.view.AdminDashboardView;
 import com.example.ooad.view.Component.TableButton.TableButtonPressedHandler;
 
 @Controller
-public class AdminDashboardController {
+public class AdminDashboardController implements IController {
 
     // ========================= Variables
     private AdminDashboardView view;
@@ -60,7 +60,6 @@ public class AdminDashboardController {
         view.getStatusTab().getGenerateButton().addActionListener(new StatusGenerateButton());
         view.getAssignTab().getGenerateButton().addActionListener(new AssignGenerateButton());
         view.getCommentTab().getGenerateButton().addActionListener(new CommentGenerateButton());
-
     }
 
     // It will get a list of projects and unhide the admin dashbord view
@@ -89,7 +88,7 @@ public class AdminDashboardController {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            String specialization = view.getSpecializationTab().getSelection().getSelectedItem().toString();
+            String specialization = view.getSpecializationTab().getSelectionInput().getSelectedItem().toString();
             projectModel.loadBySpecialization(specialization);
         }
     }
@@ -99,7 +98,7 @@ public class AdminDashboardController {
     private class LecturerGenerateButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int index = view.getLecturerTab().getSelection().getSelectedIndex();
+            int index = view.getLecturerTab().getSelectionInput().getSelectedIndex();
 
             projectModel.loadByLecturerId(lecturerModel.get(index).getAccountId());
         }
@@ -110,7 +109,7 @@ public class AdminDashboardController {
     private class StatusGenerateButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String status = view.getStatusTab().getSelection().getSelectedItem().toString();
+            String status = view.getStatusTab().getSelectionInput().getSelectedItem().toString();
             projectModel.loadByStatus(status);
             ;
         }
@@ -121,7 +120,7 @@ public class AdminDashboardController {
     private class AssignGenerateButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String assign = view.getAssignTab().getSelection().getSelectedItem().toString();
+            String assign = view.getAssignTab().getSelectionInput().getSelectedItem().toString();
             projectModel.loadByAssign(assign.equals("Assigned"));
 
         }
@@ -132,7 +131,7 @@ public class AdminDashboardController {
     private class CommentGenerateButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String comment = view.getCommentTab().getSelection().getSelectedItem().toString();
+            String comment = view.getCommentTab().getSelectionInput().getSelectedItem().toString();
             projectModel.loadByComment(comment.equals("Commented"));
         }
     }
@@ -177,23 +176,18 @@ public class AdminDashboardController {
             projectModel.setCurrent(((JTable) e.getSource()).getSelectedRow());
             // Show the project detail view dialog
             adminProjectDetailController.show();
-
         }
 
         public void mouseEntered(MouseEvent e) {
-
         }
 
         public void mouseExited(MouseEvent e) {
-
         }
 
         public void mousePressed(MouseEvent e) {
-
         }
 
         public void mouseReleased(MouseEvent e) {
-
         }
     }
 

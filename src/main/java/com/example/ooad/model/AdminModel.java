@@ -7,7 +7,6 @@ import com.example.ooad.repository.AdminRepository;
 
 @Component
 public class AdminModel extends Model<Admin> {
-    private AdminRepository repository;
 
     public AdminModel(AdminRepository repository) {
         super(repository);

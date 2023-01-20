@@ -51,7 +51,6 @@ public abstract class Model<T> extends Observable<IModel> implements IModel {
 
     public void load() {
         setList(repository.findAll());
-        System.out.println(list);
     }
 
     public void save() {

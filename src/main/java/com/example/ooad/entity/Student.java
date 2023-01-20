@@ -1,7 +1,5 @@
 package com.example.ooad.entity;
 
-import java.util.Vector;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -14,11 +12,10 @@ public class Student extends User {
     private String specialization;
 
     @OneToOne(mappedBy = "student")
-    // @JoinColumn(name = "project_id")
     private Project project;
 
     public Student() {
-        // super();
+
     }
 
     public Student(String fullName, String role, String accountId, String specialization) {
@@ -49,19 +46,5 @@ public class Student extends User {
 
     public void setProject(Project project) {
         this.project = project;
-    }
-
-    public Vector<String> toVector() {
-        Vector<String> data = new Vector<>();
-        data.add(Long.toString(id));
-        data.add(super.getAccountId());
-        data.add(super.getFullName());
-        return data;
-    }
-
-    public void reset() {
-        setAccountId(null);
-        setFullName(null);
-        setRole(null);
     }
 }

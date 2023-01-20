@@ -1,10 +1,6 @@
 package com.example.ooad.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
-
-import javax.swing.table.DefaultTableModel;
 
 import org.springframework.stereotype.Component;
 
