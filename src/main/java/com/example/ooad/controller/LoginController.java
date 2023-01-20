@@ -18,13 +18,13 @@ public class LoginController implements IController {
     // ========================= Variables
     private LoginView view;
     private UserModel userModel;
-    private StudentDashboardController studentProjectListController;
+    private StudentDashboardontroller studentProjectListController;
     private LecturerDashboardController projectListController;
     private AdminDashboardController adminProjectListController;
 
     // ========================= Constructor
     public LoginController(LoginView view, UserModel userModel,
-            StudentDashboardController studentProjectListController,
+            StudentDashboardontroller studentProjectListController,
             LecturerDashboardController projectListController,
             @Lazy AdminDashboardController adminProjectListController) {
 
